@@ -90,6 +90,8 @@
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files\ImageMagick-7.0.8-Q8\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -248,19 +250,21 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalLibraryDirectories>C:\Program Files\ImageMagick-7.0.8-Q8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Release/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "D:\Visual Studio 2017\Projects\ChosenFewFX\Support\Plugins\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -2,7 +2,6 @@
 #ifdef _WINDOWS
 #include <windows.h>
 #endif
-#define FX_FRACTION 20
 
 #include <stdio.h>
 #include <math.h>
@@ -11,142 +10,117 @@
 #include "ofxsImageEffect.h"
 #include "ofxsMultiThread.h"
 #include "../include/ofxsProcessing.H"
-
+#include <Magick++.h>
 #include "vhs.h"
 
-class VHSBase : public OFX::ImageProcessor {
+class MagickProcessor : public OFX::ImageProcessor {
 protected:
 	OFX::Image *_srcImg;
-	std::array<bool, 4> maxComps;
+	Magick::Image _managedImage;
+	OFX::PixelComponentEnum _comp;
+	OFX::BitDepthEnum _depth;
 public:
 	/** @brief no arg ctor */
-	VHSBase(OFX::ImageEffect &instance)
+	MagickProcessor(OFX::ImageEffect &instance, OFX::PixelComponentEnum comp, OFX::BitDepthEnum depth)
 		: OFX::ImageProcessor(instance)
 		, _srcImg(0)
+		, _comp(comp)
+		, _depth(depth)
+		, _managedImage()
 	{
 	}
 
+	void CopySrcToManaged() {
+		OfxRectI bounds = _srcImg->getBounds();
+		int width = bounds.x2 - bounds.x1;
+		int height = bounds.y2 - bounds.y1;
+		Magick::StorageType storageType = (Magick::StorageType)(_depth - 1);
+		_managedImage = Magick::Image(width, height, "RGBA", storageType, _srcImg->getPixelData());
+	}
+
+	void CopyManagedToDst() {
+		OfxRectI bounds = _dstImg->getBounds();
+		int width = bounds.x2 - bounds.x1;
+		int height = bounds.y2 - bounds.y1;
+		Magick::StorageType storageType = (Magick::StorageType)(_depth - 1);
+		_managedImage.write(0, 0, width, height, "RGBA", storageType, _dstImg->getPixelData());
+	}
+
+	void processImages() {
+
+	}
 	/** @brief set the src image */
-	void setSrcImg(OFX::Image *v) { _srcImg = v; }
-	void setMaxComps(std::array<bool, 4> comps) { maxComps = comps; }
+	void setSrcImg(OFX::Image *v) { _srcImg = v; CopySrcToManaged(); }
 };
 
-template <class PIX, int nComponents, int max>
-class VHSProcessor : public VHSBase {
+class VHSProcessor : public MagickProcessor {
 public:
 	// ctor
-	VHSProcessor(OFX::ImageEffect &instance)
-		: VHSBase(instance)
+	VHSProcessor(OFX::ImageEffect &instance, OFX::PixelComponentEnum comp, OFX::BitDepthEnum depth)
+		: MagickProcessor(instance, comp, depth)
 	{}
 
 	// and do some processing
 	void multiThreadProcessImages(OfxRectI procWindow)
 	{
-		for (int y = procWindow.y1; y < procWindow.y2; y++) {
-			if (_effect.abort()) break;
+		CopyManagedToDst();
+	}
 
-			PIX *dstPix = (PIX *)_dstImg->getPixelAddress(procWindow.x1, y);
-
-			for (int x = procWindow.x1; x < procWindow.x2; x++) {
-
-				PIX *srcPix = (PIX *)(_srcImg ? _srcImg->getPixelAddress(x, y) : 0);
-
-				// do we have a source image to scale up
-				if (srcPix) {
-					for (int c = 0; c < nComponents; c++) {
-						if (maxComps[c])
-							dstPix[c] = max;
-						else
-							dstPix[c] = srcPix[c];
-					}
-				}
-				else {
-					// no src pixel here, be black and transparent
-					for (int c = 0; c < nComponents; c++) {
-						dstPix[c] = 0;
-					}
-				}
-
-				// increment the dst pixel
-				dstPix += nComponents;
-			}
-		}
+	void preProcess() {
+		_managedImage.addNoise(Magick::GaussianNoise);
+		CopyManagedToDst();
 	}
 };
 
-class VHSPlugin : public OFX::ImageEffect
+template <class GenericProcessor>
+class BasicFilterPlugin : public OFX::ImageEffect
 {
 protected:
 	OFX::Clip *dstClip_;
 	OFX::Clip *srcClip_;
-
-	OFX::IntParam  *frequency_;
-	OFX::IntParam  *maxTiles_;
-	OFX::IntParam  *seed_;
-	OFX::BooleanParam *glitchColors_;
 public:
-	VHSPlugin(OfxImageEffectHandle handle) : ImageEffect(handle), dstClip_(0), srcClip_(0), frequency_(0), maxTiles_(0), seed_(0), glitchColors_(0)
+	BasicFilterPlugin(OfxImageEffectHandle handle) : ImageEffect(handle), dstClip_(0), srcClip_(0)
 	{
 		dstClip_ = fetchClip(kOfxImageEffectOutputClipName);
 		srcClip_ = fetchClip(kOfxImageEffectSimpleSourceClipName);
-		frequency_ = fetchIntParam("frequency");
-		maxTiles_ = fetchIntParam("maxTiles");
-		seed_ = fetchIntParam("seed");
-		glitchColors_ = fetchBooleanParam("glitchColors");
+		// Params here
 	}
-	virtual void render(const OFX::RenderArguments &args);
-	virtual bool isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime);
-	virtual void changedParam(const OFX::InstanceChangedArgs &args, const std::string &paramName);
-	virtual void changedClip(const OFX::InstanceChangedArgs &args, const std::string &clipName);
-	virtual bool getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod);
-	virtual void getRegionsOfInterest(const OFX::RegionsOfInterestArguments &args, OFX::RegionOfInterestSetter &rois);
-	void setupAndProcess(VHSBase&, const OFX::RenderArguments &args);
-};
-
-void VHSPlugin::setupAndProcess(VHSBase &processor, const OFX::RenderArguments &args)
-{
-	while (tiles.size() > 1) {
-		if (tiles[1].time > args.time)
-			tiles.erase(tiles.begin() + 1);
-		else
-			break;
+	virtual void render(const OFX::RenderArguments &args)
+	{
+		OFX::BitDepthEnum       dstBitDepth = dstClip_->getPixelDepth();
+		OFX::PixelComponentEnum dstComponents = dstClip_->getPixelComponents();
+		GenericProcessor processor(*this, dstComponents, dstBitDepth);
+		setupAndProcess(processor, args);
 	}
-
-	int maxTiles, frequency;
-	maxTiles = maxTiles_->getValueAtTime(args.time);
-	frequency = frequency_->getValueAtTime(args.time);
-	bool glitchColors = glitchColors_->getValue();
-
-	int frameWidth = args.renderWindow.x2 - args.renderWindow.x1;
-	int frameHeight = args.renderWindow.y2 - args.renderWindow.y1;
-	GlitchTile *cur_frame = new GlitchTile(0, frameWidth, 0, frameHeight, args.time);
-	if (tiles.size() < 1)
-		tiles.push_back(*cur_frame);
-	else
-		tiles[0] = *cur_frame;
-	if ((int)(args.time * FX_FRACTION) % frequency == 0) {
-		int x1 = std::rand() % (frameWidth);
-		int y1 = std::rand() % (frameHeight);
-		int x2 = x1 + std::rand() % (frameWidth);
-		int y2 = y1 + std::rand() % (frameHeight);
-		GlitchTile *newTile = new GlitchTile(x1, x2, y1, y2, args.time);
-		if (glitchColors) {
-			for (int i = 0; i < 4; i++) {
-				newTile->maxComps[i] = (std::rand() % 4 == 0);
-			}
-		}
-		if (tiles.size() > maxTiles)
-		{
-			tiles.erase(tiles.begin() + 1);
-		}
-		tiles.push_back(*newTile);
+	virtual bool isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime)
+	{
+		return false;
 	}
+	virtual void changedParam(const OFX::InstanceChangedArgs &/*args*/, const std::string &paramName)
+	{
 
-	std::auto_ptr<OFX::Image> dst(dstClip_->fetchImage(args.time));
-	OFX::BitDepthEnum dstBitDepth = dst->getPixelDepth();
-	OFX::PixelComponentEnum dstComponents = dst->getPixelComponents();
-	for (int i = 0; i < tiles.size(); i++) {
-		std::auto_ptr<OFX::Image> src(srcClip_->fetchImage(tiles[i].time));
+	}
+	virtual void changedClip(const OFX::InstanceChangedArgs &/*args*/, const std::string &clipName)
+	{
+		/*if(clipName == kOfxImageEffectSimpleSourceClipName)
+		  setEnabledness();*/
+	}
+	virtual bool getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod)
+	{
+		rod = srcClip_->getRegionOfDefinition(args.time);
+		return true;
+	}
+	virtual void getRegionsOfInterest(const OFX::RegionsOfInterestArguments &args, OFX::RegionOfInterestSetter &rois)
+	{
+		rois.setRegionOfInterest(*srcClip_, args.regionOfInterest);
+	}
+	void setupAndProcess(MagickProcessor &processor, const OFX::RenderArguments &args)
+	{
+		std::auto_ptr<OFX::Image> dst(dstClip_->fetchImage(args.time));
+		OFX::BitDepthEnum dstBitDepth = dst->getPixelDepth();
+		OFX::PixelComponentEnum dstComponents = dst->getPixelComponents();
+		std::auto_ptr<OFX::Image> src(srcClip_->fetchImage(args.time));
+
 		if (src.get())
 		{
 			OFX::BitDepthEnum    srcBitDepth = src->getPixelDepth();
@@ -154,130 +128,32 @@ void VHSPlugin::setupAndProcess(VHSBase &processor, const OFX::RenderArguments &
 			if (srcBitDepth != dstBitDepth || srcComponents != dstComponents)
 				throw int(1);
 		}
-		OfxRectI *region = new OfxRectI;
-		region->x1 = args.renderWindow.x1 + tiles[i].region.x1;
-		region->x2 = args.renderWindow.x1 + tiles[i].region.x2;
-		region->y1 = args.renderWindow.y1 + tiles[i].region.y1;
-		region->y2 = args.renderWindow.y1 + tiles[i].region.y2;
 		processor.setDstImg(dst.get());
 		processor.setSrcImg(src.get());
-		processor.setMaxComps(tiles[i].maxComps);
-		processor.setRenderWindow(*region);
+		processor.setRenderWindow(args.renderWindow);
 		processor.process();
 	}
-}
-
-bool VHSPlugin::getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod)
-{
-	rod = srcClip_->getRegionOfDefinition(args.time);
-	return true;
-}
-
-void VHSPlugin::getRegionsOfInterest(const OFX::RegionsOfInterestArguments &args, OFX::RegionOfInterestSetter &rois)
-{
-	rois.setRegionOfInterest(*srcClip_, args.regionOfInterest);
-}
-
-void VHSPlugin::render(const OFX::RenderArguments &args)
-{
-	OFX::BitDepthEnum       dstBitDepth = dstClip_->getPixelDepth();
-	OFX::PixelComponentEnum dstComponents = dstClip_->getPixelComponents();
-	if (dstComponents == OFX::ePixelComponentRGBA)
-	{
-		switch (dstBitDepth)
-		{
-		case OFX::eBitDepthUByte:
-		{
-			VHSProcessor<unsigned char, 4, 255> fred(*this);
-			setupAndProcess(fred, args);
-			break;
-		}
-		case OFX::eBitDepthUShort:
-		{
-			VHSProcessor<unsigned short, 4, 65535> fred(*this);
-			setupAndProcess(fred, args);
-			break;
-		}
-		case OFX::eBitDepthFloat:
-		{
-			VHSProcessor<float, 4, 1> fred(*this);
-			setupAndProcess(fred, args);
-			break;
-		}
-		default:
-			OFX::throwSuiteStatusException(kOfxStatErrUnsupported);
-		}
-	}
-	else
-	{
-		switch (dstBitDepth)
-		{
-		case OFX::eBitDepthUByte:
-		{
-			VHSProcessor<unsigned char, 1, 255> fred(*this);
-			setupAndProcess(fred, args);
-			break;
-		}
-		case OFX::eBitDepthUShort:
-		{
-			VHSProcessor<unsigned short, 1, 65535> fred(*this);
-			setupAndProcess(fred, args);
-			break;
-		}
-		case OFX::eBitDepthFloat:
-		{
-			VHSProcessor<float, 1, 1> fred(*this);
-			setupAndProcess(fred, args);
-			break;
-		}
-		default:
-			OFX::throwSuiteStatusException(kOfxStatErrUnsupported);
-		}
-	}
-}
-
-bool VHSPlugin::isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime)
-{
-	return false;
-}
-
-void VHSPlugin::changedParam(const OFX::InstanceChangedArgs &/*args*/, const std::string &paramName)
-{
-	if (paramName == "seed") {
-		int seed = seed_->getValue();
-		std::srand(seed);
-	}
-	else if (paramName == "maxTiles")
-	{
-		tiles.clear();
-	}
-}
-
-void VHSPlugin::changedClip(const OFX::InstanceChangedArgs &/*args*/, const std::string &clipName)
-{
-	/*if(clipName == kOfxImageEffectSimpleSourceClipName)
-	  setEnabledness();*/
-}
+};
 
 using namespace OFX;
 
 void VHSPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
 {
-	desc.setLabels("Tile Glitch", "Tile Glitch", "Tile Glitch");
+	desc.setLabels("VHS Filter", "VHS Filter", "VHS Filter");
 	desc.setPluginGrouping("Chosen Few FX");
 	desc.addSupportedContext(eContextFilter);
 	desc.addSupportedContext(eContextGeneral);
 	desc.addSupportedBitDepth(eBitDepthUByte);
 	desc.addSupportedBitDepth(eBitDepthUShort);
 	desc.addSupportedBitDepth(eBitDepthFloat);
-	desc.setSingleInstance(true);
+	desc.setSingleInstance(false);
 	desc.setHostFrameThreading(false);
 	desc.setSupportsMultiResolution(true);
 	desc.setSupportsTiles(true);
 	desc.setTemporalClipAccess(false);
 	desc.setRenderTwiceAlways(false);
 	desc.setSupportsMultipleClipPARs(false);
-	desc.setRenderThreadSafety(eRenderUnsafe);
+	desc.setRenderThreadSafety(eRenderFullySafe);
 }
 
 static
@@ -328,7 +204,7 @@ void VHSPluginFactory::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::
 
 	PageParamDescriptor *page = desc.definePageParam("Controls");
 
-	IntParamDescriptor *paramFreq = defineIntParam(desc, "frequency", "Frequency", "The frequency at which tiles appear and disappear (in 20ths of a second, lower is faster).", 0, 1, FX_FRACTION, 5);
+	IntParamDescriptor *paramFreq = defineIntParam(desc, "frequency", "Frequency", "The frequency at which tiles appear and disappear (in 20ths of a second, lower is faster).", 0, 1, 20, 5);
 	page->addChild(*paramFreq);
 	IntParamDescriptor *paramTile = defineIntParam(desc, "maxTiles", "Maximum # of Tiles", "The maximum amount of tiles that can be displayed on screen at once.", 0, 1, 100, 10);
 	page->addChild(*paramTile);
@@ -341,6 +217,6 @@ void VHSPluginFactory::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::
 
 ImageEffect* VHSPluginFactory::createInstance(OfxImageEffectHandle handle, OFX::ContextEnum /*context*/)
 {
-	return new VHSPlugin(handle);
+	return new BasicFilterPlugin<VHSProcessor>(handle);
 }
 
