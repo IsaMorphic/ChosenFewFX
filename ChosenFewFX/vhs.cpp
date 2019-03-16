@@ -12,7 +12,7 @@
 #include "../include/ofxsProcessing.H"
 #include <Magick++.h>
 #include "vhs.h"
-
+using namespace Magick;
 class MagickProcessor : public OFX::ImageProcessor {
 protected:
 	OFX::Image *_srcImg;
@@ -34,8 +34,7 @@ public:
 		OfxRectI bounds = _srcImg->getBounds();
 		int width = bounds.x2 - bounds.x1;
 		int height = bounds.y2 - bounds.y1;
-		Magick::StorageType storageType = (Magick::StorageType)(_depth - 1);
-		_managedImage = Magick::Image(width, height, "RGBA", storageType, _srcImg->getPixelData());
+		_managedImage = Magick::Image(width, height, "RGBA", FloatPixel, _srcImg->getPixelData());
 	}
 
 	void CopyManagedToDst() {
@@ -43,10 +42,27 @@ public:
 		int width = bounds.x2 - bounds.x1;
 		int height = bounds.y2 - bounds.y1;
 		Magick::StorageType storageType = (Magick::StorageType)(_depth - 1);
-		_managedImage.write(0, 0, width, height, "RGBA", storageType, _dstImg->getPixelData());
+		_managedImage.write(0, 0, width, height, "RGBA", FloatPixel, _dstImg->getPixelData());
 	}
 
-	void processImages() {
+	void preProcess() {
+		_managedImage.modifyImage();
+	}
+
+	void multiThreadProcessImages(OfxRectI procWindow)
+	{
+		int width = procWindow.x2 - procWindow.x1;
+		int height = procWindow.y2 - procWindow.y1;
+		Magick::Quantum *pixels = _managedImage.getPixels(procWindow.x1, procWindow.y1, width, height);
+		processPixels(width, height, pixels);
+		_managedImage.syncPixels();
+	}
+
+	void postProcess() {
+		CopyManagedToDst();
+	}
+
+	virtual void processPixels(int width, int height, Magick::Quantum *pixels) {
 
 	}
 	/** @brief set the src image */
@@ -60,15 +76,21 @@ public:
 		: MagickProcessor(instance, comp, depth)
 	{}
 
-	// and do some processing
-	void multiThreadProcessImages(OfxRectI procWindow)
-	{
-		CopyManagedToDst();
-	}
-
-	void preProcess() {
-		_managedImage.addNoise(Magick::GaussianNoise);
-		CopyManagedToDst();
+	void processPixels(int width, int height, Magick::Quantum *pixels) {
+		auto pixelAddr = [width, pixels](int x, int y) {
+			int index = 4 * (x + y * width);
+			Quantum *pixel = &pixels[index];
+			return pixel;
+		};
+		for (int x = 1; x < width - 1; ++x)
+			for (int y = 1; y < height - 1; ++y)
+			{
+				Quantum *topleft = pixelAddr(x - 1, y - 1);
+				Quantum *middle = pixelAddr(x, y);
+				Quantum *btmright = pixelAddr(x + 1, y + 1);
+				middle[0] = topleft[0];
+				middle[2] = btmright[2];
+			}
 	}
 };
 
@@ -143,8 +165,6 @@ void VHSPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
 	desc.setPluginGrouping("Chosen Few FX");
 	desc.addSupportedContext(eContextFilter);
 	desc.addSupportedContext(eContextGeneral);
-	desc.addSupportedBitDepth(eBitDepthUByte);
-	desc.addSupportedBitDepth(eBitDepthUShort);
 	desc.addSupportedBitDepth(eBitDepthFloat);
 	desc.setSingleInstance(false);
 	desc.setHostFrameThreading(false);
@@ -192,14 +212,12 @@ void VHSPluginFactory::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::
 {
 	ClipDescriptor *srcClip = desc.defineClip(kOfxImageEffectSimpleSourceClipName);
 	srcClip->addSupportedComponent(ePixelComponentRGBA);
-	srcClip->addSupportedComponent(ePixelComponentAlpha);
 	srcClip->setTemporalClipAccess(false);
 	srcClip->setSupportsTiles(true);
 	srcClip->setIsMask(false);
 
 	ClipDescriptor *dstClip = desc.defineClip(kOfxImageEffectOutputClipName);
 	dstClip->addSupportedComponent(ePixelComponentRGBA);
-	dstClip->addSupportedComponent(ePixelComponentAlpha);
 	dstClip->setSupportsTiles(true);
 
 	PageParamDescriptor *page = desc.definePageParam("Controls");
