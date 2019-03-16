@@ -75,11 +75,15 @@
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q8\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q8\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q8\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q8\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
@@ -122,7 +126,7 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;$(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win32/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -134,6 +138,10 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/$(ProjectName).bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -164,7 +172,7 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;$(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win32/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>$(IntDir)$(ProjectName).pdb</ProgramDatabaseFile>
@@ -175,6 +183,10 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Release/$(ProjectName).bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -205,7 +217,7 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;$(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -218,7 +230,7 @@
       <OutputFile>.\Debug/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "D:\Visual Studio 2017\Projects\ChosenFewFX\Support\Plugins\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"</Command>
+      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Support\Plugins\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -250,7 +262,7 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;$(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
@@ -263,8 +275,7 @@
       <OutputFile>.\Release/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Support\Plugins\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@
 #include <Magick++.h>
 #include "vhs.h"
 using namespace Magick;
+using namespace OFX;
 class MagickProcessor : public OFX::ImageProcessor {
 protected:
 	OFX::Image *_srcImg;
@@ -34,15 +35,36 @@ public:
 		OfxRectI bounds = _srcImg->getBounds();
 		int width = bounds.x2 - bounds.x1;
 		int height = bounds.y2 - bounds.y1;
-		_managedImage = Magick::Image(width, height, "RGBA", FloatPixel, _srcImg->getPixelData());
+		Magick::StorageType storageType;
+		switch (_srcImg->getPixelDepth()) {
+		case eBitDepthFloat:
+			storageType = FloatPixel;
+			break;
+		case eBitDepthUByte:
+			storageType = CharPixel;
+			break;
+		case eBitDepthUShort:
+			storageType = ShortPixel;
+		}
+		_managedImage = Magick::Image(width, height, "RGBA", storageType, _srcImg->getPixelData());
 	}
 
 	void CopyManagedToDst() {
 		OfxRectI bounds = _dstImg->getBounds();
 		int width = bounds.x2 - bounds.x1;
 		int height = bounds.y2 - bounds.y1;
-		Magick::StorageType storageType = (Magick::StorageType)(_depth - 1);
-		_managedImage.write(0, 0, width, height, "RGBA", FloatPixel, _dstImg->getPixelData());
+		Magick::StorageType storageType;
+		switch (_srcImg->getPixelDepth()) {
+		case eBitDepthFloat:
+			storageType = FloatPixel;
+			break;
+		case eBitDepthUByte:
+			storageType = CharPixel;
+			break;
+		case eBitDepthUShort:
+			storageType = ShortPixel;
+		}
+		_managedImage.write(0, 0, width, height, "RGBA", storageType, _dstImg->getPixelData());
 	}
 
 	void preProcess() {
@@ -54,7 +76,7 @@ public:
 		int width = procWindow.x2 - procWindow.x1;
 		int height = procWindow.y2 - procWindow.y1;
 		Magick::Quantum *pixels = _managedImage.getPixels(procWindow.x1, procWindow.y1, width, height);
-		processPixels(width, height, pixels);
+		processPixels(procWindow, pixels);
 		_managedImage.syncPixels();
 	}
 
@@ -62,7 +84,7 @@ public:
 		CopyManagedToDst();
 	}
 
-	virtual void processPixels(int width, int height, Magick::Quantum *pixels) {
+	virtual void processPixels(OfxRectI procWindow, Magick::Quantum *pixels) {
 
 	}
 	/** @brief set the src image */
@@ -70,27 +92,38 @@ public:
 };
 
 class VHSProcessor : public MagickProcessor {
+private:
+	Magick::Image _originalImage;
 public:
 	// ctor
 	VHSProcessor(OFX::ImageEffect &instance, OFX::PixelComponentEnum comp, OFX::BitDepthEnum depth)
 		: MagickProcessor(instance, comp, depth)
 	{}
-
-	void processPixels(int width, int height, Magick::Quantum *pixels) {
-		auto pixelAddr = [width, pixels](int x, int y) {
+	void preProcess() {
+		_originalImage = Magick::Image(_managedImage);
+		MagickProcessor::preProcess();
+	}
+	void processPixels(OfxRectI procWindow, Magick::Quantum *pixels) {
+		int width = procWindow.x2 - procWindow.x1;
+		int height = procWindow.y2 - procWindow.y1;
+		auto pixelAddr = [width](int x, int y, Magick::Quantum *ptr) {
 			int index = 4 * (x + y * width);
-			Quantum *pixel = &pixels[index];
+			Quantum *pixel = &ptr[index];
 			return pixel;
 		};
-		for (int x = 1; x < width - 1; ++x)
-			for (int y = 1; y < height - 1; ++y)
-			{
-				Quantum *topleft = pixelAddr(x - 1, y - 1);
-				Quantum *middle = pixelAddr(x, y);
-				Quantum *btmright = pixelAddr(x + 1, y + 1);
-				middle[0] = topleft[0];
-				middle[2] = btmright[2];
-			}
+		Quantum *origPixels = _originalImage.getPixels(procWindow.x1, procWindow.y1, width, height);
+		for (int i = 0; i < 3; i++)
+			for (int x = 1; x < width - 1; ++x)
+				for (int y = 1; y < height - 1; ++y)
+				{
+					Quantum *topleft = pixelAddr(x - 1, y - 1, origPixels);
+					//Quantum *topleft = pixelAddr(x - 1, y - 1);
+					Quantum *middle = pixelAddr(x, y, pixels);
+					//Quantum *btmright = pixelAddr(x + 1, y + 1);
+					Quantum *btmright = pixelAddr(x + 1, y + 1, origPixels);
+					middle[0] = topleft[0];
+					middle[2] = btmright[2];
+				}
 	}
 };
 
@@ -166,6 +199,8 @@ void VHSPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
 	desc.addSupportedContext(eContextFilter);
 	desc.addSupportedContext(eContextGeneral);
 	desc.addSupportedBitDepth(eBitDepthFloat);
+	desc.addSupportedBitDepth(eBitDepthUByte);
+	desc.addSupportedBitDepth(eBitDepthUShort);
 	desc.setSingleInstance(false);
 	desc.setHostFrameThreading(false);
 	desc.setSupportsMultiResolution(true);
@@ -212,24 +247,20 @@ void VHSPluginFactory::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::
 {
 	ClipDescriptor *srcClip = desc.defineClip(kOfxImageEffectSimpleSourceClipName);
 	srcClip->addSupportedComponent(ePixelComponentRGBA);
+	srcClip->addSupportedComponent(ePixelComponentAlpha);
 	srcClip->setTemporalClipAccess(false);
 	srcClip->setSupportsTiles(true);
 	srcClip->setIsMask(false);
 
 	ClipDescriptor *dstClip = desc.defineClip(kOfxImageEffectOutputClipName);
 	dstClip->addSupportedComponent(ePixelComponentRGBA);
+	dstClip->addSupportedComponent(ePixelComponentAlpha);
 	dstClip->setSupportsTiles(true);
 
 	PageParamDescriptor *page = desc.definePageParam("Controls");
 
-	IntParamDescriptor *paramFreq = defineIntParam(desc, "frequency", "Frequency", "The frequency at which tiles appear and disappear (in 20ths of a second, lower is faster).", 0, 1, 20, 5);
+	IntParamDescriptor *paramFreq = defineIntParam(desc, "aberration", "Chromatic Aberration", "The amount of Chromatic Aberration iterations to perform.  More iterations is eqivalent to increasing the offset.", 0, 0, 30, 3);
 	page->addChild(*paramFreq);
-	IntParamDescriptor *paramTile = defineIntParam(desc, "maxTiles", "Maximum # of Tiles", "The maximum amount of tiles that can be displayed on screen at once.", 0, 1, 100, 10);
-	page->addChild(*paramTile);
-	IntParamDescriptor *paramSeed = defineIntParam(desc, "seed", "Random Seed", "The seed to use for the random number generator.", 0, 0, INT_MAX, INT_MAX / 2);
-	page->addChild(*paramSeed);
-	BooleanParamDescriptor *paramColor = defineBoolParam(desc, "glitchColors", "Should Glitch Colors", "Whether or not to randomly change the hue of tiles", 0, true);
-	page->addChild(*paramColor);
 
 }
 
