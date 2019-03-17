@@ -95,6 +95,7 @@ class VHSProcessor : public MagickProcessor {
 private:
 	Magick::Image _originalImage;
 public:
+	int aberrationParam;
 	// ctor
 	VHSProcessor(OFX::ImageEffect &instance, OFX::PixelComponentEnum comp, OFX::BitDepthEnum depth)
 		: MagickProcessor(instance, comp, depth)
@@ -111,8 +112,9 @@ public:
 			Quantum *pixel = &ptr[index];
 			return pixel;
 		};
-		Quantum *origPixels = _originalImage.getPixels(procWindow.x1, procWindow.y1, width, height);
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < aberrationParam; i++) {
+			preProcess();
+			Quantum *origPixels = _originalImage.getPixels(procWindow.x1, procWindow.y1, width, height);
 			for (int x = 1; x < width - 1; ++x)
 				for (int y = 1; y < height - 1; ++y)
 				{
@@ -124,6 +126,7 @@ public:
 					middle[0] = topleft[0];
 					middle[2] = btmright[2];
 				}
+		}
 	}
 };
 
@@ -138,15 +141,20 @@ public:
 	{
 		dstClip_ = fetchClip(kOfxImageEffectOutputClipName);
 		srcClip_ = fetchClip(kOfxImageEffectSimpleSourceClipName);
-		// Params here
 	}
 	virtual void render(const OFX::RenderArguments &args)
 	{
 		OFX::BitDepthEnum       dstBitDepth = dstClip_->getPixelDepth();
 		OFX::PixelComponentEnum dstComponents = dstClip_->getPixelComponents();
 		GenericProcessor processor(*this, dstComponents, dstBitDepth);
+		transferParams(processor, args);
 		setupAndProcess(processor, args);
 	}
+
+	virtual void transferParams(GenericProcessor &processor, const OFX::RenderArguments &args)
+	{
+	}
+
 	virtual bool isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime)
 	{
 		return false;
@@ -190,6 +198,19 @@ public:
 	}
 };
 
+class VHSPlugin : public BasicFilterPlugin<VHSProcessor> 
+{
+private:
+	OFX::IntParam *aberration;
+public:
+	VHSPlugin(OfxImageEffectHandle handle) : BasicFilterPlugin(handle){
+		aberration = fetchIntParam("aberration");
+	}
+	void transferParams(VHSProcessor &processor, const OFX::RenderArguments &args)
+	{
+		processor.aberrationParam = aberration->getValueAtTime(args.time);
+	}
+};
 using namespace OFX;
 
 void VHSPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
@@ -259,13 +280,13 @@ void VHSPluginFactory::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::
 
 	PageParamDescriptor *page = desc.definePageParam("Controls");
 
-	IntParamDescriptor *paramFreq = defineIntParam(desc, "aberration", "Chromatic Aberration", "The amount of Chromatic Aberration iterations to perform.  More iterations is eqivalent to increasing the offset.", 0, 0, 30, 3);
+	IntParamDescriptor *paramFreq = defineIntParam(desc, "aberration", "Chromatic Aberration", "The amount of Chromatic Aberration iterations to perform.  More iterations is eqivalent to increasing the offset.", 0, 0, 256, 3);
 	page->addChild(*paramFreq);
 
 }
 
 ImageEffect* VHSPluginFactory::createInstance(OfxImageEffectHandle handle, OFX::ContextEnum /*context*/)
 {
-	return new BasicFilterPlugin<VHSProcessor>(handle);
+	return new VHSPlugin(handle);
 }
 
