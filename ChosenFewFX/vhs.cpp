@@ -15,6 +15,8 @@
 using namespace Magick;
 using namespace OFX;
 
+#define PI 3.14159265
+
 typedef struct {
 	double r;       // a fraction between 0 and 1
 	double g;       // a fraction between 0 and 1
@@ -211,6 +213,7 @@ public:
 	void setSrcImg(OFX::Image *v) { _srcImg = v; CopySrcToManaged(); }
 };
 
+
 class VHSProcessor : public MagickProcessor {
 private:
 	Magick::Image _originalImage;
@@ -221,6 +224,7 @@ public:
 	double luminanceAdjustParam;
 	int ribbonDistanceParam;
 	int ribbonWidthParam;
+	int aberrationAngleParam;
 	// ctor
 	VHSProcessor(OFX::ImageEffect &instance, OFX::PixelComponentEnum comp, OFX::BitDepthEnum depth)
 		: MagickProcessor(instance, comp, depth)
@@ -237,21 +241,20 @@ public:
 			Quantum *pixel = &ptr[index];
 			return pixel;
 		};
-		for (int i = 0; i < aberrationParam; i++) {
-			preProcess();
-			Quantum *origPixels = _originalImage.getPixels(procWindow.x1, procWindow.y1, width, height);
-			for (int x = 1; x < width - 1; ++x)
-				for (int y = 1; y < height - 1; ++y)
-				{
-					Quantum *topleft = pixelAddr(x - 1, y - 1, origPixels);
-					//Quantum *topleft = pixelAddr(x - 1, y - 1);
-					Quantum *middle = pixelAddr(x, y, pixels);
-					//Quantum *btmright = pixelAddr(x + 1, y + 1);
-					Quantum *btmright = pixelAddr(x + 1, y + 1, origPixels);
-					middle[0] = topleft[0];
-					middle[2] = btmright[2];
-				}
-		}
+		Quantum *origPixels = _originalImage.getPixels(procWindow.x1, procWindow.y1, width, height);
+		double offX = aberrationParam * cos(aberrationAngleParam * PI / 180);
+		double offY = aberrationParam * sin(aberrationAngleParam * PI / 180);
+		for (int x = 0; x < width; ++x)
+			for (int y = 0; y < height; ++y)
+			{
+				Quantum *topleft = pixelAddr(min(max(x - offX, 0), width - 1), min(max(y - offY, 0), height - 1), origPixels);
+				Quantum *middle = pixelAddr(x, y, pixels);
+				Quantum *btmright = pixelAddr(min(max(x + offX, 0), width - 1), min(max(y + offY, 0), height - 1), origPixels);
+				middle[0] = topleft[0];
+				middle[2] = btmright[2];
+			}
+		if (ribbonDistanceParam == 0 || ribbonWidthParam == 0)
+			return;
 		_managedImage.syncPixels();
 		for (int y = 0; y < height; y += std::rand() % ribbonDistanceParam)
 			for (int i = 0; i < std::rand() % ribbonWidthParam && y < height; ++i, ++y)
@@ -346,6 +349,7 @@ class VHSPlugin : public BasicFilterPlugin<VHSProcessor>
 {
 private:
 	OFX::IntParam *aberration;
+	OFX::IntParam *aberrationAngle;
 	OFX::IntParam *hueAdjust;
 	OFX::IntParam *saturationAdjust;
 	OFX::IntParam *luminanceAdjust;
@@ -354,6 +358,7 @@ private:
 public:
 	VHSPlugin(OfxImageEffectHandle handle) : BasicFilterPlugin(handle) {
 		aberration = fetchIntParam("aberration");
+		aberrationAngle = fetchIntParam("aberrationAngle");
 		hueAdjust = fetchIntParam("hueAdjust");
 		saturationAdjust = fetchIntParam("saturationAdjust");
 		luminanceAdjust = fetchIntParam("luminanceAdjust");
@@ -363,6 +368,7 @@ public:
 	void transferParams(VHSProcessor &processor, const OFX::RenderArguments &args)
 	{
 		processor.aberrationParam = aberration->getValueAtTime(args.time);
+		processor.aberrationAngleParam = aberrationAngle->getValueAtTime(args.time);
 		processor.hueAdjustParam = hueAdjust->getValueAtTime(args.time);
 		processor.saturationAdjustParam = saturationAdjust->getValueAtTime(args.time) / 100.0;
 		processor.luminanceAdjustParam = luminanceAdjust->getValueAtTime(args.time) / 100.0;
@@ -439,8 +445,11 @@ void VHSPluginFactory::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::
 
 	PageParamDescriptor *page = desc.definePageParam("Controls");
 
-	IntParamDescriptor *paramAberr = defineIntParam(desc, "aberration", "Chromatic Aberration", "The amount of Chromatic Aberration iterations to perform.  More iterations is eqivalent to increasing the offset.", 0, 0, 256, 3);
+	IntParamDescriptor *paramAberr = defineIntParam(desc, "aberration", "Chromatic Aberration Amount", "The amount of chromatic aberration to apply", 0, 0, 256, 3);
 	page->addChild(*paramAberr);
+
+	IntParamDescriptor *paramAberrAngle = defineIntParam(desc, "aberrationAngle", "Chromatic Aberration Angle", "The angle of the chromatic displacement", 0, 0, 360, 45);
+	page->addChild(*paramAberrAngle);
 
 	IntParamDescriptor *paramHue = defineIntParam(desc, "hueAdjust", "Color Ribbon Hue Adjust", "The amount of degrees to adjust the hue of a color ribbon", 0, -180, 180, 20);
 	page->addChild(*paramHue);
