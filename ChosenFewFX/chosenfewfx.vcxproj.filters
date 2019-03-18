@@ -18,36 +18,18 @@
     <ClCompile Include="PluginRegistration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="glitchtile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PerlinNoise.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FloatImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="burn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vhs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="glitchtile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PerlinNoise.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FloatImage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="burn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vhs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="magickprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="basicfilterplugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

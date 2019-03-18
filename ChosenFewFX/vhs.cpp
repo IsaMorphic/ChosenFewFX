@@ -11,6 +11,8 @@
 #include "ofxsMultiThread.h"
 #include "../include/ofxsProcessing.H"
 #include <Magick++.h>
+#include "magickprocessor.h"
+#include "basicfilterplugin.h"
 #include "vhs.h"
 using namespace Magick;
 using namespace OFX;
@@ -136,84 +138,6 @@ rgb hsv2rgb(hsv in)
 	return out;
 }
 
-class MagickProcessor : public OFX::ImageProcessor {
-protected:
-	OFX::Image *_srcImg;
-	Magick::Image _managedImage;
-	OFX::PixelComponentEnum _comp;
-	OFX::BitDepthEnum _depth;
-public:
-	/** @brief no arg ctor */
-	MagickProcessor(OFX::ImageEffect &instance, OFX::PixelComponentEnum comp, OFX::BitDepthEnum depth)
-		: OFX::ImageProcessor(instance)
-		, _srcImg(0)
-		, _comp(comp)
-		, _depth(depth)
-		, _managedImage()
-	{
-	}
-
-	void CopySrcToManaged() {
-		OfxRectI bounds = _srcImg->getBounds();
-		int width = bounds.x2 - bounds.x1;
-		int height = bounds.y2 - bounds.y1;
-		Magick::StorageType storageType;
-		switch (_srcImg->getPixelDepth()) {
-		case eBitDepthFloat:
-			storageType = FloatPixel;
-			break;
-		case eBitDepthUByte:
-			storageType = CharPixel;
-			break;
-		case eBitDepthUShort:
-			storageType = ShortPixel;
-		}
-		_managedImage = Magick::Image(width, height, "RGBA", storageType, _srcImg->getPixelData());
-	}
-
-	void CopyManagedToDst() {
-		OfxRectI bounds = _dstImg->getBounds();
-		int width = bounds.x2 - bounds.x1;
-		int height = bounds.y2 - bounds.y1;
-		Magick::StorageType storageType;
-		switch (_srcImg->getPixelDepth()) {
-		case eBitDepthFloat:
-			storageType = FloatPixel;
-			break;
-		case eBitDepthUByte:
-			storageType = CharPixel;
-			break;
-		case eBitDepthUShort:
-			storageType = ShortPixel;
-		}
-		_managedImage.write(0, 0, width, height, "RGBA", storageType, _dstImg->getPixelData());
-	}
-
-	void preProcess() {
-		_managedImage.modifyImage();
-	}
-
-	void multiThreadProcessImages(OfxRectI procWindow)
-	{
-		int width = procWindow.x2 - procWindow.x1;
-		int height = procWindow.y2 - procWindow.y1;
-		Magick::Quantum *pixels = _managedImage.getPixels(procWindow.x1, procWindow.y1, width, height);
-		processPixels(procWindow, pixels);
-		_managedImage.syncPixels();
-	}
-
-	void postProcess() {
-		CopyManagedToDst();
-	}
-
-	virtual void processPixels(OfxRectI procWindow, Magick::Quantum *pixels) {
-
-	}
-	/** @brief set the src image */
-	void setSrcImg(OFX::Image *v) { _srcImg = v; CopySrcToManaged(); }
-};
-
-
 class VHSProcessor : public MagickProcessor {
 private:
 	Magick::Image _originalImage;
@@ -230,6 +154,9 @@ public:
 		: MagickProcessor(instance, comp, depth)
 	{}
 	void preProcess() {
+		Geometry dim = _managedImage.size();
+		_managedImage.liquidRescale(Geometry(dim.width() / 2, dim.height() / 2));
+		_managedImage.resize(dim);
 		_originalImage = Magick::Image(_managedImage);
 		MagickProcessor::preProcess();
 	}
@@ -274,74 +201,15 @@ public:
 					pixel[1] = colorAdjusted.g * QuantumRange;
 					pixel[2] = colorAdjusted.b * QuantumRange;
 				}
-	}
-};
-
-template <class GenericProcessor>
-class BasicFilterPlugin : public OFX::ImageEffect
-{
-protected:
-	OFX::Clip *dstClip_;
-	OFX::Clip *srcClip_;
-public:
-	BasicFilterPlugin(OfxImageEffectHandle handle) : ImageEffect(handle), dstClip_(0), srcClip_(0)
-	{
-		dstClip_ = fetchClip(kOfxImageEffectOutputClipName);
-		srcClip_ = fetchClip(kOfxImageEffectSimpleSourceClipName);
-	}
-	virtual void render(const OFX::RenderArguments &args)
-	{
-		OFX::BitDepthEnum       dstBitDepth = dstClip_->getPixelDepth();
-		OFX::PixelComponentEnum dstComponents = dstClip_->getPixelComponents();
-		GenericProcessor processor(*this, dstComponents, dstBitDepth);
-		transferParams(processor, args);
-		setupAndProcess(processor, args);
-	}
-
-	virtual void transferParams(GenericProcessor &processor, const OFX::RenderArguments &args)
-	{
-	}
-
-	virtual bool isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime)
-	{
-		return false;
-	}
-	virtual void changedParam(const OFX::InstanceChangedArgs &/*args*/, const std::string &paramName)
-	{
-
-	}
-	virtual void changedClip(const OFX::InstanceChangedArgs &/*args*/, const std::string &clipName)
-	{
-		/*if(clipName == kOfxImageEffectSimpleSourceClipName)
-		  setEnabledness();*/
-	}
-	virtual bool getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod)
-	{
-		rod = srcClip_->getRegionOfDefinition(args.time);
-		return true;
-	}
-	virtual void getRegionsOfInterest(const OFX::RegionsOfInterestArguments &args, OFX::RegionOfInterestSetter &rois)
-	{
-		rois.setRegionOfInterest(*srcClip_, args.regionOfInterest);
-	}
-	void setupAndProcess(MagickProcessor &processor, const OFX::RenderArguments &args)
-	{
-		std::auto_ptr<OFX::Image> dst(dstClip_->fetchImage(args.time));
-		OFX::BitDepthEnum dstBitDepth = dst->getPixelDepth();
-		OFX::PixelComponentEnum dstComponents = dst->getPixelComponents();
-		std::auto_ptr<OFX::Image> src(srcClip_->fetchImage(args.time));
-
-		if (src.get())
-		{
-			OFX::BitDepthEnum    srcBitDepth = src->getPixelDepth();
-			OFX::PixelComponentEnum srcComponents = src->getPixelComponents();
-			if (srcBitDepth != dstBitDepth || srcComponents != dstComponents)
-				throw int(1);
-		}
-		processor.setDstImg(dst.get());
-		processor.setSrcImg(src.get());
-		processor.setRenderWindow(args.renderWindow);
-		processor.process();
+		_managedImage.syncPixels();
+		for (int y = 0; y < height; ++y)
+				for (int x = 0; x < width; ++x)
+				{
+					Quantum *pixel = pixelAddr(x, y, pixels);
+					pixel[0] = min(pixel[0] * 1.2, QuantumRange);
+					pixel[1] = min(pixel[1] * 1.2, QuantumRange);
+					pixel[2] = min(pixel[2] * 1.2, QuantumRange);
+				}
 	}
 };
 
@@ -395,38 +263,6 @@ void VHSPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
 	desc.setRenderTwiceAlways(false);
 	desc.setSupportsMultipleClipPARs(false);
 	desc.setRenderThreadSafety(eRenderFullySafe);
-}
-
-static
-IntParamDescriptor *defineIntParam(OFX::ImageEffectDescriptor &desc,
-	const std::string &name, const std::string &label, const std::string &hint,
-	GroupParamDescriptor *parent, int min, int max, int def)
-{
-	IntParamDescriptor *param = desc.defineIntParam(name);
-	param->setLabels(label, label, label);
-	param->setScriptName(name);
-	param->setHint(hint);
-	param->setDefault(def);
-	param->setRange(min, max);
-	param->setDisplayRange(min, max);
-	if (parent)
-		param->setParent(*parent);
-	return param;
-}
-
-static
-BooleanParamDescriptor *defineBoolParam(OFX::ImageEffectDescriptor &desc,
-	const std::string &name, const std::string &label, const std::string &hint,
-	GroupParamDescriptor *parent, bool def)
-{
-	BooleanParamDescriptor *param = desc.defineBooleanParam(name);
-	param->setLabels(label, label, label);
-	param->setScriptName(name);
-	param->setHint(hint);
-	param->setDefault(def);
-	if (parent)
-		param->setParent(*parent);
-	return param;
 }
 
 void VHSPluginFactory::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::ContextEnum context)

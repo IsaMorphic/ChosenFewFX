@@ -279,19 +279,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="burn.cpp" />
-    <ClCompile Include="FloatImage.cpp" />
-    <ClCompile Include="glitchtile.cpp" />
     <ClCompile Include="vhs.cpp" />
     <ClCompile Include="PluginRegistration.cpp" />
-    <ClCompile Include="PerlinNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="burn.h" />
-    <ClInclude Include="FloatImage.h" />
-    <ClInclude Include="glitchtile.h" />
+    <ClInclude Include="basicfilterplugin.h" />
+    <ClInclude Include="magickprocessor.h" />
     <ClInclude Include="vhs.h" />
-    <ClInclude Include="PerlinNoise.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\ofxsupport.vcxproj">
