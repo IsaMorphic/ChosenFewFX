@@ -3,5 +3,25 @@ We highly recommend that you look up the proper directory for your program if yo
 We have the proper location for VEGAS Pro 14 displayed in the installation directory picker on the next screen as an example.
 If VEGAS Pro 14 is indeed your program, there is no need to change it.  We are not responsible for any mistakes you make as an end user.
 In the future, this installer will contain several more examples on this page for other programs. But for now, it is what it is.
+
+One more important thing to note is that an installation of ImageMagick (Q8) is required to use this FX plugin.  
+You can find the windows installer for this version of ImageMagick at:
+https://imagemagick.org/download/binaries/ImageMagick-7.0.8-35-Q8-x64-dll.exe (64-bit)
+https://imagemagick.org/download/binaries/ImageMagick-7.0.8-35-Q8-x86-dll.exe (32-bit)
+
 Thanks for reading, 
 ~Yodadude2003.
+
+Copyright 2019 Chosen Few Software
+
+Licensed under the ImageMagick License (the "License"); you may not use
+this file except in compliance with the License.  You may obtain a copy
+of the License at
+
+https://imagemagick.org/script/license.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+License for the specific language governing permissions and limitations
+under the License.

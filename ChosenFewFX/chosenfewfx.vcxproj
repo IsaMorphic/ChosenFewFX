@@ -22,6 +22,7 @@
     <ProjectName>ChosenFewFX</ProjectName>
     <ProjectGuid>{F14ECC69-3767-44B1-A28C-32FB09F50C7E}</ProjectGuid>
     <RootNamespace>MultiBundle</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -41,6 +42,7 @@
     <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -75,27 +77,29 @@
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q8\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q8\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files\ImageMagick-7.0.8-Q16\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>C:\Program Files\ImageMagick-7.0.8-Q16\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\ImageMagick-7.0.8-Q8\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\ImageMagick-7.0.8-Q16\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>C:\Program Files\ImageMagick-7.0.8-Q16\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -268,7 +272,6 @@
       <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalLibraryDirectories>C:\Program Files\ImageMagick-7.0.8-Q8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -279,12 +282,15 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="liquid.cpp" />
     <ClCompile Include="vhs.cpp" />
     <ClCompile Include="PluginRegistration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basicfilterplugin.h" />
+    <ClInclude Include="liquid.h" />
     <ClInclude Include="magickprocessor.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="vhs.h" />
   </ItemGroup>
   <ItemGroup>

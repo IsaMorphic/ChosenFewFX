@@ -1,7 +1,4 @@
-#include "ofxsImageEffect.h"
-#include "ofxsMultiThread.h"
-#include "../include/ofxsProcessing.H"
-#include <Magick++.h>
+#pragma once
 
 using namespace OFX;
 using namespace Magick;
@@ -12,16 +9,6 @@ protected:
 	Magick::Image _managedImage;
 	OFX::PixelComponentEnum _comp;
 	OFX::BitDepthEnum _depth;
-public:
-	/** @brief no arg ctor */
-	MagickProcessor(OFX::ImageEffect &instance, OFX::PixelComponentEnum comp, OFX::BitDepthEnum depth)
-		: OFX::ImageProcessor(instance)
-		, _srcImg(0)
-		, _comp(comp)
-		, _depth(depth)
-		, _managedImage()
-	{
-	}
 
 	void CopySrcToManaged() {
 		OfxRectI bounds = _srcImg->getBounds();
@@ -57,6 +44,16 @@ public:
 			storageType = ShortPixel;
 		}
 		_managedImage.write(0, 0, width, height, "RGBA", storageType, _dstImg->getPixelData());
+	}
+public:
+	/** @brief no arg ctor */
+	MagickProcessor(OFX::ImageEffect &instance, OFX::PixelComponentEnum comp, OFX::BitDepthEnum depth)
+		: OFX::ImageProcessor(instance)
+		, _srcImg(0)
+		, _comp(comp)
+		, _depth(depth)
+		, _managedImage()
+	{
 	}
 
 	void preProcess() {

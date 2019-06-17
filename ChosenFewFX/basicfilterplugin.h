@@ -1,7 +1,4 @@
-#include "ofxsImageEffect.h"
-#include "ofxsMultiThread.h"
-#include "../include/ofxsProcessing.H"
-#include <Magick++.h>
+#pragma once
 
 template <class GenericProcessor>
 class BasicFilterPlugin : public OFX::ImageEffect

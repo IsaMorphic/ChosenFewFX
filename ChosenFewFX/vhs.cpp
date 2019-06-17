@@ -13,6 +13,7 @@
 #include <Magick++.h>
 #include "magickprocessor.h"
 #include "basicfilterplugin.h"
+#include "utils.h"
 #include "vhs.h"
 using namespace Magick;
 using namespace OFX;
@@ -154,9 +155,6 @@ public:
 		: MagickProcessor(instance, comp, depth)
 	{}
 	void preProcess() {
-		Geometry dim = _managedImage.size();
-		_managedImage.liquidRescale(Geometry(dim.width() / 2, dim.height() / 2));
-		_managedImage.resize(dim);
 		_originalImage = Magick::Image(_managedImage);
 		MagickProcessor::preProcess();
 	}
@@ -244,7 +242,6 @@ public:
 		processor.ribbonWidthParam = ribbonWidth->getValueAtTime(args.time);
 	}
 };
-using namespace OFX;
 
 void VHSPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
 {

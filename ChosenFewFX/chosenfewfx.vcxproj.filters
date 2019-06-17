@@ -21,6 +21,9 @@
     <ClCompile Include="vhs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="liquid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vhs.h">
@@ -30,6 +33,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="basicfilterplugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="liquid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
