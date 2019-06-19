@@ -291,12 +291,16 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\D
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FilterPlugin.cpp" />
+    <ClCompile Include="FilterProcessor.cpp" />
     <ClCompile Include="Plugin.cpp" />
     <ClCompile Include="ManagedPluginFactory.cpp" />
     <ClCompile Include="ManagedProcessor.cpp" />
     <ClCompile Include="PluginRegistration.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FilterPlugin.h" />
+    <ClInclude Include="FilterProcessor.h" />
     <ClInclude Include="Plugin.h" />
     <ClInclude Include="ManagedPluginFactory.h" />
     <ClInclude Include="ManagedProcessor.h" />

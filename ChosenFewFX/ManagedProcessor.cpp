@@ -4,27 +4,21 @@ SkiaSharp::SKBitmap^ ChosenFewFX::ManagedProcessor::linkPixelsToManagedImage(OFX
 {
 	OfxRectI bounds = img->getBounds();
 	int rowBytes = img->getRowBytes();
-	NET::Rectangle managedBounds = NET::Rectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+	NET::RectangleI managedBounds = NET::RectangleI(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
 	System::IntPtr pixelPointer = System::IntPtr(img->getPixelData());
-	return _managedHandle->LinkPixelsToManagedImage(managedBounds, rowBytes, pixelPointer);
-}
-
-void ChosenFewFX::ManagedProcessor::setSrcImg(OFX::Image *v) 
-{
-	_srcImg = v;
+	return _managedHandle->LinkPixelsToManagedImage(managedBounds, pixelPointer);
 }
 
 void ChosenFewFX::ManagedProcessor::preProcess() 
 {
-	_managedHandle->SourceImage = linkPixelsToManagedImage(_srcImg);
 	_managedHandle->DestImage = linkPixelsToManagedImage(_dstImg);
 	_managedHandle->PreProcess();
 }
 
 void ChosenFewFX::ManagedProcessor::multiThreadProcessImages(OfxRectI procWindow) 
 {
-	NET::Rectangle roi = NET::Rectangle(procWindow.x1, procWindow.y1, procWindow.x2, procWindow.y2);
-	_managedHandle->ProcessPixels(roi);
+	NET::RectangleI region = NET::RectangleI(procWindow.x1, procWindow.y1, procWindow.x2, procWindow.y2);
+	_managedHandle->ProcessPixels(region);
 }
 
 void ChosenFewFX::ManagedProcessor::postProcess() 

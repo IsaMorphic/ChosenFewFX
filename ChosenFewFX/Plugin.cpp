@@ -1,20 +1,12 @@
 #include "Plugin.h"
-#include <iostream>
 
 void ChosenFewFX::Plugin::render(const OFX::RenderArguments &args)
 {
-	ManagedProcessor processor(*this, (ChosenFewFX::NET::Plugin ^)pluginHandle);
-	transferParams(args);
-	setup(processor, args);
-}
-
-void ChosenFewFX::Plugin::setup(ManagedProcessor &processor, const OFX::RenderArguments &args) 
-{
+	ManagedProcessor processor(*this, pluginHandle);
 	std::auto_ptr<OFX::Image> dst(dstClip_->fetchImage(args.time));
-	std::auto_ptr<OFX::Image> src(srcClip_->fetchImage(args.time));
-	processor.setRenderWindow(args.renderWindow);
 	processor.setDstImg(dst.get());
-	processor.setSrcImg(src.get());
+	processor.setRenderWindow(args.renderWindow);
+	transferParams(args);
 	processor.process();
 }
 

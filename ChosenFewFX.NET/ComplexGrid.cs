@@ -9,47 +9,47 @@ namespace ChosenFewFX.NET
     {
         private Func<Complex, Complex> Func;
 
-        private Rectangle OuterPlane;
-        private Rectangle InnerPlane;
+        private RectangleD OuterPlane;
+        private RectangleD InnerPlane;
 
-        public ComplexGrid(Rectangle OuterPlane, Rectangle InnerPlane, Func<Complex, Complex> Func)
+        public ComplexGrid(RectangleD OuterPlane, RectangleD InnerPlane, Func<Complex, Complex> Func)
         {
             this.OuterPlane = OuterPlane;
             this.InnerPlane = InnerPlane;
             this.Func = Func;
         }
 
-        private Complex MapPoint(Point p)
+        private Complex MapPoint(PointD p)
         {
-            Point translated = p - OuterPlane.TopLeft;
+            PointD translated = p - OuterPlane.TopLeft;
 
-            Point normalized = new Point(translated.X / OuterPlane.Width, translated.Y / OuterPlane.Height);
-            Point dialated = new Point(normalized.X * InnerPlane.Width, normalized.Y * InnerPlane.Height);
+            PointD normalized = new PointD(translated.X / OuterPlane.Width, translated.Y / OuterPlane.Height);
+            PointD dialated = new PointD(normalized.X * InnerPlane.Width, normalized.Y * InnerPlane.Height);
 
-            Point projected = dialated + InnerPlane.TopLeft;
+            PointD projected = dialated + InnerPlane.TopLeft;
 
             return new Complex(projected.X, projected.Y);
         }
 
-        private Point MapPoint(Complex z)
+        private PointD MapPoint(Complex z)
         {
-            Point p = new Point(z.Real, z.Imaginary);
+            PointD p = new PointD(z.Real, z.Imaginary);
 
-            Point translated = p - InnerPlane.TopLeft;
+            PointD translated = p - InnerPlane.TopLeft;
 
-            Point normalized = new Point(translated.X / InnerPlane.Width, translated.Y / InnerPlane.Height);
-            Point dialated = new Point(normalized.X * OuterPlane.Width, normalized.Y * OuterPlane.Height);
+            PointD normalized = new PointD(translated.X / InnerPlane.Width, translated.Y / InnerPlane.Height);
+            PointD dialated = new PointD(normalized.X * OuterPlane.Width, normalized.Y * OuterPlane.Height);
 
-            Point projected = dialated + OuterPlane.TopLeft;
+            PointD projected = dialated + OuterPlane.TopLeft;
 
             return projected;
         }
 
-        public Point this[double x, double y]
+        public PointD this[double x, double y]
         {
             get
             {
-                Point p = new Point(x, y);
+                PointD p = new PointD(x, y);
                 Complex z = MapPoint(p);
                 Complex w = Func(z);
                 return MapPoint(w);

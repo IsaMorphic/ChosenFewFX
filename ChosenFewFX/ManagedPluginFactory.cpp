@@ -9,6 +9,7 @@ using namespace msclr::interop;
 using namespace OFX;
 
 #include "Plugin.h"
+#include "FilterPlugin.h"
 #include "ManagedProcessor.h"
 #include "ManagedPluginFactory.h"
 #include "utils.h"
@@ -17,8 +18,12 @@ void ChosenFewFX::ManagedPluginFactory::describe(OFX::ImageEffectDescriptor &des
 	std::string label = marshal_as<std::string>(pluginHandle->Name);
 	desc.setLabels(label, label, label);
 	desc.setPluginGrouping("Chosen Few FX");
-	//desc.addSupportedContext(eContextFilter);
-	desc.addSupportedContext(eContextGenerator);
+
+	if (pluginHandle->GetType()->BaseType == NET::FilterPlugin::typeid)
+		desc.addSupportedContext(eContextFilter);
+	else
+		desc.addSupportedContext(eContextGenerator);
+
 	desc.addSupportedContext(eContextGeneral);
 	desc.addSupportedBitDepth(eBitDepthFloat);
 	desc.addSupportedBitDepth(eBitDepthUByte);
@@ -45,5 +50,8 @@ void ChosenFewFX::ManagedPluginFactory::describeInContext(OFX::ImageEffectDescri
 
 ImageEffect* ChosenFewFX::ManagedPluginFactory::createInstance(OfxImageEffectHandle handle, OFX::ContextEnum /*context*/)
 {
-	return new Plugin(handle, pluginHandle);
+	if(pluginHandle->GetType()->BaseType == NET::FilterPlugin::typeid)
+		return new FilterPlugin(handle, pluginHandle);
+	else
+		return new Plugin(handle, pluginHandle);
 }

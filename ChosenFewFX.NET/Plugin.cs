@@ -4,10 +4,6 @@ namespace ChosenFewFX.NET
 {
     public class Plugin
     {
-        public Plugin()
-        {
-
-        }
         public string Id { get; protected set; }
 
         public int MajorVersion { get; protected set; }
@@ -16,19 +12,21 @@ namespace ChosenFewFX.NET
         public string Name { get; protected set; }
 
         public SKBitmap DestImage { get; set; }
-        public SKBitmap SourceImage { get; set; }
 
-        public SKBitmap LinkPixelsToManagedImage(Rectangle imageBounds, int rowBytes, IntPtr pixels)
+        public SKBitmap LinkPixelsToManagedImage(RectangleI imageBounds, IntPtr pixels)
         {
-            SKImageInfo info = new SKImageInfo((int)imageBounds.Width, (int)imageBounds.Height);
-            SKBitmap image = new SKBitmap(info, rowBytes);
+            SKImageInfo info = new SKImageInfo()
+                .WithSize(imageBounds.Width, imageBounds.Height)
+                .WithColorType(SKColorType.Bgra8888)
+                .WithAlphaType(SKAlphaType.Premul);
+            SKBitmap image = new SKBitmap(info);
             image.SetPixels(pixels);
             return image;
         }
 
         public virtual void PreProcess() { }
 
-        public virtual void ProcessPixels(Rectangle regionOfInterest) { }
+        public virtual void ProcessPixels(RectangleI region) { }
 
         public virtual void PostProcess() { }
     }

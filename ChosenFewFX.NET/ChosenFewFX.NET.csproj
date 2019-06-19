@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,11 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComplexGrid.cs" />
+    <Compile Include="FilterPlugin.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="PointD.cs" />
+    <Compile Include="PointI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rectangle.cs" />
-    <Compile Include="SolidColorGenerator.cs" />
+    <Compile Include="RectangleI.cs" />
+    <Compile Include="RectangleD.cs" />
+    <Compile Include="RedFilterPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

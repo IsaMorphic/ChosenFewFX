@@ -5,9 +5,10 @@ namespace ChosenFewFX {
 	class Plugin : public OFX::ImageEffect
 	{
 	private:
+		gcroot<NET::Plugin^> pluginHandle;
+	protected:
 		OFX::Clip *srcClip_;
 		OFX::Clip *dstClip_;
-		gcroot<NET::Plugin^> pluginHandle;
 		void transferParams(const OFX::RenderArguments &args);
 	public:
 		Plugin(OfxImageEffectHandle handle, NET::Plugin^ plugin) : 
@@ -18,8 +19,6 @@ namespace ChosenFewFX {
 			dstClip_ = fetchClip(kOfxImageEffectOutputClipName);
 		}
 		virtual void render(const OFX::RenderArguments &args);
-
-		virtual void setup(ManagedProcessor &processor, const OFX::RenderArguments &args);
 
 		virtual bool isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime);
 
