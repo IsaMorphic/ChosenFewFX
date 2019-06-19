@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SkiaSharp;
+﻿using SkiaSharp;
+using System;
 namespace ChosenFewFX.NET
 {
     public class Plugin
     {
+        public Plugin()
+        {
+
+        }
         public string Id { get; protected set; }
 
         public int MajorVersion { get; protected set; }
@@ -16,6 +16,7 @@ namespace ChosenFewFX.NET
         public string Name { get; protected set; }
 
         public SKBitmap DestImage { get; set; }
+        public SKBitmap SourceImage { get; set; }
 
         public SKBitmap LinkPixelsToManagedImage(Rectangle imageBounds, int rowBytes, IntPtr pixels)
         {

@@ -9,8 +9,14 @@ SkiaSharp::SKBitmap^ ChosenFewFX::ManagedProcessor::linkPixelsToManagedImage(OFX
 	return _managedHandle->LinkPixelsToManagedImage(managedBounds, rowBytes, pixelPointer);
 }
 
+void ChosenFewFX::ManagedProcessor::setSrcImg(OFX::Image *v) 
+{
+	_srcImg = v;
+}
+
 void ChosenFewFX::ManagedProcessor::preProcess() 
 {
+	_managedHandle->SourceImage = linkPixelsToManagedImage(_srcImg);
 	_managedHandle->DestImage = linkPixelsToManagedImage(_dstImg);
 	_managedHandle->PreProcess();
 }

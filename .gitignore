@@ -263,3 +263,6 @@ __pycache__/
 Release-x64/
 Release-Win32/
 
+/ChosenFewFX/Debug-x64
+/Debug-x64/ChosenFewFX.ofx.bundle/Contents/Win64
+/Library/Debug-x64

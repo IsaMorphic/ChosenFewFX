@@ -21,9 +21,6 @@
     <ClCompile Include="ManagedProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FilterProcessor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ManagedPluginFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManagedProcessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FilterProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManagedPluginFactory.h">

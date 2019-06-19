@@ -4,8 +4,9 @@
 #include "../include/ofxsProcessing.H"
 namespace ChosenFewFX {
 	class ManagedProcessor : public OFX::ImageProcessor {
-	protected:
+	private:
 		gcroot<NET::Plugin^> _managedHandle;
+		OFX::Image *_srcImg;
 	public:
 		ManagedProcessor(OFX::ImageEffect &instance, NET::Plugin^ handle) : 
 			OFX::ImageProcessor(instance), _managedHandle(handle) {}
@@ -15,5 +16,7 @@ namespace ChosenFewFX {
 		virtual void preProcess();
 		virtual void multiThreadProcessImages(OfxRectI procWindow);
 		virtual void postProcess();
+
+		void setSrcImg(OFX::Image *v);
 	};
 }

@@ -19,6 +19,8 @@ namespace OFX
 					ids.push_back(&p);
 				}
 			}
+			/*static ChosenFewFX::ManagedPluginFactory p(gcnew ChosenFewFX::NET::Plugins::SolidColorGenerator());
+			ids.push_back(&p);*/
 		}
 	}
 }

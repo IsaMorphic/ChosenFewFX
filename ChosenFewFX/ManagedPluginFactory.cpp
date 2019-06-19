@@ -17,7 +17,8 @@ void ChosenFewFX::ManagedPluginFactory::describe(OFX::ImageEffectDescriptor &des
 	std::string label = marshal_as<std::string>(pluginHandle->Name);
 	desc.setLabels(label, label, label);
 	desc.setPluginGrouping("Chosen Few FX");
-	desc.addSupportedContext(eContextFilter);
+	//desc.addSupportedContext(eContextFilter);
+	desc.addSupportedContext(eContextGenerator);
 	desc.addSupportedContext(eContextGeneral);
 	desc.addSupportedBitDepth(eBitDepthFloat);
 	desc.addSupportedBitDepth(eBitDepthUByte);

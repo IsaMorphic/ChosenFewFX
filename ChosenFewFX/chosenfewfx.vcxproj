@@ -83,6 +83,7 @@
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\include;$(IncludePath)</IncludePath>
+    <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
@@ -90,6 +91,7 @@
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\include;$(IncludePath)</IncludePath>
+    <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
@@ -97,6 +99,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Program Files\ImageMagick-7.0.8-Q16\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>C:\Program Files\ImageMagick-7.0.8-Q16\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
@@ -104,6 +107,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Program Files\ImageMagick-7.0.8-Q16\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>C:\Program Files\ImageMagick-7.0.8-Q16\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -119,7 +123,7 @@
       <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PROPTESTER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>.\$(Configuration)-$(Platform)/%(Filename).pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
@@ -210,7 +214,7 @@
       <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>.\$(Configuration)-$(Platform)/%(Filename).pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
@@ -238,7 +242,8 @@
       <OutputFile>.\Debug/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"</Command>
+      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Debug-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"
+copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Debug\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -287,14 +292,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Plugin.cpp" />
-    <ClCompile Include="FilterProcessor.cpp" />
     <ClCompile Include="ManagedPluginFactory.cpp" />
     <ClCompile Include="ManagedProcessor.cpp" />
     <ClCompile Include="PluginRegistration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Plugin.h" />
-    <ClInclude Include="FilterProcessor.h" />
     <ClInclude Include="ManagedPluginFactory.h" />
     <ClInclude Include="ManagedProcessor.h" />
     <ClInclude Include="utils.h" />
