@@ -8,9 +8,9 @@ using namespace msclr::interop;
 #include "ofxsImageEffect.h"
 using namespace OFX;
 
-#include "Plugin.h"
+#include "GeneratorPlugin.h"
 #include "FilterPlugin.h"
-#include "ManagedProcessor.h"
+#include "GeneratorProcessor.h"
 #include "ManagedPluginFactory.h"
 #include "utils.h"
 void ChosenFewFX::ManagedPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
@@ -46,12 +46,47 @@ void ChosenFewFX::ManagedPluginFactory::describeInContext(OFX::ImageEffectDescri
 	dstClip->addSupportedComponent(ePixelComponentRGBA);
 	dstClip->addSupportedComponent(ePixelComponentAlpha);
 	dstClip->setSupportsTiles(true);
+
+	PageParamDescriptor *page = desc.definePageParam("Controls");
+
+	System::Type^ pluginType = pluginHandle->GetType();
+	auto fields = pluginType->GetFields();
+	for each(System::Reflection::FieldInfo^ field in fields)
+	{
+		auto paramAttrs = field->GetCustomAttributes(NET::ParamAttribute::typeid, false);
+		if (paramAttrs->Length == 1)
+		{
+			NET::ParamAttribute^ paramAttr = (NET::ParamAttribute^)paramAttrs[0];
+
+			std::string name = marshal_as<std::string>(field->Name);
+			std::string label = marshal_as<std::string>(System::String::Copy(paramAttr->Label));
+
+			ParamDescriptor *param;
+
+			if (field->FieldType == System::Boolean::typeid)
+				param = defineBoolParam(desc, name, label, "Nothing to see here...", NULL, safe_cast<bool>(paramAttr->DefaultValue));
+
+			else {
+				NET::RangeParamAttribute^ rangeAttr = (NET::RangeParamAttribute^)paramAttr;
+
+				if (field->FieldType == System::Int32::typeid)
+					param = defineIntParam(desc, name, label, "Nothing to see here...", NULL,
+					(int)rangeAttr->DefaultValue, (int)rangeAttr->MinimumValue, (int)rangeAttr->MaximumValue);
+
+				else if(field->FieldType == System::Double::typeid)
+					param = defineDoubleParam(desc, name, label, "Nothing to see here...", NULL,
+					(double)rangeAttr->DefaultValue, (double)rangeAttr->MinimumValue, (double)rangeAttr->MaximumValue);
+			}
+
+			page->addChild(*param);
+		}
+	}
 }
 
 ImageEffect* ChosenFewFX::ManagedPluginFactory::createInstance(OfxImageEffectHandle handle, OFX::ContextEnum /*context*/)
 {
-	if(pluginHandle->GetType()->BaseType == NET::FilterPlugin::typeid)
+	if (pluginHandle->GetType()->BaseType == NET::FilterPlugin::typeid)
 		return new FilterPlugin(handle, pluginHandle);
 	else
-		return new Plugin(handle, pluginHandle);
+		return new GeneratorPlugin(handle, pluginHandle);
 }

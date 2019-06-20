@@ -7,5 +7,5 @@ void ChosenFewFX::FilterProcessor::setSrcImg(OFX::Image *v)
 void ChosenFewFX::FilterProcessor::preProcess() 
 {
 	_managedHandle->SourceImage = linkPixelsToManagedImage(_srcImg);
-	ManagedProcessor::preProcess();
+	GeneratorProcessor::preProcess();
 }

@@ -18,13 +18,7 @@
     <ClCompile Include="PluginRegistration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManagedProcessor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ManagedPluginFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Plugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FilterProcessor.cpp">
@@ -33,24 +27,30 @@
     <ClCompile Include="FilterPlugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratorProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratorPlugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ManagedProcessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ManagedPluginFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Plugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FilterProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FilterPlugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratorProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratorPlugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

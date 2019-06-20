@@ -3,11 +3,11 @@
 #include "ofxsMultiThread.h"
 #include "../include/ofxsProcessing.H"
 namespace ChosenFewFX {
-	class ManagedProcessor : public OFX::ImageProcessor {
+	class GeneratorProcessor : public OFX::ImageProcessor {
 	private:
 		gcroot<NET::Plugin^> _managedHandle;
 	public:
-		ManagedProcessor(OFX::ImageEffect &instance, NET::Plugin^ handle) : 
+		GeneratorProcessor(OFX::ImageEffect &instance, NET::Plugin^ handle) : 
 			OFX::ImageProcessor(instance), _managedHandle(handle) {}
 
 		SkiaSharp::SKBitmap^ linkPixelsToManagedImage(OFX::Image *img);

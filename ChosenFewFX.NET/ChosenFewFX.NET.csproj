@@ -42,15 +42,17 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComplexGrid.cs" />
-    <Compile Include="FilterPlugin.cs" />
-    <Compile Include="Plugin.cs" />
-    <Compile Include="PointD.cs" />
-    <Compile Include="PointI.cs" />
+    <Compile Include="Geometry\ComplexGrid.cs" />
+    <Compile Include="Interop\FilterPlugin.cs" />
+    <Compile Include="Interop\ParamAttribute.cs" />
+    <Compile Include="Interop\Plugin.cs" />
+    <Compile Include="Geometry\PointD.cs" />
+    <Compile Include="Geometry\PointI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RectangleI.cs" />
-    <Compile Include="RectangleD.cs" />
-    <Compile Include="RedFilterPlugin.cs" />
+    <Compile Include="Interop\RangeParamAttribute.cs" />
+    <Compile Include="Geometry\RectangleI.cs" />
+    <Compile Include="Geometry\RectangleD.cs" />
+    <Compile Include="Plugins\RedFilterPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

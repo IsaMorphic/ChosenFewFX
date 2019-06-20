@@ -1,6 +1,6 @@
-#include "ManagedProcessor.h"
+#include "GeneratorProcessor.h"
 
-SkiaSharp::SKBitmap^ ChosenFewFX::ManagedProcessor::linkPixelsToManagedImage(OFX::Image *img)
+SkiaSharp::SKBitmap^ ChosenFewFX::GeneratorProcessor::linkPixelsToManagedImage(OFX::Image *img)
 {
 	OfxRectI bounds = img->getBounds();
 	int rowBytes = img->getRowBytes();
@@ -9,19 +9,19 @@ SkiaSharp::SKBitmap^ ChosenFewFX::ManagedProcessor::linkPixelsToManagedImage(OFX
 	return _managedHandle->LinkPixelsToManagedImage(managedBounds, pixelPointer);
 }
 
-void ChosenFewFX::ManagedProcessor::preProcess() 
+void ChosenFewFX::GeneratorProcessor::preProcess() 
 {
 	_managedHandle->DestImage = linkPixelsToManagedImage(_dstImg);
 	_managedHandle->PreProcess();
 }
 
-void ChosenFewFX::ManagedProcessor::multiThreadProcessImages(OfxRectI procWindow) 
+void ChosenFewFX::GeneratorProcessor::multiThreadProcessImages(OfxRectI procWindow) 
 {
 	NET::RectangleI region = NET::RectangleI(procWindow.x1, procWindow.y1, procWindow.x2, procWindow.y2);
 	_managedHandle->ProcessPixels(region);
 }
 
-void ChosenFewFX::ManagedProcessor::postProcess() 
+void ChosenFewFX::GeneratorProcessor::postProcess() 
 {
 	_managedHandle->PostProcess();
 }
