@@ -2,7 +2,7 @@
 using System;
 namespace ChosenFewFX.NET
 {
-    public class Plugin
+    public class BasePlugin
     {
         public string Id { get; protected set; }
 

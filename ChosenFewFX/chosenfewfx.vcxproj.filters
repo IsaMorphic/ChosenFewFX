@@ -27,10 +27,10 @@
     <ClCompile Include="FilterPlugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratorProcessor.cpp">
+    <ClCompile Include="BaseProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratorPlugin.cpp">
+    <ClCompile Include="BasePlugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,10 +47,10 @@
     <ClInclude Include="FilterPlugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratorProcessor.h">
+    <ClInclude Include="BaseProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratorPlugin.h">
+    <ClInclude Include="BasePlugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

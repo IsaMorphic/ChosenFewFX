@@ -45,7 +45,7 @@
     <Compile Include="Geometry\ComplexGrid.cs" />
     <Compile Include="Interop\FilterPlugin.cs" />
     <Compile Include="Interop\ParamAttribute.cs" />
-    <Compile Include="Interop\Plugin.cs" />
+    <Compile Include="Interop\BasePlugin.cs" />
     <Compile Include="Geometry\PointD.cs" />
     <Compile Include="Geometry\PointI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

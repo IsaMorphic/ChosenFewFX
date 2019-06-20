@@ -1,13 +1,13 @@
 #pragma once
-#include "GeneratorPlugin.h"
+#include "BasePlugin.h"
 namespace ChosenFewFX {
-	class FilterPlugin : public GeneratorPlugin
+	class FilterPlugin : public BasePlugin
 	{
 	private:
 		gcroot<NET::FilterPlugin^> pluginHandle;
 	public:
-		FilterPlugin(OfxImageEffectHandle handle, NET::Plugin^ plugin) :
-			GeneratorPlugin(handle, plugin), pluginHandle((NET::FilterPlugin^)plugin) {}
+		FilterPlugin(OfxImageEffectHandle handle, NET::BasePlugin^ plugin) :
+			BasePlugin(handle, plugin), pluginHandle((NET::FilterPlugin^)plugin) {}
 		void render(const OFX::RenderArguments &args);
 	};
 }

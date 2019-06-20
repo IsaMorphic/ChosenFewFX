@@ -8,9 +8,9 @@ using namespace msclr::interop;
 #include "ofxsImageEffect.h"
 using namespace OFX;
 
-#include "GeneratorPlugin.h"
+#include "BasePlugin.h"
 #include "FilterPlugin.h"
-#include "GeneratorProcessor.h"
+#include "BaseProcessor.h"
 #include "ManagedPluginFactory.h"
 #include "utils.h"
 void ChosenFewFX::ManagedPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
@@ -88,5 +88,5 @@ ImageEffect* ChosenFewFX::ManagedPluginFactory::createInstance(OfxImageEffectHan
 	if (pluginHandle->GetType()->BaseType == NET::FilterPlugin::typeid)
 		return new FilterPlugin(handle, pluginHandle);
 	else
-		return new GeneratorPlugin(handle, pluginHandle);
+		return new BasePlugin(handle, pluginHandle);
 }

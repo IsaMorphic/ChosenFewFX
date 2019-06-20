@@ -6,7 +6,7 @@ namespace OFX
 	{
 		void getPluginIDs(OFX::PluginFactoryArray &ids)
 		{
-			System::Type^ pluginType = ChosenFewFX::NET::Plugin::typeid;
+			System::Type^ pluginType = ChosenFewFX::NET::BasePlugin::typeid;
 			System::Reflection::Assembly^ managedAssembly = 
 				System::Reflection::Assembly::GetAssembly(pluginType);
 			auto types = managedAssembly->GetTypes();
@@ -15,7 +15,7 @@ namespace OFX
 				if (type->IsSubclassOf(pluginType) && type->Namespace == "ChosenFewFX.NET.Plugins") 
 				{
 					System::Object^ pluginHandle = System::Activator::CreateInstance(type);
-					static ChosenFewFX::ManagedPluginFactory p((ChosenFewFX::NET::Plugin^)pluginHandle);
+					static ChosenFewFX::ManagedPluginFactory p((ChosenFewFX::NET::BasePlugin^)pluginHandle);
 					ids.push_back(&p);
 				}
 			}

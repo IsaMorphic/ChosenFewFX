@@ -2,7 +2,7 @@
 
 namespace ChosenFewFX.NET
 {
-    public class FilterPlugin : Plugin
+    public class FilterPlugin : BasePlugin
     {
         public SKBitmap SourceImage { get; set; }
     }
