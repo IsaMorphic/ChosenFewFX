@@ -2,6 +2,7 @@
 using SkiaSharp;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace ChosenFewFX.NET.Plugins
 {
@@ -10,14 +11,17 @@ namespace ChosenFewFX.NET.Plugins
         private Func<Complex, Complex> fDir;
         private Func<Complex, Complex> fInv;
 
-        private RectangleI ImageBounds => new RectangleI(0, 0, SourceImage.Width, SourceImage.Height);
+        private RectangleI ImageBounds => new RectangleI(0, 0, sourceImage.Width, sourceImage.Height);
         private RectangleD ProjectionBounds = new RectangleD(-1, 1, 1, -1);
 
-        [RangeParam(DefaultValue = .2, Label = "Real Coordinate", MinimumValue = -64.0, MaximumValue = 64.0)]
+        [RangeParam(DefaultValue = .2, Label = "Real Coordinate", MinimumValue = -2.0, MaximumValue = 2.0)]
         public double Real;
 
-        [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", MinimumValue = -64.0, MaximumValue = 64.0)]
+        [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", MinimumValue = -2.0, MaximumValue = 2.0)]
         public double Imag;
+
+        [RangeParam(DefaultValue = .5, Label = "Morph Amount", MinimumValue = 0.0, MaximumValue = 1.0)]
+        public double Alpha;
 
         public JuliaDistortPlugin()
         {
@@ -27,7 +31,7 @@ namespace ChosenFewFX.NET.Plugins
             Name = "Julia Distort";
             fDir = z =>
             {
-                Complex c = new Complex(Real % 2, Imag % 2);
+                Complex c = new Complex(Real, Imag);
                 for (int i = 0; i < 4; i++)
                     z = z * z + c;
                 return z;
@@ -40,22 +44,22 @@ namespace ChosenFewFX.NET.Plugins
             ComplexGrid gridDirect = new ComplexGrid(ImageBounds, ProjectionBounds, fDir);
             ComplexGrid gridInverse = new ComplexGrid(ImageBounds, ProjectionBounds, fInv);
 
-            for (int y = region.TopLeft.Y; y < region.BottomRight.Y; y++)
+            Parallel.For(region.TopLeft.Y, region.BottomRight.Y, y =>
             {
-                for (int x = region.TopLeft.X; x < region.BottomRight.X; x++)
+                Parallel.For(region.TopLeft.X, region.BottomRight.X, x =>
                 {
-                    var pDir = (PointI)gridDirect[x, y];
-                    var pInv = (PointI)gridInverse[x, y];
+                    var pDir = (PointI)lerpPoint(new PointD(x, y), gridDirect[x, y], Alpha);
+                    var pInv = (PointI)lerpPoint(new PointD(x, y), gridInverse[x, y], Alpha);
                     SKColor color;
                     if (IsPointInRange(pDir, ImageBounds))
-                        color = SourceImage.GetPixel(pDir.X, pDir.Y);
+                        color = sourceImage.GetPixel(pDir.X, pDir.Y);
                     else if (IsPointInRange(pInv, ImageBounds))
-                        color = SourceImage.GetPixel(pInv.X, pInv.Y);
+                        color = sourceImage.GetPixel(pInv.X, pInv.Y);
                     else
                         color = SKColor.Empty;
-                    DestImage.SetPixel(x, y, color);
-                }
-            }
+                    destImage.SetPixel(x, y, color);
+                });
+            });
         }
 
         private bool IsPointInRange(PointD p, RectangleD bounds)
@@ -64,6 +68,18 @@ namespace ChosenFewFX.NET.Plugins
             bool tooBig = p.X >= bounds.BottomRight.X || p.Y >= bounds.BottomRight.Y;
             bool tooSmall = p.X < bounds.TopLeft.X || p.Y < bounds.TopLeft.Y;
             return !(isNaN || tooBig || tooSmall);
+        }
+
+        private PointD lerpPoint(PointD p0, PointD p1, double alpha)
+        {
+            double newX = lerpValue(p0.X, p1.X, alpha);
+            double newY = p0.Y + (newX - p0.X) * (p1.Y - p0.Y) / (p1.X - p0.X);
+            return new PointD(newX, newY);
+        }
+
+        private double lerpValue(double v0, double v1, double t)
+        {
+            return (1 - t) * v0 + t * v1;
         }
     }
 }

@@ -4,6 +4,8 @@ namespace ChosenFewFX.NET
 {
     public class BasePlugin
     {
+        protected SKBitmap destImage;
+
         public string Id { get; protected set; }
 
         public int MajorVersion { get; protected set; }
@@ -11,9 +13,9 @@ namespace ChosenFewFX.NET
 
         public string Name { get; protected set; }
 
-        public SKBitmap DestImage { get; set; }
+        public ImageWrapper DestImage { set => destImage = value; }
 
-        public SKBitmap LinkPixelsToManagedImage(RectangleI imageBounds, IntPtr pixels)
+        public ImageWrapper LinkPixelsToManagedImage(RectangleI imageBounds, IntPtr pixels)
         {
             SKImageInfo info = new SKImageInfo()
                 .WithSize(imageBounds.Width, imageBounds.Height)
@@ -21,7 +23,7 @@ namespace ChosenFewFX.NET
                 .WithAlphaType(SKAlphaType.Premul);
             SKBitmap image = new SKBitmap(info);
             image.SetPixels(pixels);
-            return image;
+            return new ImageWrapper(image);
         }
 
         public virtual void PreProcess() { }

@@ -1,6 +1,6 @@
 #include "BaseProcessor.h"
 
-SkiaSharp::SKBitmap^ ChosenFewFX::BaseProcessor::linkPixelsToManagedImage(OFX::Image *img)
+ChosenFewFX::NET::ImageWrapper^ ChosenFewFX::BaseProcessor::linkPixelsToManagedImage(OFX::Image *img)
 {
 	OfxRectI bounds = img->getBounds();
 	int rowBytes = img->getRowBytes();

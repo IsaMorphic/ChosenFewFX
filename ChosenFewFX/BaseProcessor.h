@@ -10,7 +10,7 @@ namespace ChosenFewFX {
 		BaseProcessor(OFX::ImageEffect &instance, NET::BasePlugin^ handle) : 
 			OFX::ImageProcessor(instance), _managedHandle(handle) {}
 
-		SkiaSharp::SKBitmap^ linkPixelsToManagedImage(OFX::Image *img);
+		ChosenFewFX::NET::ImageWrapper^ linkPixelsToManagedImage(OFX::Image *img);
 
 		virtual void preProcess();
 		virtual void multiThreadProcessImages(OfxRectI procWindow);

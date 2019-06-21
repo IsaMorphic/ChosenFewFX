@@ -81,32 +81,24 @@
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\include;$(IncludePath)</IncludePath>
     <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Program Files %28x86%29\ImageMagick-7.0.8-Q16\include;$(IncludePath)</IncludePath>
     <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\ImageMagick-7.0.8-Q16\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>C:\Program Files\ImageMagick-7.0.8-Q16\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\ImageMagick-7.0.8-Q16\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>C:\Program Files\ImageMagick-7.0.8-Q16\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -138,7 +130,6 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;$(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win32/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -184,7 +175,6 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;$(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win32/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>$(IntDir)$(ProjectName).pdb</ProgramDatabaseFile>
@@ -229,7 +219,6 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;$(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -243,7 +232,7 @@
     </Bscmake>
     <PostBuildEvent>
       <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Debug-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"
-copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Debug\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\"</Command>
+copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Debug\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -275,7 +264,6 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\D
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;CORE_RL_Magick++_.lib;$(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
@@ -287,7 +275,8 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\D
       <OutputFile>.\Release/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"</Command>
+      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"
+copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Release\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -311,16 +300,10 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\D
   <ItemGroup>
     <ProjectReference Include="..\ChosenFewFX.NET\ChosenFewFX.NET.csproj">
       <Project>{c0daaa41-e053-4922-98df-4a51cddbca9e}</Project>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\Library\ofxsupport.vcxproj">
       <Project>{257ec9ee-530a-4a6f-8b2e-aab1c8458707}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="SkiaSharp">
-      <HintPath>..\packages\SkiaSharp.1.68.0\lib\net45\SkiaSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
