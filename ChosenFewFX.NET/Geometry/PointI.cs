@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChosenFewFX.NET
+﻿
+namespace ChosenFewFX.NET.Geometry
 {
     public struct PointI
     {

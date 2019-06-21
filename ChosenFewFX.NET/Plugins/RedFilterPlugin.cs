@@ -1,4 +1,6 @@
-﻿using SkiaSharp;
+﻿using ChosenFewFX.NET.Geometry;
+using ChosenFewFX.NET.Interop;
+using SkiaSharp;
 
 namespace ChosenFewFX.NET.Plugins
 {

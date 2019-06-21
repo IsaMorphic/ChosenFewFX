@@ -20,7 +20,7 @@ void ChosenFewFX::ManagedPluginFactory<T>::describe(OFX::ImageEffectDescriptor &
 	desc.setLabels(label, label, label);
 	desc.setPluginGrouping("Chosen Few FX");
 
-	if (pluginHandle->GetType()->BaseType == NET::FilterPlugin::typeid)
+	if (pluginHandle->GetType()->BaseType == NET::Interop::FilterPlugin::typeid)
 		desc.addSupportedContext(eContextFilter);
 	else
 		desc.addSupportedContext(eContextGenerator);
@@ -52,10 +52,10 @@ void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDes
 	auto fields = pluginType->GetFields();
 	for each(System::Reflection::FieldInfo^ field in fields)
 	{
-		auto paramAttrs = field->GetCustomAttributes(NET::ParamAttribute::typeid, false);
+		auto paramAttrs = field->GetCustomAttributes(NET::Interop::ParamAttribute::typeid, false);
 		if (paramAttrs->Length == 1)
 		{
-			NET::ParamAttribute^ paramAttr = (NET::ParamAttribute^)paramAttrs[0];
+			NET::Interop::ParamAttribute^ paramAttr = (NET::Interop::ParamAttribute^)paramAttrs[0];
 
 			std::string name = marshal_as<std::string>(field->Name);
 			std::string label = marshal_as<std::string>(System::String::Copy(paramAttr->Label));
@@ -66,7 +66,7 @@ void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDes
 				param = defineBoolParam(desc, name, label, "Nothing to see here...", NULL, safe_cast<bool>(paramAttr->DefaultValue));
 
 			else {
-				NET::RangeParamAttribute^ rangeAttr = (NET::RangeParamAttribute^)paramAttrs[0];
+				NET::Interop::RangeParamAttribute^ rangeAttr = (NET::Interop::RangeParamAttribute^)paramAttrs[0];
 
 				if (field->FieldType == System::Int32::typeid)
 					param = defineIntParam(desc, name, label, "Nothing to see here...", NULL,
@@ -85,7 +85,7 @@ void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDes
 template<class T>
 ImageEffect* ChosenFewFX::ManagedPluginFactory<T>::createInstance(OfxImageEffectHandle handle, OFX::ContextEnum /*context*/)
 {
-	if (pluginHandle->GetType()->BaseType == NET::FilterPlugin::typeid)
+	if (pluginHandle->GetType()->BaseType == NET::Interop::FilterPlugin::typeid)
 		return new FilterPlugin(handle, pluginHandle);
 	else
 		return new BasePlugin(handle, pluginHandle);

@@ -5,12 +5,12 @@
 namespace ChosenFewFX {
 	class BaseProcessor : public OFX::ImageProcessor {
 	private:
-		gcroot<NET::BasePlugin^> _managedHandle;
+		gcroot<NET::Interop::BasePlugin^> _managedHandle;
 	public:
-		BaseProcessor(OFX::ImageEffect &instance, NET::BasePlugin^ handle) : 
+		BaseProcessor(OFX::ImageEffect &instance, NET::Interop::BasePlugin^ handle) : 
 			OFX::ImageProcessor(instance), _managedHandle(handle) {}
 
-		ChosenFewFX::NET::ImageWrapper^ linkPixelsToManagedImage(OFX::Image *img);
+		NET::Interop::ImageWrapper^ linkPixelsToManagedImage(OFX::Image *img);
 
 		virtual void preProcess();
 		virtual void multiThreadProcessImages(OfxRectI procWindow);

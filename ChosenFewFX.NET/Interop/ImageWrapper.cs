@@ -1,6 +1,6 @@
 ﻿using SkiaSharp;
 
-namespace ChosenFewFX.NET
+namespace ChosenFewFX.NET.Interop
 {
     public class ImageWrapper
     {

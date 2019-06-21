@@ -11,14 +11,14 @@ namespace ChosenFewFX {
 	class BasePlugin : public OFX::ImageEffect
 	{
 	private:
-		gcroot<NET::BasePlugin^> pluginHandle;
+		gcroot<NET::Interop::BasePlugin^> pluginHandle;
 		gcroot<List<System::Reflection::FieldInfo^>^> paramFields;
 	protected:
 		OFX::Clip *srcClip_;
 		OFX::Clip *dstClip_;
 		void transferParams(const OFX::RenderArguments &args);
 	public:
-		BasePlugin(OfxImageEffectHandle handle, NET::BasePlugin^ plugin);
+		BasePlugin(OfxImageEffectHandle handle, NET::Interop::BasePlugin^ plugin);
 
 		virtual void render(const OFX::RenderArguments &args);
 

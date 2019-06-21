@@ -1,6 +1,7 @@
-﻿using SkiaSharp;
+﻿using ChosenFewFX.NET.Geometry;
+using SkiaSharp;
 using System;
-namespace ChosenFewFX.NET
+namespace ChosenFewFX.NET.Interop
 {
     public class BasePlugin
     {

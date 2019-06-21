@@ -3,10 +3,10 @@
 namespace ChosenFewFX {
 	class FilterProcessor : public BaseProcessor {
 	private:
-		gcroot<NET::FilterPlugin^> _managedHandle;
+		gcroot<NET::Interop::FilterPlugin^> _managedHandle;
 		OFX::Image *_srcImg;
 	public:
-		FilterProcessor(OFX::ImageEffect &instance, NET::FilterPlugin^ handle) :
+		FilterProcessor(OFX::ImageEffect &instance, NET::Interop::FilterPlugin^ handle) :
 			BaseProcessor(instance, handle), _srcImg(0),
 			_managedHandle(handle) {}
 		void preProcess();

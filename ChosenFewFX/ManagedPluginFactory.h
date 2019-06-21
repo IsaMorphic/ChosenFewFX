@@ -10,9 +10,9 @@ namespace ChosenFewFX {
 	class ManagedPluginFactory : public OFX::PluginFactoryHelper<T>
 	{
 	private:
-		gcroot<NET::BasePlugin^> pluginHandle;
+		gcroot<NET::Interop::BasePlugin^> pluginHandle;
 	public:
-		ManagedPluginFactory(NET::BasePlugin^ handle) : 
+		ManagedPluginFactory(NET::Interop::BasePlugin^ handle) : 
 			OFX::PluginFactoryHelper<T>(
 				marshal_as<std::string>(handle->Id), 
 				handle->MajorVersion, handle->MinorVersion), 

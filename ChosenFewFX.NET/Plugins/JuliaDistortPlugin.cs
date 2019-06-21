@@ -1,4 +1,6 @@
 ﻿
+using ChosenFewFX.NET.Geometry;
+using ChosenFewFX.NET.Interop;
 using SkiaSharp;
 using System;
 using System.Numerics;

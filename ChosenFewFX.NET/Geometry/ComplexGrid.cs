@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 
-namespace ChosenFewFX.NET
+namespace ChosenFewFX.NET.Geometry
 {
     public class ComplexGrid
     {

@@ -1,6 +1,6 @@
 #include "BasePlugin.h"
 
-ChosenFewFX::BasePlugin::BasePlugin(OfxImageEffectHandle handle, NET::BasePlugin^ plugin) :
+ChosenFewFX::BasePlugin::BasePlugin(OfxImageEffectHandle handle, NET::Interop::BasePlugin^ plugin) :
 	OFX::ImageEffect(handle), dstClip_(0), srcClip_(0), pluginHandle(plugin), 
 	paramFields(gcnew List<System::Reflection::FieldInfo^>)
 {
@@ -11,7 +11,7 @@ ChosenFewFX::BasePlugin::BasePlugin(OfxImageEffectHandle handle, NET::BasePlugin
 	auto fields = pluginType->GetFields();
 	for each(System::Reflection::FieldInfo^ field in fields)
 	{
-		auto paramAttrs = field->GetCustomAttributes(NET::ParamAttribute::typeid, false);
+		auto paramAttrs = field->GetCustomAttributes(NET::Interop::ParamAttribute::typeid, false);
 		if (paramAttrs->Length == 1)
 			paramFields->Add(field);
 	}
