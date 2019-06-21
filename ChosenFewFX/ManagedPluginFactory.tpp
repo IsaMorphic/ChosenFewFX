@@ -11,9 +11,10 @@ using namespace OFX;
 #include "BasePlugin.h"
 #include "FilterPlugin.h"
 #include "BaseProcessor.h"
-#include "ManagedPluginFactory.h"
 #include "utils.h"
-void ChosenFewFX::ManagedPluginFactory::describe(OFX::ImageEffectDescriptor &desc)
+
+template<class T>
+void ChosenFewFX::ManagedPluginFactory<T>::describe(OFX::ImageEffectDescriptor &desc)
 {
 	std::string label = marshal_as<std::string>(pluginHandle->Name);
 	desc.setLabels(label, label, label);
@@ -28,19 +29,17 @@ void ChosenFewFX::ManagedPluginFactory::describe(OFX::ImageEffectDescriptor &des
 	desc.addSupportedBitDepth(eBitDepthFloat);
 	desc.addSupportedBitDepth(eBitDepthUByte);
 	desc.addSupportedBitDepth(eBitDepthUShort);
-	desc.setHostFrameThreading(false);
+	desc.setRenderThreadSafety(eRenderUnsafe);
 	desc.setRenderTwiceAlways(false);
-	desc.setRenderThreadSafety(eRenderInstanceSafe);
 }
 
-void ChosenFewFX::ManagedPluginFactory::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::ContextEnum context)
+template<class T>
+void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::ContextEnum context)
 {
 	ClipDescriptor *srcClip = desc.defineClip(kOfxImageEffectSimpleSourceClipName);
 	srcClip->addSupportedComponent(ePixelComponentRGBA);
 	srcClip->addSupportedComponent(ePixelComponentAlpha);
-	srcClip->setTemporalClipAccess(false);
 	srcClip->setSupportsTiles(true);
-	srcClip->setIsMask(false);
 
 	ClipDescriptor *dstClip = desc.defineClip(kOfxImageEffectOutputClipName);
 	dstClip->addSupportedComponent(ePixelComponentRGBA);
@@ -67,15 +66,15 @@ void ChosenFewFX::ManagedPluginFactory::describeInContext(OFX::ImageEffectDescri
 				param = defineBoolParam(desc, name, label, "Nothing to see here...", NULL, safe_cast<bool>(paramAttr->DefaultValue));
 
 			else {
-				NET::RangeParamAttribute^ rangeAttr = (NET::RangeParamAttribute^)paramAttr;
+				NET::RangeParamAttribute^ rangeAttr = (NET::RangeParamAttribute^)paramAttrs[0];
 
 				if (field->FieldType == System::Int32::typeid)
 					param = defineIntParam(desc, name, label, "Nothing to see here...", NULL,
-					(int)rangeAttr->DefaultValue, (int)rangeAttr->MinimumValue, (int)rangeAttr->MaximumValue);
+						safe_cast<int>(rangeAttr->MinimumValue), safe_cast<int>(rangeAttr->MaximumValue), safe_cast<int>(rangeAttr->DefaultValue));
 
 				else if(field->FieldType == System::Double::typeid)
 					param = defineDoubleParam(desc, name, label, "Nothing to see here...", NULL,
-					(double)rangeAttr->DefaultValue, (double)rangeAttr->MinimumValue, (double)rangeAttr->MaximumValue);
+						safe_cast<double>(rangeAttr->MinimumValue), safe_cast<double>(rangeAttr->MaximumValue), safe_cast<double>(rangeAttr->DefaultValue));
 			}
 
 			page->addChild(*param);
@@ -83,7 +82,8 @@ void ChosenFewFX::ManagedPluginFactory::describeInContext(OFX::ImageEffectDescri
 	}
 }
 
-ImageEffect* ChosenFewFX::ManagedPluginFactory::createInstance(OfxImageEffectHandle handle, OFX::ContextEnum /*context*/)
+template<class T>
+ImageEffect* ChosenFewFX::ManagedPluginFactory<T>::createInstance(OfxImageEffectHandle handle, OFX::ContextEnum /*context*/)
 {
 	if (pluginHandle->GetType()->BaseType == NET::FilterPlugin::typeid)
 		return new FilterPlugin(handle, pluginHandle);

@@ -6,13 +6,14 @@
 
 using namespace msclr::interop;
 namespace ChosenFewFX {
-	class ManagedPluginFactory : public OFX::PluginFactoryHelper<ManagedPluginFactory>
+	template<class T>
+	class ManagedPluginFactory : public OFX::PluginFactoryHelper<T>
 	{
 	private:
 		gcroot<NET::BasePlugin^> pluginHandle;
 	public:
 		ManagedPluginFactory(NET::BasePlugin^ handle) : 
-			OFX::PluginFactoryHelper<ManagedPluginFactory>(
+			OFX::PluginFactoryHelper<T>(
 				marshal_as<std::string>(handle->Id), 
 				handle->MajorVersion, handle->MinorVersion), 
 			pluginHandle(handle) {}
@@ -21,3 +22,5 @@ namespace ChosenFewFX {
 		virtual OFX::ImageEffect* createInstance(OfxImageEffectHandle handle, OFX::ContextEnum context);
 	};
 }
+
+#include "ManagedPluginFactory.tpp"

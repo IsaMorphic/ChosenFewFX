@@ -4,7 +4,7 @@ namespace ChosenFewFX.NET.Plugins
 {
     public class RedFilterPlugin : FilterPlugin
     {
-        public RedFilterPlugin() : base()
+        public RedFilterPlugin()
         {
             Id = "com.chosenfewsoftware.openfx.red";
             MajorVersion = 1;

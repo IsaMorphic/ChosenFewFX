@@ -28,5 +28,10 @@ namespace ChosenFewFX.NET
             TopLeft = new PointI(x1, y1);
             BottomRight = new PointI(x2, y2);
         }
+
+        public static implicit operator RectangleD(RectangleI rect)
+        {
+            return new RectangleD(rect.TopLeft, rect.BottomRight);
+        }
     }
 }

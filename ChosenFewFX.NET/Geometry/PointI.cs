@@ -34,5 +34,10 @@ namespace ChosenFewFX.NET
         {
             return new PointI(left.X * right, left.Y * right);
         }
+
+        public static implicit operator PointD(PointI point)
+        {
+            return new PointD(point.X, point.Y);
+        }
     }
 }

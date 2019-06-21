@@ -48,6 +48,7 @@
     <Compile Include="Interop\BasePlugin.cs" />
     <Compile Include="Geometry\PointD.cs" />
     <Compile Include="Geometry\PointI.cs" />
+    <Compile Include="Plugins\JuliaDistortPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interop\RangeParamAttribute.cs" />
     <Compile Include="Geometry\RectangleI.cs" />
