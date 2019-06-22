@@ -23,6 +23,7 @@ void ChosenFewFX::BasePlugin::render(const OFX::RenderArguments &args)
 	std::auto_ptr<OFX::Image> dst(dstClip_->fetchImage(args.time));
 	processor.setDstImg(dst.get());
 	processor.setRenderWindow(args.renderWindow);
+	processor.setCurrentTime(args.time);
 	transferParams(args);
 	processor.process();
 }

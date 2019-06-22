@@ -10,7 +10,9 @@ namespace ChosenFewFX {
 		BaseProcessor(OFX::ImageEffect &instance, NET::Interop::BasePlugin^ handle) : 
 			OFX::ImageProcessor(instance), _managedHandle(handle) {}
 
-		NET::Interop::ImageWrapper^ linkPixelsToManagedImage(OFX::Image *img);
+		NET::Interop::ImageWrapper^ linkPixelsToManagedImage(OFX::Image *img, NET::Interop::ImageType imageType);
+
+		void setCurrentTime(OfxTime time);
 
 		virtual void preProcess();
 		virtual void multiThreadProcessImages(OfxRectI procWindow);

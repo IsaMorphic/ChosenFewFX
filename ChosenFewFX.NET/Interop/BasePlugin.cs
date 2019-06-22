@@ -3,9 +3,14 @@ using SkiaSharp;
 using System;
 namespace ChosenFewFX.NET.Interop
 {
+    public enum ImageType
+    {
+        Rgba = 4,
+        Bgra = 6
+    }
     public class BasePlugin
     {
-        protected SKBitmap destImage;
+        protected SKBitmap DestImage;
 
         public string Id { get; protected set; }
 
@@ -14,13 +19,15 @@ namespace ChosenFewFX.NET.Interop
 
         public string Name { get; protected set; }
 
-        public ImageWrapper DestImage { set => destImage = value; }
+        public ImageWrapper _DestImage { set => DestImage = value; }
 
-        public ImageWrapper LinkPixelsToManagedImage(RectangleI imageBounds, IntPtr pixels)
+        public double CurrentTime;
+
+        public ImageWrapper LinkPixelsToManagedImage(RectangleI imageBounds, IntPtr pixels, ImageType imageType)
         {
             SKImageInfo info = new SKImageInfo()
                 .WithSize(imageBounds.Width, imageBounds.Height)
-                .WithColorType(SKColorType.Bgra8888)
+                .WithColorType((SKColorType)imageType)
                 .WithAlphaType(SKAlphaType.Premul);
             SKBitmap image = new SKBitmap(info);
             image.SetPixels(pixels);

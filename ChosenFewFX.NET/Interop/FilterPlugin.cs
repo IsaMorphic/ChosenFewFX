@@ -4,8 +4,8 @@ namespace ChosenFewFX.NET.Interop
 {
     public class FilterPlugin : BasePlugin
     {
-        protected SKBitmap sourceImage;
+        protected SKBitmap SourceImage;
 
-        public ImageWrapper SourceImage { set => sourceImage = value; }
+        public ImageWrapper _SourceImage { set => SourceImage = value; }
     }
 }

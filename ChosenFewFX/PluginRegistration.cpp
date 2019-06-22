@@ -39,6 +39,8 @@ namespace OFX
 		{		
 			DEF_PLUG(ChosenFewFX::NET::Plugins::RedFilterPlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::JuliaDistortPlugin);
+			DEF_PLUG(ChosenFewFX::NET::Plugins::MandelbrotGeneratorPlugin);
+			DEF_PLUG(ChosenFewFX::NET::Plugins::WaveFormGeneratorPlugin);
 		}
 	}
 }

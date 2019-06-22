@@ -13,7 +13,7 @@ namespace ChosenFewFX.NET.Plugins
         private Func<Complex, Complex> fDir;
         private Func<Complex, Complex> fInv;
 
-        private RectangleI ImageBounds => new RectangleI(0, 0, sourceImage.Width, sourceImage.Height);
+        private RectangleI ImageBounds => new RectangleI(0, 0, SourceImage.Width, SourceImage.Height);
         private RectangleD ProjectionBounds = new RectangleD(-1, 1, 1, -1);
 
         [RangeParam(DefaultValue = .2, Label = "Real Coordinate", MinimumValue = -2.0, MaximumValue = 2.0)]
@@ -22,7 +22,10 @@ namespace ChosenFewFX.NET.Plugins
         [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", MinimumValue = -2.0, MaximumValue = 2.0)]
         public double Imag;
 
-        [RangeParam(DefaultValue = .5, Label = "Morph Amount", MinimumValue = 0.0, MaximumValue = 1.0)]
+        [RangeParam(DefaultValue = 4, Label = "Iteration Count", MinimumValue = 0, MaximumValue = 10)]
+        public int IterCount;
+
+        [RangeParam(DefaultValue = .5, Label = "Distortion Alpha", MinimumValue = 0.0, MaximumValue = 1.0)]
         public double Alpha;
 
         public JuliaDistortPlugin()
@@ -34,7 +37,7 @@ namespace ChosenFewFX.NET.Plugins
             fDir = z =>
             {
                 Complex c = new Complex(Real, Imag);
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < IterCount; i++)
                     z = z * z + c;
                 return z;
             };
@@ -54,12 +57,12 @@ namespace ChosenFewFX.NET.Plugins
                     var pInv = (PointI)lerpPoint(new PointD(x, y), gridInverse[x, y], Alpha);
                     SKColor color;
                     if (IsPointInRange(pDir, ImageBounds))
-                        color = sourceImage.GetPixel(pDir.X, pDir.Y);
+                        color = SourceImage.GetPixel(pDir.X, pDir.Y);
                     else if (IsPointInRange(pInv, ImageBounds))
-                        color = sourceImage.GetPixel(pInv.X, pInv.Y);
+                        color = SourceImage.GetPixel(pInv.X, pInv.Y);
                     else
                         color = SKColor.Empty;
-                    destImage.SetPixel(x, y, color);
+                    DestImage.SetPixel(x, y, color);
                 });
             });
         }
