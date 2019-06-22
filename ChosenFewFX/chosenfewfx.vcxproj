@@ -287,6 +287,7 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\R
       <FileType>CppHeader</FileType>
     </ClInclude>
     <ClCompile Include="BaseProcessor.cpp" />
+    <ClCompile Include="Loader.cpp" />
     <ClCompile Include="PluginRegistration.cpp" />
   </ItemGroup>
   <ItemGroup>

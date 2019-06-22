@@ -60,9 +60,6 @@ StringParamDescriptor *defineStringParam(OFX::ImageEffectDescriptor &desc,
 	param->setDefault(def);
 	param->setStringType(type);
 	param->setAnimates(false);
-	param->setEvaluateOnChange(false);
-	param->setFilePathExists(false);
-	param->setIsPersistant(false);
 	if (parent)
 		param->setParent(*parent);
 	return param;
