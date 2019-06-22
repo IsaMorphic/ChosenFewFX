@@ -283,7 +283,7 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\R
     <ClCompile Include="FilterPlugin.cpp" />
     <ClCompile Include="FilterProcessor.cpp" />
     <ClCompile Include="BasePlugin.cpp" />
-    <ClInclude Include="ManagedPluginFactory.tpp">
+    <ClInclude Include="ManagedPluginFactory.cpp">
       <FileType>CppHeader</FileType>
     </ClInclude>
     <ClCompile Include="BaseProcessor.cpp" />

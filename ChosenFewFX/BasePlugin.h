@@ -16,7 +16,7 @@ namespace ChosenFewFX {
 	protected:
 		OFX::Clip *srcClip_;
 		OFX::Clip *dstClip_;
-		void transferParams(const OFX::RenderArguments &args);
+		void transferParams(OfxTime time);
 	public:
 		BasePlugin(OfxImageEffectHandle handle, NET::Interop::BasePlugin^ plugin);
 

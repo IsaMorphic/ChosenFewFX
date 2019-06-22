@@ -39,5 +39,7 @@ namespace ChosenFewFX.NET.Interop
         public virtual void ProcessPixels(RectangleI region) { }
 
         public virtual void PostProcess() { }
+
+        public virtual void ParamUpdated(string paramName) { }
     }
 }

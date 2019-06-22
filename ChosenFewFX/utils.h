@@ -47,3 +47,23 @@ BooleanParamDescriptor *defineBoolParam(OFX::ImageEffectDescriptor &desc,
 		param->setParent(*parent);
 	return param;
 }
+
+static
+StringParamDescriptor *defineStringParam(OFX::ImageEffectDescriptor &desc,
+	const std::string &name, const std::string &label, const std::string &hint,
+	GroupParamDescriptor *parent, const std::string &def, OFX::StringTypeEnum type)
+{
+	StringParamDescriptor *param = desc.defineStringParam(name);
+	param->setLabels(label, label, label);
+	param->setScriptName(name);
+	param->setHint(hint);
+	param->setDefault(def);
+	param->setStringType(type);
+	param->setAnimates(false);
+	param->setEvaluateOnChange(false);
+	param->setFilePathExists(false);
+	param->setIsPersistant(false);
+	if (parent)
+		param->setParent(*parent);
+	return param;
+}

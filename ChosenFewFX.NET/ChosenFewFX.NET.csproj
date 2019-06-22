@@ -50,12 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Geometry\ComplexGrid.cs" />
+    <Compile Include="Interop\Color.cs" />
     <Compile Include="Interop\FilterPlugin.cs" />
     <Compile Include="Interop\ImageWrapper.cs" />
     <Compile Include="Interop\ParamAttribute.cs" />
     <Compile Include="Interop\BasePlugin.cs" />
     <Compile Include="Geometry\PointD.cs" />
     <Compile Include="Geometry\PointI.cs" />
+    <Compile Include="Interop\StringParamAttribute.cs" />
     <Compile Include="Plugins\JuliaDistortPlugin.cs" />
     <Compile Include="Plugins\MandelbrotGeneratorPlugin.cs" />
     <Compile Include="Plugins\WaveFormGeneratorPlugin.cs" />

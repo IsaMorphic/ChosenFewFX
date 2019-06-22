@@ -23,4 +23,4 @@ namespace ChosenFewFX {
 	};
 }
 
-#include "ManagedPluginFactory.tpp"
+#include "ManagedPluginFactory.cpp"

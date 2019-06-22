@@ -26,9 +26,7 @@ void ChosenFewFX::ManagedPluginFactory<T>::describe(OFX::ImageEffectDescriptor &
 		desc.addSupportedContext(eContextGenerator);
 
 	desc.addSupportedContext(eContextGeneral);
-	desc.addSupportedBitDepth(eBitDepthFloat);
 	desc.addSupportedBitDepth(eBitDepthUByte);
-	desc.addSupportedBitDepth(eBitDepthUShort);
 	desc.setRenderThreadSafety(eRenderUnsafe);
 	desc.setRenderTwiceAlways(false);
 }
@@ -59,22 +57,32 @@ void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDes
 
 			std::string name = marshal_as<std::string>(field->Name);
 			std::string label = marshal_as<std::string>(System::String::Copy(paramAttr->Label));
+			System::Object^ def = paramAttr->DefaultValue;
 
 			ParamDescriptor *param;
 
-			if (field->FieldType == System::Boolean::typeid)
-				param = defineBoolParam(desc, name, label, "Nothing to see here...", NULL, safe_cast<bool>(paramAttr->DefaultValue));
-
+			if (field->FieldType == System::Boolean::typeid) {
+				param = defineBoolParam(desc, name, label, "Nothing to see here...", NULL, safe_cast<bool>(def));
+			}
+			else if (field->FieldType == System::String::typeid)
+			{
+				NET::Interop::StringParamAttribute^ stringAttr = (NET::Interop::StringParamAttribute^)paramAttrs[0];
+				std::string defaultValue = marshal_as<std::string>(safe_cast<System::String^>(def));
+				param = defineStringParam(desc, name, label, "Nothing to see here...", NULL, defaultValue, static_cast<OFX::StringTypeEnum>(stringAttr->StringType));
+			}
 			else {
 				NET::Interop::RangeParamAttribute^ rangeAttr = (NET::Interop::RangeParamAttribute^)paramAttrs[0];
 
+				System::Object^ min = rangeAttr->MinimumValue;
+				System::Object^ max = rangeAttr->MaximumValue;
+
 				if (field->FieldType == System::Int32::typeid)
 					param = defineIntParam(desc, name, label, "Nothing to see here...", NULL,
-						safe_cast<int>(rangeAttr->MinimumValue), safe_cast<int>(rangeAttr->MaximumValue), safe_cast<int>(rangeAttr->DefaultValue));
+						safe_cast<int>(min), safe_cast<int>(max), safe_cast<int>(def));
 
-				else if(field->FieldType == System::Double::typeid)
+				else if (field->FieldType == System::Double::typeid)
 					param = defineDoubleParam(desc, name, label, "Nothing to see here...", NULL,
-						safe_cast<double>(rangeAttr->MinimumValue), safe_cast<double>(rangeAttr->MaximumValue), safe_cast<double>(rangeAttr->DefaultValue));
+						safe_cast<double>(min), safe_cast<double>(max), safe_cast<double>(def));
 			}
 
 			page->addChild(*param);

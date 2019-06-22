@@ -50,7 +50,7 @@
     <ClInclude Include="BasePlugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ManagedPluginFactory.tpp">
+    <ClInclude Include="ManagedPluginFactory.cpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,7 +11,7 @@ void ChosenFewFX::FilterPlugin::render(const OFX::RenderArguments &args)
 	processor.setDstImg(dst.get());
 
 	processor.setRenderWindow(args.renderWindow);
-	transferParams(args);
+	transferParams(args.time);
 
 	processor.process();
 }
