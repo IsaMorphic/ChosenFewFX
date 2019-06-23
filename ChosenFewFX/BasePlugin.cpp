@@ -39,14 +39,20 @@ void ChosenFewFX::BasePlugin::transferParams(OfxTime time)
 	{
 		std::string name = marshal_as<std::string>(field->Name);
 		if (field->FieldType == System::Boolean::typeid)
-			field->SetValue(pluginHandle, fetchBooleanParam(name)->getValueAtTime(time));
+			field->SetValue(pluginHandle, fetchBooleanParam(name)->getValue());
 
 		else if (field->FieldType == System::Int32::typeid)
-			field->SetValue(pluginHandle, fetchIntParam(name)->getValueAtTime(time));
+			field->SetValue(pluginHandle, fetchIntParam(name)->getValue());
 
 		else if (field->FieldType == System::Double::typeid)
 			field->SetValue(pluginHandle, fetchDoubleParam(name)->getValueAtTime(time));
 
+		else if (field->FieldType == NET::Interop::Color::typeid) {
+			double r, g, b, a;
+			fetchRGBAParam(name)->getValueAtTime(time, r, g, b, a);
+			NET::Interop::Color color = NET::Interop::Color::Color((byte)(r * 255), (byte)(g * 255), (byte)(b * 255), (byte)(a * 255));
+			field->SetValue(pluginHandle, color);
+		}
 		else if (field->FieldType == System::String::typeid) {
 			std::string value;
 			fetchStringParam(name)->getValue(value);

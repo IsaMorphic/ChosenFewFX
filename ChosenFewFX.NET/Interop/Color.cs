@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SkiaSharp;
 
 namespace ChosenFewFX.NET.Interop
 {
@@ -27,6 +23,11 @@ namespace ChosenFewFX.NET.Interop
             Green = g;
             Blue = b;
             Alpha = 255;
+        }
+
+        public static implicit operator SKColor(Color c)
+        {
+            return new SKColor(c.Red, c.Green, c.Blue, c.Alpha);
         }
     }
 }

@@ -11,6 +11,7 @@ IntParamDescriptor *defineIntParam(OFX::ImageEffectDescriptor &desc,
 	param->setDefault(def);
 	param->setRange(min, max);
 	param->setDisplayRange(min, max);
+	param->setAnimates(false);
 	if (parent)
 		param->setParent(*parent);
 	return param;
@@ -43,6 +44,7 @@ BooleanParamDescriptor *defineBoolParam(OFX::ImageEffectDescriptor &desc,
 	param->setScriptName(name);
 	param->setHint(hint);
 	param->setDefault(def);
+	param->setAnimates(false);
 	if (parent)
 		param->setParent(*parent);
 	return param;
@@ -60,6 +62,21 @@ StringParamDescriptor *defineStringParam(OFX::ImageEffectDescriptor &desc,
 	param->setDefault(def);
 	param->setStringType(type);
 	param->setAnimates(false);
+	if (parent)
+		param->setParent(*parent);
+	return param;
+}
+
+static
+RGBAParamDescriptor *defineColorParam(OFX::ImageEffectDescriptor &desc,
+	const std::string &name, const std::string &label, const std::string &hint,
+	GroupParamDescriptor *parent, ChosenFewFX::NET::Interop::Color def)
+{
+	RGBAParamDescriptor *param = desc.defineRGBAParam(name);
+	param->setLabels(label, label, label);
+	param->setScriptName(name);
+	param->setHint(hint);
+	param->setDefault((double)def.Red / 255, (double)def.Green / 255, (double)def.Blue / 255, (double)def.Alpha / 255);
 	if (parent)
 		param->setParent(*parent);
 	return param;

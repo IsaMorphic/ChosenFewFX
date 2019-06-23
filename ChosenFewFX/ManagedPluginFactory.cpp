@@ -64,6 +64,11 @@ void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDes
 			if (field->FieldType == System::Boolean::typeid) {
 				param = defineBoolParam(desc, name, label, "Nothing to see here...", NULL, safe_cast<bool>(def));
 			}
+			else if (field->FieldType == NET::Interop::Color::typeid) {
+				array<byte>^ defaultValue = safe_cast<array<byte>^>(def);
+				param = defineColorParam(desc, name, label, "Nothing to see here...", NULL, NET::Interop::Color::Color(
+					defaultValue[0], defaultValue[1], defaultValue[2], defaultValue[3]));
+			}
 			else if (field->FieldType == System::String::typeid)
 			{
 				NET::Interop::StringParamAttribute^ stringAttr = (NET::Interop::StringParamAttribute^)paramAttrs[0];

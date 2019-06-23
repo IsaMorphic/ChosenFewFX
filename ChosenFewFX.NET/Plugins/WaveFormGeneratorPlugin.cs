@@ -22,6 +22,9 @@ namespace ChosenFewFX.NET.Plugins
         [StringParam(DefaultValue = "", Label = "Wave File", StringType = StringType.FilePath)]
         public string FilePath;
 
+        [Param(DefaultValue = new byte[] { 255, 0, 0, 255 }, Label = "Wave Color")]
+        public Color WaveColor;
+
         public WaveFormGeneratorPlugin()
         {
             Id = "com.chosenfewsoftware.openfx.waveform";
@@ -55,7 +58,7 @@ namespace ChosenFewFX.NET.Plugins
 
         public override void PostProcess()
         {
-            Canvas.DrawPath(WaveFormPath, new SKPaint { Color = SKColors.Red, StrokeWidth = 10, IsStroke = true });
+            Canvas.DrawPath(WaveFormPath, new SKPaint { Color = WaveColor, StrokeWidth = 10, IsStroke = true });
         }
     }
 }
