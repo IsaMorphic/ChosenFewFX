@@ -14,12 +14,15 @@ namespace ChosenFewFX.NET.Plugins
 
 
         [RangeParam(DefaultValue = 300, Label = "Sample Count", MaximumValue = 48000, MinimumValue = 4)]
-        public int SampleCount = 300;
+        public int SampleCount;
 
-        [RangeParam(DefaultValue = 0.0, Label = "Time (in seconds)", MaximumValue = 123456789.0, MinimumValue = 0.0)]
+        [RangeParam(DefaultValue = 10.0, Label = "Line Width", MaximumValue = 50.0, MinimumValue = 0.0)]
+        public double LineWidth;
+
+        [RangeParam(DefaultValue = 0.0, Label = "Time (in seconds)", MaximumValue = 3600.0, MinimumValue = 0.0)]
         public double Time;
 
-        [StringParam(DefaultValue = "", Label = "Wave File", StringType = StringType.FilePath)]
+        [StringParam(DefaultValue = "", Label = "Audio File", StringType = StringType.FilePath)]
         public string FilePath;
 
         [Param(DefaultValue = new byte[] { 255, 0, 0, 255 }, Label = "Wave Color")]
@@ -58,7 +61,7 @@ namespace ChosenFewFX.NET.Plugins
 
         public override void PostProcess()
         {
-            Canvas.DrawPath(WaveFormPath, new SKPaint { Color = WaveColor, StrokeWidth = 10, IsStroke = true });
+            Canvas.DrawPath(WaveFormPath, new SKPaint { Color = WaveColor, StrokeWidth = (float)LineWidth, IsStroke = true });
         }
     }
 }

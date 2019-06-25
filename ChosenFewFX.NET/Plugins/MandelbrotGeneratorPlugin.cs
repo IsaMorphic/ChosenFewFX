@@ -3,14 +3,13 @@ using MandelbrotSharp.Rendering;
 using MandelbrotSharp.Imaging;
 using MandelbrotSharp.Numerics;
 using SkiaSharp;
-using ChosenFewFX.NET.Geometry;
-using System.Threading.Tasks;
+using ChosenFewFX.NET.Fractals;
 
 namespace ChosenFewFX.NET.Plugins
 {
     public class MandelbrotGeneratorPlugin : BasePlugin
     {
-        private RgbaValue[] Colors = new RgbaValue[] 
+        private Gradient Colors = new Gradient(new RgbaValue[]
         {
             new RgbaValue(9, 1, 47),
             new RgbaValue(4, 4, 73),
@@ -28,12 +27,15 @@ namespace ChosenFewFX.NET.Plugins
             new RgbaValue(106, 52, 3),
             new RgbaValue(66, 30, 15),
             new RgbaValue(25, 7, 26),
-        };
+        }, 256);
+
+        [StringParam(DefaultValue = "", Label = "Palette File", StringType = StringType.FilePath)]
+        public string PalettePath;
 
         [RangeParam(DefaultValue = 400, Label = "Maximum Iterations", MaximumValue = int.MaxValue, MinimumValue = 0)]
         public int MaxIterations;
 
-        [RangeParam(DefaultValue = 1.0, Label = "Magnification", MaximumValue = (double)((long)1 << 49), MinimumValue = 0.0)]
+        [RangeParam(DefaultValue = 0.0, Label = "Magnification (Power of 2)", MaximumValue = 64.0, MinimumValue = 0.0)]
         public double Magnification;
 
         [RangeParam(DefaultValue = 0.0, Label = "X Offset", MaximumValue = 2.0, MinimumValue = -2.0)]
@@ -53,18 +55,22 @@ namespace ChosenFewFX.NET.Plugins
         public override void PreProcess()
         {
             MandelbrotRenderer renderer = new MandelbrotRenderer(DestImage.Width, DestImage.Height);
-            Gradient gradient = new Gradient(Colors, 256);
+            if (!string.IsNullOrWhiteSpace(PalettePath))
+                Colors = FractalUtils.LoadPallete(PalettePath);
             RenderSettings settings = new RenderSettings
             {
-                OuterColors = gradient,
-                Magnification = Magnification, 
+                OuterColors = Colors,
+                Magnification = BigDecimal.Pow(2, Magnification),
                 MaxIterations = MaxIterations,
-                Location = new Complex<BigDecimal>(Real, Imag)
+                Location = new Complex<BigDecimal>(Real, Imag),
             };
+            Configure(settings);
             renderer.Setup(settings);
             renderer.FrameFinished += Renderer_FrameFinished;
             renderer.StartRenderFrame().Wait();
         }
+
+        protected virtual void Configure(RenderSettings settings) { }
 
         private void Renderer_FrameFinished(object sender, FrameEventArgs e)
         {

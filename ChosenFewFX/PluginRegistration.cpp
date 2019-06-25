@@ -16,6 +16,7 @@ namespace OFX
 			DEF_PLUG(ChosenFewFX::NET::Plugins::JuliaDistortPlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::MandelbrotGeneratorPlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::WaveFormGeneratorPlugin);
+			DEF_PLUG(ChosenFewFX::NET::Plugins::JuliaGeneratorPlugin);
 		}
 	}
 }

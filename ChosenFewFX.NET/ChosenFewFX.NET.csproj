@@ -46,9 +46,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fractals\FractalUtils.cs" />
     <Compile Include="Geometry\ComplexGrid.cs" />
     <Compile Include="Interop\Color.cs" />
     <Compile Include="Interop\FilterPlugin.cs" />
@@ -58,7 +58,9 @@
     <Compile Include="Geometry\PointD.cs" />
     <Compile Include="Geometry\PointI.cs" />
     <Compile Include="Interop\StringParamAttribute.cs" />
+    <Compile Include="Fractals\JuliaAlgorithmProvider.cs" />
     <Compile Include="Plugins\JuliaDistortPlugin.cs" />
+    <Compile Include="Plugins\JuliaGeneratorPlugin.cs" />
     <Compile Include="Plugins\MandelbrotGeneratorPlugin.cs" />
     <Compile Include="Plugins\WaveFormGeneratorPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
