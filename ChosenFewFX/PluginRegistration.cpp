@@ -11,8 +11,7 @@ namespace OFX
 	namespace Plugin
 	{
 		void getPluginIDs(OFX::PluginFactoryArray &ids)
-		{		
-			DEF_PLUG(ChosenFewFX::NET::Plugins::RedFilterPlugin);
+		{
 			DEF_PLUG(ChosenFewFX::NET::Plugins::JuliaDistortPlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::MandelbrotGeneratorPlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::WaveFormGeneratorPlugin);

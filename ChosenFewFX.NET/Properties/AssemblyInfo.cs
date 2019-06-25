@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ChosenFewFX.NET")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Chosen Few Software")]
 [assembly: AssemblyProduct("ChosenFewFX.NET")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright © 2019 Chosen Few Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -15,10 +15,10 @@ namespace ChosenFewFX.NET.Plugins
             Name = "Julia Generator";
         }
 
-        [RangeParam(DefaultValue = .2, Label = "Real Coordinate", MaximumValue = 2.0, MinimumValue = -2.0)]
+        [RangeParam(DefaultValue = .2, Label = "Real Coordinate", Hint = "The real part of a constant complex value used to render the fractal", MaximumValue = 2.0, MinimumValue = -2.0)]
         public double RealCoord;
 
-        [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", MaximumValue = 2.0, MinimumValue = -2.0)]
+        [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", Hint = "The imaginary part of a constant complex value used to render the fractal", MaximumValue = 2.0, MinimumValue = -2.0)]
         public double ImaginaryCoord;
 
         protected override void Configure(RenderSettings settings)

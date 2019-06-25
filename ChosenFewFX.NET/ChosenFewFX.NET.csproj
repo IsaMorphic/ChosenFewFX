@@ -67,7 +67,6 @@
     <Compile Include="Interop\RangeParamAttribute.cs" />
     <Compile Include="Geometry\RectangleI.cs" />
     <Compile Include="Geometry\RectangleD.cs" />
-    <Compile Include="Plugins\RedFilterPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

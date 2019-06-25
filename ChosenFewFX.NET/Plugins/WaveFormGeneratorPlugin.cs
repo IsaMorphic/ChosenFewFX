@@ -13,19 +13,19 @@ namespace ChosenFewFX.NET.Plugins
         private SKPath WaveFormPath;
 
 
-        [RangeParam(DefaultValue = 300, Label = "Sample Count", MaximumValue = 48000, MinimumValue = 4)]
+        [RangeParam(DefaultValue = 300, Label = "Sample Count", Hint = "The number of samples to graph", MaximumValue = 48000, MinimumValue = 4)]
         public int SampleCount;
 
-        [RangeParam(DefaultValue = 10.0, Label = "Line Width", MaximumValue = 50.0, MinimumValue = 0.0)]
+        [RangeParam(DefaultValue = 10.0, Label = "Line Width", Hint = "The width of the line that represents the wave-form", MaximumValue = 50.0, MinimumValue = 0.0)]
         public double LineWidth;
 
-        [RangeParam(DefaultValue = 0.0, Label = "Time (in seconds)", MaximumValue = 3600.0, MinimumValue = 0.0)]
+        [RangeParam(DefaultValue = 0.0, Label = "Time (in seconds)", Hint = "The amount of time that has passed. (You need to keyframe this)", MaximumValue = 3600.0, MinimumValue = 0.0)]
         public double Time;
 
-        [StringParam(DefaultValue = "", Label = "Audio File", StringType = StringType.FilePath)]
+        [StringParam(DefaultValue = "", Label = "Audio File", Hint = "The audio file that is to be graphed", StringType = StringType.FilePath)]
         public string FilePath;
 
-        [Param(DefaultValue = new byte[] { 255, 0, 0, 255 }, Label = "Wave Color")]
+        [Param(DefaultValue = new byte[] { 255, 0, 0, 255 }, Label = "Wave Color", Hint = "The color of the line that is graphed")]
         public Color WaveColor;
 
         public WaveFormGeneratorPlugin()

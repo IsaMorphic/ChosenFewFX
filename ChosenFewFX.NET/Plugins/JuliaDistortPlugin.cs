@@ -16,16 +16,16 @@ namespace ChosenFewFX.NET.Plugins
         private RectangleI ImageBounds => new RectangleI(0, 0, SourceImage.Width, SourceImage.Height);
         private RectangleD ProjectionBounds = new RectangleD(-1, 1, 1, -1);
 
-        [RangeParam(DefaultValue = .2, Label = "Real Coordinate", MinimumValue = -2.0, MaximumValue = 2.0)]
+        [RangeParam(DefaultValue = .2, Label = "Real Coordinate", Hint = "Changes how the distortion behaves", MinimumValue = -2.0, MaximumValue = 2.0)]
         public double Real;
 
-        [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", MinimumValue = -2.0, MaximumValue = 2.0)]
+        [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", Hint = "Changes how the distortion behaves", MinimumValue = -2.0, MaximumValue = 2.0)]
         public double Imag;
 
-        [RangeParam(DefaultValue = 4, Label = "Iteration Count", MinimumValue = 0, MaximumValue = 10)]
+        [RangeParam(DefaultValue = 4, Label = "Iteration Count", Hint = "Number of calculations to do on each pixel", MinimumValue = 0, MaximumValue = 10)]
         public int IterCount;
 
-        [RangeParam(DefaultValue = .5, Label = "Distortion Alpha", MinimumValue = 0.0, MaximumValue = 1.0)]
+        [RangeParam(DefaultValue = .5, Label = "Distortion Alpha", Hint = "The amount of distortion to be applied", MinimumValue = 0.0, MaximumValue = 1.0)]
         public double Alpha;
 
         public JuliaDistortPlugin()

@@ -57,23 +57,24 @@ void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDes
 
 			std::string name = marshal_as<std::string>(field->Name);
 			std::string label = marshal_as<std::string>(System::String::Copy(paramAttr->Label));
+			std::string hint = marshal_as<std::string>(System::String::Copy(paramAttr->Hint));
 			System::Object^ def = paramAttr->DefaultValue;
 
 			ParamDescriptor *param;
 
 			if (field->FieldType == System::Boolean::typeid) {
-				param = defineBoolParam(desc, name, label, "Nothing to see here...", NULL, safe_cast<bool>(def));
+				param = defineBoolParam(desc, name, label, hint, NULL, safe_cast<bool>(def));
 			}
 			else if (field->FieldType == NET::Interop::Color::typeid) {
 				array<byte>^ defaultValue = safe_cast<array<byte>^>(def);
-				param = defineColorParam(desc, name, label, "Nothing to see here...", NULL, NET::Interop::Color::Color(
+				param = defineColorParam(desc, name, label, hint, NULL, NET::Interop::Color::Color(
 					defaultValue[0], defaultValue[1], defaultValue[2], defaultValue[3]));
 			}
 			else if (field->FieldType == System::String::typeid)
 			{
 				NET::Interop::StringParamAttribute^ stringAttr = (NET::Interop::StringParamAttribute^)paramAttrs[0];
 				std::string defaultValue = marshal_as<std::string>(safe_cast<System::String^>(def));
-				param = defineStringParam(desc, name, label, "Nothing to see here...", NULL, defaultValue, static_cast<OFX::StringTypeEnum>(stringAttr->StringType));
+				param = defineStringParam(desc, name, label, hint, NULL, defaultValue, static_cast<OFX::StringTypeEnum>(stringAttr->StringType));
 			}
 			else {
 				NET::Interop::RangeParamAttribute^ rangeAttr = (NET::Interop::RangeParamAttribute^)paramAttrs[0];
@@ -82,11 +83,11 @@ void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDes
 				System::Object^ max = rangeAttr->MaximumValue;
 
 				if (field->FieldType == System::Int32::typeid)
-					param = defineIntParam(desc, name, label, "Nothing to see here...", NULL,
+					param = defineIntParam(desc, name, label, hint, NULL,
 						safe_cast<int>(min), safe_cast<int>(max), safe_cast<int>(def));
 
 				else if (field->FieldType == System::Double::typeid)
-					param = defineDoubleParam(desc, name, label, "Nothing to see here...", NULL,
+					param = defineDoubleParam(desc, name, label, hint, NULL,
 						safe_cast<double>(min), safe_cast<double>(max), safe_cast<double>(def));
 			}
 

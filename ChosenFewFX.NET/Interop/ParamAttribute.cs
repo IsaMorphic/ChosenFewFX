@@ -6,6 +6,7 @@ namespace ChosenFewFX.NET.Interop
     public class ParamAttribute : Attribute
     {
         public string Label;
-        public object DefaultValue;
+        public string Hint = "Nothing to see here...";
+        public object DefaultValue;        
     }
 }

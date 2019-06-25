@@ -4,11 +4,15 @@ using MandelbrotSharp.Imaging;
 using MandelbrotSharp.Numerics;
 using SkiaSharp;
 using ChosenFewFX.NET.Fractals;
+using System;
+using System.Threading.Tasks;
 
 namespace ChosenFewFX.NET.Plugins
 {
     public class MandelbrotGeneratorPlugin : BasePlugin
     {
+        private MandelbrotRenderer Renderer = null;
+
         private Gradient Colors = new Gradient(new RgbaValue[]
         {
             new RgbaValue(9, 1, 47),
@@ -29,19 +33,19 @@ namespace ChosenFewFX.NET.Plugins
             new RgbaValue(25, 7, 26),
         }, 256);
 
-        [StringParam(DefaultValue = "", Label = "Palette File", StringType = StringType.FilePath)]
+        [StringParam(DefaultValue = "", Label = "Palette File", Hint = "Path to palette data. There should be a 'Palettes' folder in the same location that you installed Chosen Few FX.", StringType = StringType.FilePath)]
         public string PalettePath;
 
-        [RangeParam(DefaultValue = 400, Label = "Maximum Iterations", MaximumValue = int.MaxValue, MinimumValue = 0)]
+        [RangeParam(DefaultValue = 400, Label = "Maximum Iterations", Hint = "Number of times the calculation is iterated.  More iterations means more detail.", MaximumValue = int.MaxValue, MinimumValue = 0)]
         public int MaxIterations;
 
-        [RangeParam(DefaultValue = 0.0, Label = "Magnification (Power of 2)", MaximumValue = 64.0, MinimumValue = 0.0)]
+        [RangeParam(DefaultValue = 0.0, Label = "Magnification (Power of 2)", Hint = "How much the image is to be magnified (increases exponentially, i.e. increasing this value by 1 increases the magnification by 100%)", MaximumValue = 64.0, MinimumValue = 0.0)]
         public double Magnification;
 
-        [RangeParam(DefaultValue = 0.0, Label = "X Offset", MaximumValue = 2.0, MinimumValue = -2.0)]
+        [RangeParam(DefaultValue = 0.0, Label = "X Offset", Hint = "How much to offset the image in the horizontal direction.", MaximumValue = 2.0, MinimumValue = -2.0)]
         public double Real;
 
-        [RangeParam(DefaultValue = 0.0, Label = "Y Offset", MaximumValue = 2.0, MinimumValue = -2.0)]
+        [RangeParam(DefaultValue = 0.0, Label = "Y Offset", Hint = "How much to offset the image in the vertical direction.", MaximumValue = 2.0, MinimumValue = -2.0)]
         public double Imag;
 
         public MandelbrotGeneratorPlugin()
@@ -54,7 +58,9 @@ namespace ChosenFewFX.NET.Plugins
 
         public override void PreProcess()
         {
-            MandelbrotRenderer renderer = new MandelbrotRenderer(DestImage.Width, DestImage.Height);
+            if (Renderer?.RenderStatus == TaskStatus.Running)
+                Renderer?.StopRenderFrame();
+            Renderer = new MandelbrotRenderer(DestImage.Width, DestImage.Height);
             if (!string.IsNullOrWhiteSpace(PalettePath))
                 Colors = FractalUtils.LoadPallete(PalettePath);
             RenderSettings settings = new RenderSettings
@@ -63,11 +69,12 @@ namespace ChosenFewFX.NET.Plugins
                 Magnification = BigDecimal.Pow(2, Magnification),
                 MaxIterations = MaxIterations,
                 Location = new Complex<BigDecimal>(Real, Imag),
+                ThreadCount = Environment.ProcessorCount - 2
             };
             Configure(settings);
-            renderer.Setup(settings);
-            renderer.FrameFinished += Renderer_FrameFinished;
-            renderer.StartRenderFrame().Wait();
+            Renderer.Setup(settings);
+            Renderer.FrameFinished += Renderer_FrameFinished;
+            Renderer.StartRenderFrame().Wait();
         }
 
         protected virtual void Configure(RenderSettings settings) { }
