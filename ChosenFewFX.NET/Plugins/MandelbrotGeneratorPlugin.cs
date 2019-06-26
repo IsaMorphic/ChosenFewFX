@@ -69,7 +69,7 @@ namespace ChosenFewFX.NET.Plugins
                 Magnification = BigDecimal.Pow(2, Magnification),
                 MaxIterations = MaxIterations,
                 Location = new Complex<BigDecimal>(Real, Imag),
-                ThreadCount = Environment.ProcessorCount - 2
+                ThreadCount = Math.Max(Environment.ProcessorCount - 2, 1)
             };
             Configure(settings);
             Renderer.Setup(settings);

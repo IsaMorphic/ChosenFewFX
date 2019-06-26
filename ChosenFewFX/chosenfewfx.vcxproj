@@ -232,7 +232,7 @@
     </Bscmake>
     <PostBuildEvent>
       <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Debug-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"
-copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Debug\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\"</Command>
+copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Debug\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -276,7 +276,7 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\D
     </Bscmake>
     <PostBuildEvent>
       <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"
-copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Release\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\"</Command>
+copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Release\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
