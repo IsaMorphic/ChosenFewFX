@@ -27,5 +27,7 @@ namespace ChosenFewFX {
 		virtual bool getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod);
 
 		virtual void getRegionsOfInterest(const OFX::RegionsOfInterestArguments &args, OFX::RegionOfInterestSetter &rois);
+
+		virtual void changedParam(const OFX::InstanceChangedArgs &args, const std::string &paramName);
 	};
 }

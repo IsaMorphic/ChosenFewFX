@@ -38,8 +38,6 @@ namespace ChosenFewFX.NET.Plugins
 
         public override void PreProcess()
         {
-            if (!string.IsNullOrEmpty(FilePath))
-                WaveStream = new AudioFileReader(FilePath);
             Canvas = new SKCanvas(DestImage);
             Canvas.Clear();
             WaveFormPath = new SKPath();
@@ -62,6 +60,12 @@ namespace ChosenFewFX.NET.Plugins
         public override void PostProcess()
         {
             Canvas.DrawPath(WaveFormPath, new SKPaint { Color = WaveColor, StrokeWidth = (float)LineWidth, IsStroke = true });
+        }
+
+        public override void ParamUpdated(string paramName)
+        {
+            if (paramName == "FilePath" && !string.IsNullOrEmpty(FilePath))
+                WaveStream = new AudioFileReader(FilePath);
         }
     }
 }

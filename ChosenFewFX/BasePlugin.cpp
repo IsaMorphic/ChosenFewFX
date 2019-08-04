@@ -61,6 +61,13 @@ void ChosenFewFX::BasePlugin::transferParams(OfxTime time)
 	}
 }
 
+void ChosenFewFX::BasePlugin::changedParam(const OFX::InstanceChangedArgs &args, const std::string &paramName)
+{
+	transferParams(args.time);
+	pluginHandle->ParamUpdated(marshal_as<System::String^>(paramName));
+}
+
+
 void ChosenFewFX::BasePlugin::getRegionsOfInterest(const OFX::RegionsOfInterestArguments &args, OFX::RegionOfInterestSetter &rois)
 {
 	rois.setRegionOfInterest(*srcClip_, args.regionOfInterest);
