@@ -24,7 +24,7 @@ namespace ChosenFewFX.NET.Fractals
                 z = z * z + c;
                 n++;
             }
-            return new PointData((Complex)z, n, n < Params.MaxIterations);
+            return new PointData(z.As<double>(), n, n < Params.MaxIterations);
         }
     }
 }

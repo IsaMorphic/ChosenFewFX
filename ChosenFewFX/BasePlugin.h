@@ -14,7 +14,6 @@ namespace ChosenFewFX {
 		gcroot<NET::Interop::BasePlugin^> pluginHandle;
 		gcroot<List<System::Reflection::FieldInfo^>^> paramFields;
 	protected:
-		OFX::Clip *srcClip_;
 		OFX::Clip *dstClip_;
 		void transferParams(OfxTime time);
 	public:
@@ -23,10 +22,6 @@ namespace ChosenFewFX {
 		virtual void render(const OFX::RenderArguments &args);
 
 		virtual bool isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime);
-
-		virtual bool getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod);
-
-		virtual void getRegionsOfInterest(const OFX::RegionsOfInterestArguments &args, OFX::RegionOfInterestSetter &rois);
 
 		virtual void changedParam(const OFX::InstanceChangedArgs &args, const std::string &paramName);
 	};

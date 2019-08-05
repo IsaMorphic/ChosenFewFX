@@ -6,7 +6,7 @@ using System;
 
 namespace ChosenFewFX.NET.Plugins
 {
-    public class WaveFormGeneratorPlugin : BasePlugin
+    public class WaveFormGeneratorPlugin : GeneratorPlugin
     {
         private WaveStream WaveStream;
         private SKCanvas Canvas;

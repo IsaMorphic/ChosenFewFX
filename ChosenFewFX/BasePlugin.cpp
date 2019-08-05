@@ -1,10 +1,9 @@
 #include "BasePlugin.h"
 
 ChosenFewFX::BasePlugin::BasePlugin(OfxImageEffectHandle handle, NET::Interop::BasePlugin^ plugin) :
-	OFX::ImageEffect(handle), dstClip_(0), srcClip_(0), pluginHandle(plugin), 
+	OFX::ImageEffect(handle), dstClip_(0), pluginHandle(plugin), 
 	paramFields(gcnew List<System::Reflection::FieldInfo^>)
 {
-	srcClip_ = fetchClip(kOfxImageEffectSimpleSourceClipName);
 	dstClip_ = fetchClip(kOfxImageEffectOutputClipName);
 
 	System::Type^ pluginType = pluginHandle->GetType();
@@ -65,16 +64,4 @@ void ChosenFewFX::BasePlugin::changedParam(const OFX::InstanceChangedArgs &args,
 {
 	transferParams(args.time);
 	pluginHandle->ParamUpdated(marshal_as<System::String^>(paramName));
-}
-
-
-void ChosenFewFX::BasePlugin::getRegionsOfInterest(const OFX::RegionsOfInterestArguments &args, OFX::RegionOfInterestSetter &rois)
-{
-	rois.setRegionOfInterest(*srcClip_, args.regionOfInterest);
-}
-
-bool ChosenFewFX::BasePlugin::getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod)
-{
-	rod = srcClip_->getRegionOfDefinition(args.time);
-	return true;
 }

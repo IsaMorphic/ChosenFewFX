@@ -20,9 +20,9 @@ void ChosenFewFX::ManagedPluginFactory<T>::describe(OFX::ImageEffectDescriptor &
 	desc.setLabels(label, label, label);
 	desc.setPluginGrouping("Chosen Few FX");
 
-	if (pluginHandle->GetType()->BaseType == NET::Interop::FilterPlugin::typeid)
+	if (pluginHandle->GetType()->IsSubclassOf(NET::Interop::FilterPlugin::typeid))
 		desc.addSupportedContext(eContextFilter);
-	else
+	else if (pluginHandle->GetType()->IsSubclassOf(NET::Interop::GeneratorPlugin::typeid))
 		desc.addSupportedContext(eContextGenerator);
 
 	desc.addSupportedContext(eContextGeneral);

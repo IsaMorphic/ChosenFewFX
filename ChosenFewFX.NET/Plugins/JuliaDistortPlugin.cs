@@ -1,17 +1,17 @@
 ﻿
 using ChosenFewFX.NET.Geometry;
 using ChosenFewFX.NET.Interop;
+using MandelbrotSharp.Numerics;
 using SkiaSharp;
 using System;
-using System.Numerics;
 using System.Threading.Tasks;
 
 namespace ChosenFewFX.NET.Plugins
 {
     public class JuliaDistortPlugin : FilterPlugin
     {
-        private Func<Complex, Complex> fDir;
-        private Func<Complex, Complex> fInv;
+        private Func<Complex<double>, Complex<double>> fDir;
+        private Func<Complex<double>, Complex<double>> fInv;
 
         private RectangleI ImageBounds => new RectangleI(0, 0, SourceImage.Width, SourceImage.Height);
         private RectangleD ProjectionBounds = new RectangleD(-1, 1, 1, -1);
@@ -36,7 +36,7 @@ namespace ChosenFewFX.NET.Plugins
             Name = "Julia Distort";
             fDir = z =>
             {
-                Complex c = new Complex(Real, Imag);
+                Complex<double> c = new Complex<double>(Real, Imag);
                 for (int i = 0; i < IterCount; i++)
                     z = z * z + c;
                 return z;

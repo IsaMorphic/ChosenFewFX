@@ -1,5 +1,14 @@
 #include "FilterPlugin.h"
 #include "FilterProcessor.h"
+
+ChosenFewFX::FilterPlugin::FilterPlugin(OfxImageEffectHandle handle, NET::Interop::BasePlugin^ plugin) :
+	BasePlugin(handle, plugin),
+	pluginHandle((NET::Interop::FilterPlugin^)plugin),
+	srcClip_(0)
+{
+	srcClip_ = fetchClip(kOfxImageEffectSimpleSourceClipName);
+}
+
 void ChosenFewFX::FilterPlugin::render(const OFX::RenderArguments &args)
 {
 	FilterProcessor processor(*this, pluginHandle);

@@ -5,9 +5,9 @@ namespace ChosenFewFX {
 	{
 	private:
 		gcroot<NET::Interop::FilterPlugin^> pluginHandle;
+		OFX::Clip *srcClip_;
 	public:
-		FilterPlugin(OfxImageEffectHandle handle, NET::Interop::BasePlugin^ plugin) :
-			BasePlugin(handle, plugin), pluginHandle((NET::Interop::FilterPlugin^)plugin) {}
+		FilterPlugin(OfxImageEffectHandle handle, NET::Interop::BasePlugin^ plugin);
 		void render(const OFX::RenderArguments &args);
 	};
 }

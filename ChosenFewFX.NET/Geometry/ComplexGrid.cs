@@ -1,23 +1,24 @@
-﻿using System;
+﻿using MandelbrotSharp.Numerics;
+using System;
 using System.Numerics;
 
 namespace ChosenFewFX.NET.Geometry
 {
     public class ComplexGrid
     {
-        private Func<Complex, Complex> Func;
+        private Func<Complex<double>, Complex<double>> Func;
 
         private RectangleD OuterPlane;
         private RectangleD InnerPlane;
 
-        public ComplexGrid(RectangleD OuterPlane, RectangleD InnerPlane, Func<Complex, Complex> Func)
+        public ComplexGrid(RectangleD OuterPlane, RectangleD InnerPlane, Func<Complex<double>, Complex<double>> Func)
         {
             this.OuterPlane = OuterPlane;
             this.InnerPlane = InnerPlane;
             this.Func = Func;
         }
 
-        private Complex MapPoint(PointD p)
+        private Complex<double> MapPoint(PointD p)
         {
             PointD translated = p - OuterPlane.TopLeft;
 
@@ -26,12 +27,12 @@ namespace ChosenFewFX.NET.Geometry
 
             PointD projected = dialated + InnerPlane.TopLeft;
 
-            return new Complex(projected.X, projected.Y);
+            return new Complex<double>(projected.X, projected.Y);
         }
 
-        private PointD MapPoint(Complex z)
+        private PointD MapPoint(Complex<double> z)
         {
-            PointD p = new PointD(z.Real, z.Imaginary);
+            PointD p = new PointD(z.Real, z.Imag);
 
             PointD translated = p - InnerPlane.TopLeft;
 
@@ -48,8 +49,8 @@ namespace ChosenFewFX.NET.Geometry
             get
             {
                 PointD p = new PointD(x, y);
-                Complex z = MapPoint(p);
-                Complex w = Func(z);
+                Complex<double> z = MapPoint(p);
+                Complex<double> w = Func(z);
                 return MapPoint(w);
             }
         }
