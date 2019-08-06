@@ -20,13 +20,15 @@ void ChosenFewFX::ManagedPluginFactory<T>::describe(OFX::ImageEffectDescriptor &
 	desc.setLabels(label, label, label);
 	desc.setPluginGrouping("Chosen Few FX");
 
-	if (pluginHandle->GetType()->IsSubclassOf(NET::Interop::FilterPlugin::typeid))
+	if (pluginHandle->GetType()->BaseType == NET::Interop::FilterPlugin::typeid)
 		desc.addSupportedContext(eContextFilter);
-	else if (pluginHandle->GetType()->IsSubclassOf(NET::Interop::GeneratorPlugin::typeid))
+	else
 		desc.addSupportedContext(eContextGenerator);
 
 	desc.addSupportedContext(eContextGeneral);
+
 	desc.addSupportedBitDepth(eBitDepthUByte);
+
 	desc.setRenderThreadSafety(eRenderUnsafe);
 	desc.setRenderTwiceAlways(false);
 }
@@ -34,10 +36,14 @@ void ChosenFewFX::ManagedPluginFactory<T>::describe(OFX::ImageEffectDescriptor &
 template<class T>
 void ChosenFewFX::ManagedPluginFactory<T>::describeInContext(OFX::ImageEffectDescriptor &desc, OFX::ContextEnum context)
 {
-	ClipDescriptor *srcClip = desc.defineClip(kOfxImageEffectSimpleSourceClipName);
-	srcClip->addSupportedComponent(ePixelComponentRGBA);
-	srcClip->addSupportedComponent(ePixelComponentAlpha);
-	srcClip->setSupportsTiles(true);
+	switch (context) {
+	case eContextFilter:
+		ClipDescriptor *srcClip = desc.defineClip(kOfxImageEffectSimpleSourceClipName);
+		srcClip->addSupportedComponent(ePixelComponentRGBA);
+		srcClip->addSupportedComponent(ePixelComponentAlpha);
+		srcClip->setSupportsTiles(true);
+		break;
+	}
 
 	ClipDescriptor *dstClip = desc.defineClip(kOfxImageEffectOutputClipName);
 	dstClip->addSupportedComponent(ePixelComponentRGBA);

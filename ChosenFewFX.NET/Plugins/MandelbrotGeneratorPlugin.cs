@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChosenFewFX.NET.Plugins
 {
-    public class MandelbrotGeneratorPlugin : GeneratorPlugin
+    public class MandelbrotGeneratorPlugin : BasePlugin
     {
         private MandelbrotRenderer Renderer = null;
 

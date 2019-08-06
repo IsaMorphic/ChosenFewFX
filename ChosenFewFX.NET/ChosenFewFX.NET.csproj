@@ -41,11 +41,13 @@
     <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
     </Reference>
+    <Reference Include="OpenGL.Net, Version=0.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenGL.Net.0.8.4\lib\net461\OpenGL.Net.dll</HintPath>
+    </Reference>
     <Reference Include="SkiaSharp, Version=1.68.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\SkiaSharp.1.68.0\lib\net45\SkiaSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fractals\FractalUtils.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="Interop\Color.cs" />
     <Compile Include="Interop\FilterPlugin.cs" />
     <Compile Include="Interop\ImageWrapper.cs" />
+    <Compile Include="Interop\GLPlugin.cs" />
     <Compile Include="Interop\ParamAttribute.cs" />
     <Compile Include="Interop\BasePlugin.cs" />
     <Compile Include="Geometry\PointD.cs" />
@@ -62,6 +65,7 @@
     <Compile Include="Plugins\JuliaDistortPlugin.cs" />
     <Compile Include="Plugins\JuliaGeneratorPlugin.cs" />
     <Compile Include="Plugins\MandelbrotGeneratorPlugin.cs" />
+    <Compile Include="Plugins\GLTestPlugin.cs" />
     <Compile Include="Plugins\WaveFormGeneratorPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interop\RangeParamAttribute.cs" />
