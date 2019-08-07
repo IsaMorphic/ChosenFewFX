@@ -1,4 +1,6 @@
 ﻿using OpenGL;
+using OpenGL.Objects;
+using OpenGL.Objects.Scene;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +11,20 @@ namespace ChosenFewFX.NET.Interop
 {
     public class GLPlugin : BasePlugin
     {
-        protected uint Framebuffer { get; private set; }
-        protected uint Renderbuffer { get; private set; }
+        private uint Framebuffer { get; set; }
+        private uint Renderbuffer { get; set; }
 
-        protected IntPtr GlContext { get; private set; }
-        protected DeviceContext Context { get; private set; }
+        protected GraphicsContext Context { get; }
+
+        public GLPlugin()
+        {
+            Context = new GraphicsContext(DeviceContext.Create());
+            Context.MakeCurrent(true);
+        }
 
         public override void PreProcess()
         {
-            Context = DeviceContext.Create();
-            GlContext = Context.CreateContext(IntPtr.Zero);
-
-            Context.MakeCurrent(GlContext);
+            Context.MakeCurrent(true);
 
             Renderbuffer = Gl.GenRenderbuffer();
             Gl.BindRenderbuffer(RenderbufferTarget.Renderbuffer, Renderbuffer);
@@ -46,9 +50,6 @@ namespace ChosenFewFX.NET.Interop
 
             Gl.DeleteFramebuffers(Framebuffer);
             Gl.DeleteRenderbuffers(Renderbuffer);
-            Context.DeleteContext(GlContext);
-
-            Context.Dispose();
         }
     }
 }
