@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.UI.Xaml.Media.Imaging;
+using SkiaSharp;
 using SharpDX;
 
 namespace SoftEngine
@@ -19,17 +18,9 @@ namespace SoftEngine
             Load(filename);
         }
 
-        async void Load(string filename)
+        void Load(string filename)
         {
-            var file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(filename);
-
-            using (var stream = await file.OpenReadAsync())
-            {
-                var bmp = new WriteableBitmap(width, height);
-                bmp.SetSource(stream);
-
-                internalBuffer = bmp.PixelBuffer.ToArray();
-            }
+            internalBuffer = SKBitmap.Decode(filename).Bytes;
         }
 
         // Takes the U & V coordinates exported by Blender

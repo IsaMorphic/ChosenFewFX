@@ -1,10 +1,11 @@
-﻿using Windows.UI.Xaml.Media.Imaging;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SharpDX;
 using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using SkiaSharp;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace SoftEngine
 {
@@ -13,15 +14,13 @@ namespace SoftEngine
         private byte[] backBuffer;
         private readonly float[] depthBuffer;
         private object[] lockBuffer;
-        private WriteableBitmap bmp;
         private readonly int renderWidth;
         private readonly int renderHeight;
 
-        public Device(WriteableBitmap bmp)
+        public Device(int width, int height)
         {
-            this.bmp = bmp;
-            renderWidth = bmp.PixelWidth;
-            renderHeight = bmp.PixelHeight;
+            renderWidth = width;
+            renderHeight = height;
 
             // the back buffer size is equal to the number of pixels to draw
             // on screen (width*height) * 4 (R,G,B & Alpha values). 
@@ -93,15 +92,9 @@ namespace SoftEngine
 
         // Once everything is ready, we can flush the back buffer
         // into the front buffer. 
-        public void Present()
+        public SKBitmap Present()
         {
-            using (var stream = bmp.PixelBuffer.AsStream())
-            {
-                // writing our byte[] back buffer into our WriteableBitmap stream
-                stream.Write(backBuffer, 0, backBuffer.Length);
-            }
-            // request a redraw of the entire bitmap
-            bmp.Invalidate();
+            return SKBitmap.Decode(backBuffer);
         }
 
         // Clamping values to keep them between 0 and 1
@@ -435,13 +428,12 @@ namespace SoftEngine
         }
 
         // Loading the JSON file in an asynchronous manner
-        public async Task<Mesh[]> LoadJSONFileAsync(string fileName)
+        public Mesh[] LoadJSONFile(string fileName)
         {
             var meshes = new List<Mesh>();
             var materials = new Dictionary<String,Material>();
-            var file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(fileName);
-            var data = await Windows.Storage.FileIO.ReadTextAsync(file);
-            dynamic jsonObject = Newtonsoft.Json.JsonConvert.DeserializeObject(data);
+            var json = File.ReadAllText(fileName);
+            dynamic jsonObject = JsonConvert.DeserializeObject(json);
 
             for (var materialIndex = 0; materialIndex < jsonObject.materials.Count; materialIndex++)
             {
