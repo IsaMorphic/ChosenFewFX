@@ -300,7 +300,7 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\R
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChosenFewFX.NET\ChosenFewFX.NET.csproj">
-      <Project>{c0daaa41-e053-4922-98df-4a51cddbca9e}</Project>
+      <Project>{e3ebe96d-1423-4e98-97b8-20297b293179}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Library\ofxsupport.vcxproj">
       <Project>{257ec9ee-530a-4a6f-8b2e-aab1c8458707}</Project>

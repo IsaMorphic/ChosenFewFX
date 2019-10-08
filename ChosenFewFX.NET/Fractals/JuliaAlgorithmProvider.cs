@@ -1,30 +1,35 @@
 ﻿using MandelbrotSharp.Algorithms;
 using MandelbrotSharp.Numerics;
-using System.Numerics;
 
 namespace ChosenFewFX.NET.Fractals
 {
-    public class JuliaAlgorithmProvider<T> : AlgorithmProvider<T> where T : struct
+    public class JuliaParams<TNumber> : MTypeParams<TNumber> where TNumber : struct
     {
-        [Parameter(DefaultValue = 0)]
-        public Number<T> RealCoord;
+        public Complex<TNumber> Coordinates { get; set; }
 
-        [Parameter(DefaultValue = 0)]
-        public Number<T> ImaginaryCoord;
-
-        private Complex<T> Coordinate => new Complex<T>(RealCoord, ImaginaryCoord);
-
-        protected override PointData Run(Complex<T> point)
+        public override IAlgorithmParams Copy()
         {
-            Complex<T> z = point;
-            Complex<T> c = Coordinate;
-            int n = 0;
-            while (z.MagnitudeSqu < 4 && n < Params.MaxIterations)
-            { 
-                z = z * z + c;
-                n++;
-            }
-            return new PointData(z.As<double>(), n, n < Params.MaxIterations);
+            return new JuliaParams<TNumber>
+            {
+                MaxIterations = MaxIterations,
+                Magnification = Magnification,
+                Location = Location,
+                EscapeRadius = EscapeRadius,
+
+                Coordinates = Coordinates
+            };
+        }
+    }
+
+    public class JuliaAlgorithmProvider<TNumber> : MTypeAlgorithm<TNumber, JuliaParams<TNumber>> where TNumber : struct
+    {
+        private Complex<TNumber> Coordinate;
+
+        protected override Complex<TNumber> DoIteration(Complex<TNumber> z, Complex<TNumber> c)
+        {
+            if (z == Complex<TNumber>.Zero)
+                z = c;
+            return z * z + Coordinate;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using MandelbrotSharp.Numerics;
 using System;
-using System.Numerics;
 
 namespace ChosenFewFX.NET.Geometry
 {
@@ -32,7 +31,7 @@ namespace ChosenFewFX.NET.Geometry
 
         private PointD MapPoint(Complex<double> z)
         {
-            PointD p = new PointD(z.Real, z.Imag);
+            PointD p = new PointD(z.Real.Value, z.Imag.Value);
 
             PointD translated = p - InnerPlane.TopLeft;
 

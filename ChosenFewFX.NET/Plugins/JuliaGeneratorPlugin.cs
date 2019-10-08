@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ChosenFewFX.NET.Fractals;
 using ChosenFewFX.NET.Interop;
+using MandelbrotSharp.Algorithms;
+using MandelbrotSharp.Numerics;
 using MandelbrotSharp.Rendering;
 
 namespace ChosenFewFX.NET.Plugins
 {
-    public class JuliaGeneratorPlugin : MandelbrotGeneratorPlugin
+    public class JuliaGeneratorPlugin : FractalGeneratorPlugin<JuliaAlgorithmProvider<double>>
     {
         public JuliaGeneratorPlugin()
         {
@@ -21,12 +24,16 @@ namespace ChosenFewFX.NET.Plugins
         [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", Hint = "The imaginary part of a constant complex value used to render the fractal", MaximumValue = 2.0, MinimumValue = -2.0)]
         public double ImaginaryCoord;
 
-        protected override void Configure(RenderSettings settings)
+        protected override AlgorithmParams<double> GetParams()
         {
-            settings.AlgorithmType = typeof(JuliaAlgorithmProvider<>);
-            settings.ExtraParams = new Dictionary<string, object>
+            return new JuliaParams<double>
             {
-                { "RealCoord", RealCoord }, { "ImaginaryCoord", ImaginaryCoord }
+                MaxIterations = MaxIterations,
+                Magnification = Math.Pow(2, Magnification),
+                Location = new Complex<double>(Real, Imag),
+                EscapeRadius = 4.0,
+
+                Coordinates = new Complex<double>(RealCoord, ImaginaryCoord)
             };
         }
     }
