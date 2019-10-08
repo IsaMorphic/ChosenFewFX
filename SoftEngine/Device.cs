@@ -92,9 +92,20 @@ namespace SoftEngine
 
         // Once everything is ready, we can flush the back buffer
         // into the front buffer. 
-        public SKBitmap Present()
+        public unsafe SKBitmap Present()
         {
-            return SKBitmap.Decode(backBuffer);
+            byte[] frontBuffer = new byte[backBuffer.Length];
+            backBuffer.CopyTo(frontBuffer, 0);
+            SKBitmap bmp = new SKBitmap(new SKImageInfo()
+                .WithSize(renderWidth, renderHeight)
+                .WithColorType(SKColorType.Bgra8888)
+                .WithAlphaType(SKAlphaType.Unpremul)
+                );
+            fixed (byte* pixels = frontBuffer)
+            {
+                bmp.SetPixels(new IntPtr(pixels));
+            }
+            return bmp;
         }
 
         // Clamping values to keep them between 0 and 1
@@ -428,7 +439,7 @@ namespace SoftEngine
         }
 
         // Loading the JSON file in an asynchronous manner
-        public Mesh[] LoadJSONFile(string fileName)
+        public static Mesh[] LoadJSONFile(string fileName)
         {
             var meshes = new List<Mesh>();
             var materials = new Dictionary<String,Material>();
@@ -520,7 +531,7 @@ namespace SoftEngine
                     // Texture
                     var meshTextureID = jsonObject.meshes[meshIndex].materialId.Value;
                     var meshTextureName = materials[meshTextureID].DiffuseTextureName;
-                    mesh.Texture = new Texture(meshTextureName, 512, 512);
+                    mesh.Texture = new Texture(Path.Combine(Path.GetDirectoryName(fileName), meshTextureName), 512, 512);
                 }
 
                 mesh.ComputeFacesNormals();
