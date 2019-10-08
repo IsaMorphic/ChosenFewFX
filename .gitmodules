@@ -1,3 +1,6 @@
 [submodule "MandelbrotSharp"]
 	path = MandelbrotSharp
 	url = https://github.com/yodadude2003/MandelbrotSharp
+[submodule "openfx"]
+	path = openfx
+	url = https://github.com/yodadude2003/openfx

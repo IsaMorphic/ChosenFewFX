@@ -1,7 +1,7 @@
 #pragma once
 #include <vcclr.h>
 #include "ofxsMultiThread.h"
-#include "../include/ofxsProcessing.H"
+#include "ofxsProcessing.H"
 namespace ChosenFewFX {
 	class BaseProcessor : public OFX::ImageProcessor {
 	private:

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ofxsupport", "Library\ofxsupport.vcxproj", "{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChosenFewFX", "ChosenFewFX\chosenfewfx.vcxproj", "{F14ECC69-3767-44B1-A28C-32FB09F50C7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MandelbrotSharp", "MandelbrotSharp\MandelbrotSharp\MandelbrotSharp.csproj", "{EE9A0E85-86A3-407A-A48A-A23EB4CA1BB3}"
@@ -13,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MandelbrotSharp.Algorithms"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftEngine", "SoftEngine\SoftEngine.csproj", "{2C93D23D-A081-4BB5-8D23-038C4CF0D8E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChosenFewFX.NET", "ChosenFewFX.NET\ChosenFewFX.NET.csproj", "{E3EBE96D-1423-4E98-97B8-20297B293179}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChosenFewFX.NET", "ChosenFewFX.NET\ChosenFewFX.NET.csproj", "{E3EBE96D-1423-4E98-97B8-20297B293179}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ofxsupport", "openfx\Support\Library\ofxsupport.vcxproj", "{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,16 +25,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|Win32.ActiveCfg = Debug|Win32
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|Win32.Build.0 = Debug|Win32
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|x64.ActiveCfg = Debug|x64
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|x64.Build.0 = Debug|x64
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|Any CPU.ActiveCfg = Release|Win32
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|Win32.ActiveCfg = Release|Win32
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|Win32.Build.0 = Release|Win32
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|x64.ActiveCfg = Release|x64
-		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|x64.Build.0 = Release|x64
 		{F14ECC69-3767-44B1-A28C-32FB09F50C7E}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{F14ECC69-3767-44B1-A28C-32FB09F50C7E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F14ECC69-3767-44B1-A28C-32FB09F50C7E}.Debug|Win32.Build.0 = Debug|Win32
@@ -93,6 +83,16 @@ Global
 		{E3EBE96D-1423-4E98-97B8-20297B293179}.Release|Win32.Build.0 = Release|Any CPU
 		{E3EBE96D-1423-4E98-97B8-20297B293179}.Release|x64.ActiveCfg = Release|Any CPU
 		{E3EBE96D-1423-4E98-97B8-20297B293179}.Release|x64.Build.0 = Release|Any CPU
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|Win32.ActiveCfg = Debug|Win32
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|Win32.Build.0 = Debug|Win32
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|x64.ActiveCfg = Debug|x64
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Debug|x64.Build.0 = Debug|x64
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|Any CPU.ActiveCfg = Release|Win32
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|Win32.ActiveCfg = Release|Win32
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|Win32.Build.0 = Release|Win32
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|x64.ActiveCfg = Release|x64
+		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
