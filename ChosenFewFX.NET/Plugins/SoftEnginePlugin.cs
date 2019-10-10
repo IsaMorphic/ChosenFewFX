@@ -18,13 +18,13 @@ namespace ChosenFewFX.NET.Plugins
         [StringParam(DefaultValue = "", Hint = "Texture to use with model (only one texture is currently supported)", Label = "Texture File", StringType = StringType.FilePath)]
         public string TexturePath;
 
-        [RangeParam(DefaultValue = 0.0, Hint = "The camera's translation in the left/right direction", Label = "Camera Translation X", MaximumValue = 1000.0, MinimumValue = -1000.0)]
+        [RangeParam(DefaultValue = 0.0, Hint = "The camera's translation in the left/right direction", Label = "Camera Translation X", MaximumValue = 500.0, MinimumValue = -500.0)]
         public double CameraX;
 
-        [RangeParam(DefaultValue = 0.0, Hint = "The camera's translation in the up/down direction", Label = "Camera Translation Y", MaximumValue = 1000.0, MinimumValue = -1000.0)]
+        [RangeParam(DefaultValue = 0.0, Hint = "The camera's translation in the up/down direction", Label = "Camera Translation Y", MaximumValue = 500.0, MinimumValue = -500.0)]
         public double CameraY;
 
-        [RangeParam(DefaultValue = 0.0, Hint = "The camera's translation in the direction pointing away/towards the screen", Label = "Camera Translation Z", MaximumValue = 1000.0, MinimumValue = -1000.0)]
+        [RangeParam(DefaultValue = 250.0, Hint = "The camera's translation in the direction pointing away/towards the screen", Label = "Camera Translation Z", MaximumValue = 500.0, MinimumValue = -500.0)]
         public double CameraZ;
 
         [RangeParam(DefaultValue = 0.0, Hint = "Model Yaw", Label = "Model Yaw", MaximumValue = Math.PI * 2, MinimumValue = 0.0)]
@@ -37,13 +37,13 @@ namespace ChosenFewFX.NET.Plugins
         public double ModelRoll;
 
 
-        [RangeParam(DefaultValue = 0.0, Hint = "The model's translation in the left/right direction", Label = "Model Translation X", MaximumValue = 1000.0, MinimumValue = -1000.0)]
+        [RangeParam(DefaultValue = 0.0, Hint = "The model's translation in the left/right direction", Label = "Model Translation X", MaximumValue = 500.0, MinimumValue = -500.0)]
         public double ModelX;
 
-        [RangeParam(DefaultValue = 0.0, Hint = "The model's translation in the up/down direction", Label = "Model Translation Y", MaximumValue = 1000.0, MinimumValue = -1000.0)]
+        [RangeParam(DefaultValue = 0.0, Hint = "The model's translation in the up/down direction", Label = "Model Translation Y", MaximumValue = 500.0, MinimumValue = -500.0)]
         public double ModelY;
 
-        [RangeParam(DefaultValue = 0.0, Hint = "The model's translation in the direction pointing away/towards the screen", Label = "Model Translation Z", MaximumValue = 1000.0, MinimumValue = -1000.0)]
+        [RangeParam(DefaultValue = 0.0, Hint = "The model's translation in the direction pointing away/towards the screen", Label = "Model Translation Z", MaximumValue = 500.0, MinimumValue = -500.0)]
         public double ModelZ;
 
         public SoftEnginePlugin()
