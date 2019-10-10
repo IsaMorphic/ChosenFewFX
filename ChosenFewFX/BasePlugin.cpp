@@ -18,6 +18,12 @@ ChosenFewFX::BasePlugin::BasePlugin(OfxImageEffectHandle handle, NET::Interop::B
 
 void ChosenFewFX::BasePlugin::render(const OFX::RenderArguments &args)
 {
+	if (shouldUpdateParams == true) 
+	{
+		transferParams(args.time);
+		pluginHandle->ParamUpdated(marshal_as<System::String^>(updatedParam));
+		shouldUpdateParams = false;
+	}
 	BaseProcessor processor(*this, pluginHandle);
 	std::auto_ptr<OFX::Image> dst(dstClip_->fetchImage(args.time));
 	processor.setDstImg(dst.get());
@@ -62,6 +68,6 @@ void ChosenFewFX::BasePlugin::transferParams(OfxTime time)
 
 void ChosenFewFX::BasePlugin::changedParam(const OFX::InstanceChangedArgs &args, const std::string &paramName)
 {
-	transferParams(args.time);
-	pluginHandle->ParamUpdated(marshal_as<System::String^>(paramName));
+	shouldUpdateParams = true;
+	updatedParam = paramName;
 }

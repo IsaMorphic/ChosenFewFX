@@ -11,6 +11,8 @@ namespace ChosenFewFX {
 	class BasePlugin : public OFX::ImageEffect
 	{
 	private:
+		bool shouldUpdateParams;
+		std::string updatedParam;
 		gcroot<NET::Interop::BasePlugin^> pluginHandle;
 		gcroot<List<System::Reflection::FieldInfo^>^> paramFields;
 	protected:
