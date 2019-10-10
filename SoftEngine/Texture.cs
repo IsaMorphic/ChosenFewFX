@@ -11,16 +11,12 @@ namespace SoftEngine
         private int height;
 
         // Working with a fix sized texture (512x512, 1024x1024, etc.).
-        public Texture(string filename, int width, int height)
+        public Texture(string filename)
         {
-            this.width = width;
-            this.height = height;
-            Load(filename);
-        }
-
-        void Load(string filename)
-        {
-            internalBuffer = SKBitmap.Decode(filename).Bytes;
+            SKBitmap image = SKBitmap.Decode(filename);
+            this.width = image.Width;
+            this.height = image.Height;
+            internalBuffer = image.Bytes;
         }
 
         // Takes the U & V coordinates exported by Blender

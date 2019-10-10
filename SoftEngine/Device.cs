@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SharpDX;
 using System;
 using System.Threading.Tasks;
@@ -16,6 +16,8 @@ namespace SoftEngine
         private object[] lockBuffer;
         private readonly int renderWidth;
         private readonly int renderHeight;
+
+        public Vector3 LightPos { get; set; }
 
         public Device(int width, int height)
         {
@@ -215,7 +217,7 @@ namespace SoftEngine
                 // changing the native color value using the cosine of the angle
                 // between the light vector and the normal vector
                 // and the texture color
-                DrawPoint(new Vector3(x, data.currentY, z), color * ndotl * textureColor);
+                DrawPoint(new Vector3(x, data.currentY, z), color * new Color4(new Color3(ndotl), 1.0f) * textureColor);
             }
         }
 
@@ -249,14 +251,11 @@ namespace SoftEngine
             Vector3 p2 = v2.Coordinates;
             Vector3 p3 = v3.Coordinates;
 
-            // Light position 
-            Vector3 lightPos = new Vector3(0, 10, 10);
-
             // computing the cos of the angle between the light vector and the normal vector
             // it will return a value between 0 and 1 that will be used as the intensity of the color
-            float nl1 = ComputeNDotL(v1.WorldCoordinates, v1.Normal, lightPos);
-            float nl2 = ComputeNDotL(v2.WorldCoordinates, v2.Normal, lightPos);
-            float nl3 = ComputeNDotL(v3.WorldCoordinates, v3.Normal, lightPos);
+            float nl1 = ComputeNDotL(v1.WorldCoordinates, v1.Normal, LightPos);
+            float nl2 = ComputeNDotL(v2.WorldCoordinates, v2.Normal, LightPos);
+            float nl3 = ComputeNDotL(v3.WorldCoordinates, v3.Normal, LightPos);
 
             var data = new ScanLineData { };
 
