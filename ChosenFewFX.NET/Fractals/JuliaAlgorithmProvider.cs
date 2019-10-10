@@ -23,13 +23,11 @@ namespace ChosenFewFX.NET.Fractals
 
     public class JuliaAlgorithmProvider<TNumber> : MTypeAlgorithm<TNumber, JuliaParams<TNumber>> where TNumber : struct
     {
-        private Complex<TNumber> Coordinate;
-
         protected override Complex<TNumber> DoIteration(Complex<TNumber> z, Complex<TNumber> c)
         {
             if (z == Complex<TNumber>.Zero)
                 z = c;
-            return z * z + Coordinate;
+            return z * z + Params.Coordinates;
         }
     }
 }
