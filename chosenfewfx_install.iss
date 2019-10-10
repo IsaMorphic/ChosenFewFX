@@ -33,7 +33,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Files]
 Source: "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Release-Win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: not IsWin64
 Source: "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Release-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
-Source: "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Release\*.dll"; DestDir: "{app}\ChosenFewFX.ofx.bundle\Contents\"; Flags: ignoreversion;
+Source: "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Release\net461\*.dll"; DestDir: "{app}\ChosenFewFX.ofx.bundle\Contents\"; Flags: ignoreversion;
 Source: "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ofx-license.txt"; DestDir: "{app}\ChosenFewFX.ofx.bundle\"; Flags: ignoreversion;
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
