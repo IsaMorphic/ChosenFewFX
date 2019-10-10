@@ -8,7 +8,7 @@ using MandelbrotSharp.Rendering;
 
 namespace ChosenFewFX.NET.Plugins
 {
-    public class JuliaGeneratorPlugin : FractalGeneratorPlugin<JuliaAlgorithmProvider<double>>
+    public class JuliaGeneratorPlugin : FractalGeneratorPlugin
     {
         public JuliaGeneratorPlugin()
         {
@@ -24,7 +24,12 @@ namespace ChosenFewFX.NET.Plugins
         [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", Hint = "The imaginary part of a constant complex value used to render the fractal", MaximumValue = 2.0, MinimumValue = -2.0)]
         public double ImaginaryCoord;
 
-        protected override AlgorithmParams<double> GetParams()
+        protected override IFractalRenderer InitializeRenderer(int width, int height)
+        {
+            return new DefaultRenderer<double, JuliaAlgorithmProvider<double>>(width, height);
+        }
+
+        protected override IAlgorithmParams GetParams()
         {
             return new JuliaParams<double>
             {

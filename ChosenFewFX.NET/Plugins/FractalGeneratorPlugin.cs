@@ -1,7 +1,6 @@
-﻿using ChosenFewFX.NET.Interop;
+using ChosenFewFX.NET.Interop;
 using MandelbrotSharp.Rendering;
 using MandelbrotSharp.Imaging;
-using MandelbrotSharp.Numerics;
 using SkiaSharp;
 using ChosenFewFX.NET.Fractals;
 using System;
@@ -10,9 +9,9 @@ using MandelbrotSharp.Algorithms;
 
 namespace ChosenFewFX.NET.Plugins
 {
-    public abstract class FractalGeneratorPlugin<TAlgorithm> : BasePlugin where TAlgorithm : IAlgorithmProvider<double>, new()
+    public abstract class FractalGeneratorPlugin : BasePlugin
     {
-        private DefaultRenderer<double, TAlgorithm> Renderer = null;
+        private IFractalRenderer Renderer = null;
 
         private Gradient Colors = new Gradient(new RgbaValue[]
         {
@@ -61,7 +60,7 @@ namespace ChosenFewFX.NET.Plugins
         {
             if (Renderer?.RenderStatus == TaskStatus.Running)
                 Renderer?.StopRenderFrame();
-            Renderer = new DefaultRenderer<double, TAlgorithm>(DestImage.Width, DestImage.Height);
+            Renderer = InitializeRenderer(DestImage.Width, DestImage.Height);
             if (!string.IsNullOrWhiteSpace(PalettePath))
                 Colors = FractalUtils.LoadPallete(PalettePath);
             RenderSettings settings = new RenderSettings
@@ -77,7 +76,9 @@ namespace ChosenFewFX.NET.Plugins
             Renderer.StartRenderFrame().Wait();
         }
 
-        protected abstract AlgorithmParams<double> GetParams();
+        protected abstract IAlgorithmParams GetParams();
+        
+        protected abstract IFractalRenderer InitializeRenderer(int width, int height);
 
         private void Renderer_FrameFinished(object sender, FrameEventArgs e)
         {
