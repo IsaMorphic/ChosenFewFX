@@ -1,4 +1,4 @@
-﻿using ChosenFewFX.NET.Interop;
+using ChosenFewFX.NET.Interop;
 using SharpDX;
 using SkiaSharp;
 using SoftEngine;
@@ -87,10 +87,17 @@ namespace ChosenFewFX.NET.Plugins
 
         public override void ParamUpdated(string paramName)
         {
-            if (paramName == "ModelPath" && !string.IsNullOrEmpty(ModelPath))
-                Mesh = Mesh.LoadOBJ(ModelPath);
-            else if (paramName == "TexturePath" && !string.IsNullOrEmpty(TexturePath))
-                Mesh.Texture = new Texture(TexturePath);
+            switch (paramName)
+            {
+                case "ModelPath":
+                    if (!string.IsNullOrEmpty(ModelPath))
+                        Mesh = Mesh.LoadOBJ(ModelPath);
+                    break;
+                case "TexturePath":
+                    if (!string.IsNullOrEmpty(TexturePath))
+                        Mesh.Texture = new Texture(TexturePath);
+                    break;
+            }
         }
     }
 }

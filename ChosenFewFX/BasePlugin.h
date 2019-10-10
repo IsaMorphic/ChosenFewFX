@@ -12,7 +12,7 @@ namespace ChosenFewFX {
 	{
 	private:
 		bool shouldUpdateParams;
-		std::string updatedParam;
+		std::vector<std::string> updatedParams;
 		gcroot<NET::Interop::BasePlugin^> pluginHandle;
 		gcroot<List<System::Reflection::FieldInfo^>^> paramFields;
 	protected:

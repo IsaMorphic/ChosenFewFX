@@ -21,8 +21,12 @@ void ChosenFewFX::BasePlugin::render(const OFX::RenderArguments &args)
 	if (shouldUpdateParams == true) 
 	{
 		transferParams(args.time);
-		pluginHandle->ParamUpdated(marshal_as<System::String^>(updatedParam));
+		for each (std::string param in updatedParams)
+		{
+			pluginHandle->ParamUpdated(marshal_as<System::String^>(param));
+		}
 		shouldUpdateParams = false;
+		updatedParams.clear();
 	}
 	BaseProcessor processor(*this, pluginHandle);
 	std::auto_ptr<OFX::Image> dst(dstClip_->fetchImage(args.time));
@@ -69,5 +73,5 @@ void ChosenFewFX::BasePlugin::transferParams(OfxTime time)
 void ChosenFewFX::BasePlugin::changedParam(const OFX::InstanceChangedArgs &args, const std::string &paramName)
 {
 	shouldUpdateParams = true;
-	updatedParam = paramName;
+	updatedParams.push_back(paramName);
 }

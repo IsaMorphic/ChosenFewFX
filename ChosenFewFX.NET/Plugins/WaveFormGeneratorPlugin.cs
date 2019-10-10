@@ -1,4 +1,4 @@
-﻿using ChosenFewFX.NET.Geometry;
+using ChosenFewFX.NET.Geometry;
 using ChosenFewFX.NET.Interop;
 using NAudio.Wave;
 using SkiaSharp;
@@ -64,8 +64,13 @@ namespace ChosenFewFX.NET.Plugins
 
         public override void ParamUpdated(string paramName)
         {
-            if (paramName == "FilePath" && !string.IsNullOrEmpty(FilePath))
-                WaveStream = new AudioFileReader(FilePath);
+            switch (paramName)
+            {
+                case "FilePath":
+                    if (!string.IsNullOrEmpty(FilePath))
+                        WaveStream = new AudioFileReader(FilePath);
+                    break;
+            }
         }
     }
 }
