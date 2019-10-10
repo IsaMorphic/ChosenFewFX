@@ -9,13 +9,14 @@ using Newtonsoft.Json;
 
 namespace SoftEngine
 {
-    public class Device
+    public unsafe class Device
     {
-        private byte[] backBuffer;
+        private byte* backBuffer;
         private readonly float[] depthBuffer;
         private object[] lockBuffer;
         private readonly int renderWidth;
         private readonly int renderHeight;
+        private SKBitmap bmp;
 
         public Vector3 LightPos { get; set; }
 
@@ -23,10 +24,10 @@ namespace SoftEngine
         {
             renderWidth = width;
             renderHeight = height;
-
+            bmp = new SKBitmap(new SKImageInfo(renderWidth, renderHeight, SKColorType.Bgra8888, SKAlphaType.Unpremul));
             // the back buffer size is equal to the number of pixels to draw
             // on screen (width*height) * 4 (R,G,B & Alpha values). 
-            backBuffer = new byte[renderWidth * renderHeight * 4];
+            backBuffer = (byte*)bmp.GetPixels();
             depthBuffer = new float[renderWidth * renderHeight];
             lockBuffer = new object[renderWidth * renderHeight];
             for (var i = 0; i < lockBuffer.Length; i++)
@@ -65,7 +66,7 @@ namespace SoftEngine
         public void Clear(byte r, byte g, byte b, byte a)
         {
             // Clearing Back Buffer
-            for (var index = 0; index < backBuffer.Length; index += 4)
+            for (var index = 0; index < bmp.ByteCount; index += 4)
             {
                 // BGRA is used by Windows instead by RGBA in HTML5
                 backBuffer[index] = b;
@@ -96,18 +97,7 @@ namespace SoftEngine
         // into the front buffer. 
         public unsafe SKBitmap Present()
         {
-            byte[] frontBuffer = new byte[backBuffer.Length];
-            backBuffer.CopyTo(frontBuffer, 0);
-            SKBitmap bmp = new SKBitmap(new SKImageInfo()
-                .WithSize(renderWidth, renderHeight)
-                .WithColorType(SKColorType.Bgra8888)
-                .WithAlphaType(SKAlphaType.Unpremul)
-                );
-            fixed (byte* pixels = frontBuffer)
-            {
-                bmp.SetPixels(new IntPtr(pixels));
-            }
-            return bmp;
+            return bmp.Copy();
         }
 
         // Clamping values to keep them between 0 and 1
@@ -217,7 +207,7 @@ namespace SoftEngine
                 // changing the native color value using the cosine of the angle
                 // between the light vector and the normal vector
                 // and the texture color
-                DrawPoint(new Vector3(x, data.currentY, z), color * new Color4(new Color3(ndotl), 1.0f) * textureColor);
+                DrawPoint(new Vector3(x, data.currentY, z), color * new Color4(ndotl, ndotl, ndotl, 1.0f) * textureColor);
             }
         }
 
