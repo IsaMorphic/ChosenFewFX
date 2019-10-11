@@ -1,0 +1,1 @@
+This folder contains the Inno Setup Compiler script file for building the Windows Setup Executable for Chosen Few FX, as well as the file INSTALL_README.txt, which is referenced by the script in order to display its contents to the user before installation.  

@@ -14,14 +14,14 @@ AppId={{17A04035-B0B7-4F24-8163-D2918C5287B8}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 DefaultDirName={pf}\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\
-InfoBeforeFile=D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\installinfo.txt
+InfoBeforeFile=INSTALL_README.txt
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultGroupName={#MyAppName}
-OutputDir=C:\Users\ian_000\Documents\Custom Installers
+OutputDir=.\bin\
 OutputBaseFilename=ChosenFewFX
 Compression=lzma
 SolidCompression=yes
@@ -31,10 +31,10 @@ ArchitecturesInstallIn64BitMode=x64 ia64
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: ".\Release-Win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: not IsWin64
-Source: ".\Release-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
-Source: ".\ChosenFewFX.NET\bin\Release\net461\*.dll"; DestDir: "{app}\ChosenFewFX.ofx.bundle\Contents\"; Flags: ignoreversion;
-Source: ".\openfx\Support\LISCENSE"; DestDir: "{app}\ChosenFewFX.ofx.bundle\OFX-LISCENSE.txt"; Flags: ignoreversion;
+Source: "..\Release-Win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: not IsWin64
+Source: "..\Release-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
+Source: "..\ChosenFewFX.NET\bin\Release\net461\*.dll"; DestDir: "{app}\ChosenFewFX.ofx.bundle\Contents\"; Flags: ignoreversion;
+Source: "..\openfx\Support\LICENSE"; DestDir: "{app}\ChosenFewFX.ofx.bundle\"; DestName: "OFX-LISCENSE.txt"; Flags: ignoreversion;
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
