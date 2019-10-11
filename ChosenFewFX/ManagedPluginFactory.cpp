@@ -30,7 +30,9 @@ void ChosenFewFX::ManagedPluginFactory<T>::describe(OFX::ImageEffectDescriptor &
 	desc.addSupportedBitDepth(eBitDepthUByte);
 
 	desc.setRenderThreadSafety(eRenderUnsafe);
+	desc.setHostFrameThreading(false);
 	desc.setRenderTwiceAlways(false);
+	desc.setSingleInstance(true);
 }
 
 template<class T>

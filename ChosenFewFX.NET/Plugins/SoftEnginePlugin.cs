@@ -3,6 +3,8 @@ using SharpDX;
 using SkiaSharp;
 using SoftEngine;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ChosenFewFX.NET.Plugins
 {
@@ -10,7 +12,12 @@ namespace ChosenFewFX.NET.Plugins
     {
         private Device Device { get; set; }
         private Camera Camera { get; set; }
+
         private Mesh Mesh { get; set; }
+        private Texture Texture { get; set; }
+
+        private Dictionary<string, Mesh> ModelCache { get; }
+        private Dictionary<string, Texture> TextureCache { get; }
 
         [StringParam(DefaultValue = "", Hint = "OBJ Model file to render", Label = "OBJ 3D Model File", StringType = StringType.FilePath)]
         public string ModelPath;
@@ -52,6 +59,9 @@ namespace ChosenFewFX.NET.Plugins
             MajorVersion = 1;
             MinorVersion = 0;
             Name = "SoftEngine 3D";
+
+            ModelCache = new Dictionary<string, Mesh>();
+            TextureCache = new Dictionary<string, Texture>();
         }
 
         public override void PreProcess()
@@ -63,8 +73,13 @@ namespace ChosenFewFX.NET.Plugins
 
             Device.LightPos = Camera.Position = new Vector3((float)CameraX, (float)CameraY, (float)CameraZ);
 
+            LoadModel();
+            LoadTexture();
+
             if (Mesh == null)
                 return;
+
+            Mesh.Texture = Texture;
 
             Mesh.Position = new Vector3((float)ModelX, (float)ModelY, (float)ModelZ);
             Mesh.Rotation = new Vector3((float)ModelYaw, (float)ModelPitch, (float)ModelRoll);
@@ -85,18 +100,31 @@ namespace ChosenFewFX.NET.Plugins
             }
         }
 
-        public override void ParamUpdated(string paramName)
+        private void LoadModel()
         {
-            switch (paramName)
+            if (ModelCache.ContainsKey(ModelPath))
             {
-                case "ModelPath":
-                    if (!string.IsNullOrEmpty(ModelPath))
-                        Mesh = Mesh.LoadOBJ(ModelPath);
-                    break;
-                case "TexturePath":
-                    if (!string.IsNullOrEmpty(TexturePath))
-                        Mesh.Texture = new Texture(TexturePath);
-                    break;
+                Mesh = ModelCache[ModelPath];
+            }
+            else if (File.Exists(ModelPath))
+            {
+                Mesh mesh = Mesh.LoadOBJ(ModelPath);
+                ModelCache.Add(ModelPath, mesh);
+                Mesh = mesh;
+            }
+        }
+
+        private void LoadTexture()
+        {
+            if (TextureCache.ContainsKey(TexturePath))
+            {
+                Texture = TextureCache[TexturePath];
+            }
+            else if (File.Exists(TexturePath))
+            {
+                Texture texture = new Texture(TexturePath);
+                TextureCache.Add(TexturePath, texture);
+                Texture = texture;
             }
         }
     }
