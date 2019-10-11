@@ -145,6 +145,9 @@ namespace SoftEngine
         // Returns a value between 0 and 1
         float ComputeNDotL(Vector3 vertex, Vector3 normal, Vector3 lightPosition)
         {
+            if (normal == Vector3.Zero)
+                return 1.0f;
+
             var lightDirection = lightPosition - vertex;
 
             normal.Normalize();

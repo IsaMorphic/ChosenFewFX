@@ -81,6 +81,11 @@ namespace SoftEngine
                     Tuple<int, int, int> v2 = ParseIndicies(tokens[1]);
                     Tuple<int, int, int> v3 = ParseIndicies(tokens[2]);
                     faces.Add(new Tuple<int, int, int>[3] { v1, v2, v3 });
+                    if (tokens.Length > 3)
+                    {
+                        Tuple<int, int, int> v4 = ParseIndicies(tokens[3]);
+                        faces.Add(new Tuple<int, int, int>[3] { v1, v3, v4 });
+                    }
                 }
             }
 
@@ -92,12 +97,12 @@ namespace SoftEngine
                 for (int j = 0; j < 3; j++)
                 {
                     int vertIdx = faces[i][j].Item1;
-                    int uvIdx   = faces[i][j].Item2;
+                    int uvIdx = faces[i][j].Item2;
                     int normIdx = faces[i][j].Item3;
                     faceVerts[j] = new Vertex
                     {
                         Coordinates = vertices[vertIdx],
-                        Normal = normals[normIdx],
+                        Normal = (normIdx == -1) ? Vector3.Zero : normals[normIdx],
                         TextureCoordinates = (uvIdx == -1) ? Vector2.Zero : uvs[uvIdx]
                     };
                 }
@@ -123,10 +128,26 @@ namespace SoftEngine
         private static Tuple<int, int, int> ParseIndicies(string s)
         {
             string[] tokens = s.Split('/');
-            int i1 = int.Parse(tokens[0]) - 1;
-            int i2 = tokens[1] == string.Empty ? -1 : int.Parse(tokens[1]) - 1;
-            int i3 = int.Parse(tokens[2]) - 1;
-            return new Tuple<int, int, int>(i1, i2, i3);
+            switch (tokens.Length)
+            {
+                case 1:
+                    return new Tuple<int, int, int>(
+                        int.Parse(tokens[0]) - 1, 
+                        -1, 
+                        -1);
+                case 2:
+                    return new Tuple<int, int, int>(
+                        int.Parse(tokens[0]) - 1, 
+                        int.Parse(tokens[1]) - 1, 
+                        -1);
+                case 3:
+                    int i1 = int.Parse(tokens[0]) - 1;
+                    int i2 = tokens[1] == string.Empty ? -1 : int.Parse(tokens[1]) - 1;
+                    int i3 = tokens[2] == string.Empty ? -1 : int.Parse(tokens[2]) - 1;
+                    return new Tuple<int, int, int>(i1, i2, i3);
+                default:
+                    throw new ArgumentException();
+            }
         }
     }
 }
