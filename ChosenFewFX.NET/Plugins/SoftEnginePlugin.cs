@@ -8,22 +8,17 @@ using System.IO;
 
 namespace ChosenFewFX.NET.Plugins
 {
-    public class SoftEnginePlugin : BasePlugin
+    public class SoftEnginePlugin : FilterPlugin
     {
         private Device Device { get; set; }
         private Camera Camera { get; set; }
 
         private Mesh Mesh { get; set; }
-        private Texture Texture { get; set; }
 
         private Dictionary<string, Mesh> ModelCache { get; }
-        private Dictionary<string, Texture> TextureCache { get; }
 
         [StringParam(DefaultValue = "", Hint = "OBJ Model file to render", Label = "OBJ 3D Model File", StringType = StringType.FilePath)]
         public string ModelPath;
-
-        [StringParam(DefaultValue = "", Hint = "Texture to use with model (only one texture is currently supported)", Label = "Texture File", StringType = StringType.FilePath)]
-        public string TexturePath;
 
         [RangeParam(DefaultValue = 0.0, Hint = "The camera's translation in the left/right direction", Label = "Camera Translation X", MaximumValue = 500.0, MinimumValue = -500.0)]
         public double CameraX;
@@ -61,7 +56,6 @@ namespace ChosenFewFX.NET.Plugins
             Name = "SoftEngine 3D";
 
             ModelCache = new Dictionary<string, Mesh>();
-            TextureCache = new Dictionary<string, Texture>();
         }
 
         public override void PreProcess()
@@ -74,12 +68,11 @@ namespace ChosenFewFX.NET.Plugins
             Device.LightPos = Camera.Position = new Vector3((float)CameraX, (float)CameraY, (float)CameraZ);
 
             LoadModel();
-            LoadTexture();
 
             if (Mesh == null)
                 return;
 
-            Mesh.Texture = Texture;
+            Mesh.Texture = new Texture(SourceImage);
 
             Mesh.Position = new Vector3((float)ModelX, (float)ModelY, (float)ModelZ);
             Mesh.Rotation = new Vector3((float)ModelYaw, (float)ModelPitch, (float)ModelRoll);
@@ -95,7 +88,7 @@ namespace ChosenFewFX.NET.Plugins
                 for (int x = 0; x < DestImage.Width; x++)
                 {
                     SKColor pixel = rendered.GetPixel(x, DestImage.Height - (y + 1));
-                    DestImage.SetPixel(x, y, new SKColor(pixel.Blue, pixel.Green, pixel.Red, pixel.Alpha));
+                    DestImage.SetPixel(x, y, pixel);
                 }
             }
         }
@@ -111,20 +104,6 @@ namespace ChosenFewFX.NET.Plugins
                 Mesh mesh = Mesh.LoadOBJ(ModelPath);
                 ModelCache.Add(ModelPath, mesh);
                 Mesh = mesh;
-            }
-        }
-
-        private void LoadTexture()
-        {
-            if (TextureCache.ContainsKey(TexturePath))
-            {
-                Texture = TextureCache[TexturePath];
-            }
-            else if (File.Exists(TexturePath))
-            {
-                Texture texture = new Texture(TexturePath);
-                TextureCache.Add(TexturePath, texture);
-                Texture = texture;
             }
         }
     }

@@ -4,19 +4,20 @@ using SharpDX;
 
 namespace SoftEngine
 {
-    public class Texture
+    public unsafe class Texture
     {
-        private byte[] internalBuffer;
+        private SKBitmap bmp;
+        private byte* internalBuffer;
         private int width;
         private int height;
 
         // Working with a fix sized texture (512x512, 1024x1024, etc.).
-        public Texture(string filename)
+        public Texture(SKBitmap image)
         {
-            SKBitmap image = SKBitmap.Decode(filename);
-            this.width = image.Width;
-            this.height = image.Height;
-            internalBuffer = image.Bytes;
+            bmp = image.Copy();
+            this.width = bmp.Width;
+            this.height = bmp.Height;
+            internalBuffer = (byte*)bmp.GetPixels();
         }
 
         // Takes the U & V coordinates exported by Blender
