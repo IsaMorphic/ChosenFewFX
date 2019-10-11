@@ -11,10 +11,10 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
+[Dd]ebug*/
+[Dd]ebugPublic*/
+[Rr]elease*/
+[Rr]eleases*/
 x64/
 x86/
 bld/
@@ -259,10 +259,3 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-
-Release-x64/
-Release-Win32/
-
-/ChosenFewFX/Debug-x64
-/Debug-x64/ChosenFewFX.ofx.bundle/Contents/Win64
-/Library/Debug-x64
