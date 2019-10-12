@@ -46,13 +46,13 @@ namespace ChosenFewFX.NET.Plugins
         [RangeParam(DefaultValue = 250.0, Hint = "The camera's translation in the direction pointing away/towards the screen", Label = "Camera Translation Z", MaximumValue = 500.0, MinimumValue = -500.0)]
         public double CameraZ;
 
-        [RangeParam(DefaultValue = 0.0, Hint = "Model Yaw", Label = "Model Yaw", MaximumValue = Math.PI * 2, MinimumValue = 0.0)]
+        [RangeParam(DefaultValue = 0.0, Hint = "Model Yaw", Label = "Model Yaw", MaximumValue = Math.PI * 2, MinimumValue = -Math.PI * 2)]
         public double ModelYaw;
 
-        [RangeParam(DefaultValue = 0.0, Hint = "Model Pitch", Label = "Model Pitch", MaximumValue = Math.PI * 2, MinimumValue = 0.0)]
+        [RangeParam(DefaultValue = 0.0, Hint = "Model Pitch", Label = "Model Pitch", MaximumValue = Math.PI * 2, MinimumValue = -Math.PI * 2)]
         public double ModelPitch;
 
-        [RangeParam(DefaultValue = 0.0, Hint = "Model Roll", Label = "Model Roll", MaximumValue = Math.PI * 2, MinimumValue = 0.0)]
+        [RangeParam(DefaultValue = 0.0, Hint = "Model Roll", Label = "Model Roll", MaximumValue = Math.PI * 2, MinimumValue = -Math.PI * 2)]
         public double ModelRoll;
 
 
