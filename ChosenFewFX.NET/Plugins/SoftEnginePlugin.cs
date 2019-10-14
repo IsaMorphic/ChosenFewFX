@@ -108,6 +108,7 @@ namespace ChosenFewFX.NET.Plugins
                     DestImage.SetPixel(x, y, pixel);
                 }
             }
+            Mesh = null;
         }
 
         private void LoadModel()

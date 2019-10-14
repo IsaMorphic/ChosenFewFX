@@ -20,14 +20,19 @@ using ChosenFewFX.NET.Interop;
 using NAudio.Wave;
 using SkiaSharp;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ChosenFewFX.NET.Plugins
 {
     public class WaveFormGeneratorPlugin : BasePlugin
     {
-        private WaveStream WaveStream;
-        private SKCanvas Canvas;
-        private SKPath WaveFormPath;
+        private SKCanvas Canvas { get; set; }
+        private SKPath WaveFormPath { get; set; }
+
+        private WaveStream WaveStream { get; set; }
+
+        private Dictionary<string, AudioFileReader> AudioFiles { get; set; }
 
 
         [RangeParam(DefaultValue = 300, Label = "Sample Count", Hint = "The number of samples to graph", MaximumValue = 48000, MinimumValue = 4)]
@@ -51,6 +56,7 @@ namespace ChosenFewFX.NET.Plugins
             MajorVersion = 1;
             MinorVersion = 0;
             Name = "Wave Form";
+            AudioFiles = new Dictionary<string, AudioFileReader>();
         }
 
         public override void PreProcess()
@@ -62,6 +68,7 @@ namespace ChosenFewFX.NET.Plugins
 
         public override void ProcessPixels(RectangleI region)
         {
+            LoadAudio();
             if (WaveStream == null)
                 return;
             float[] samples = new float[SampleCount];
@@ -77,16 +84,20 @@ namespace ChosenFewFX.NET.Plugins
         public override void PostProcess()
         {
             Canvas.DrawPath(WaveFormPath, new SKPaint { Color = WaveColor, StrokeWidth = (float)LineWidth, IsStroke = true });
+            WaveStream = null;
         }
 
-        public override void ParamUpdated(string paramName)
+        private void LoadAudio()
         {
-            switch (paramName)
+            if (AudioFiles.ContainsKey(FilePath))
             {
-                case "FilePath":
-                    if (!string.IsNullOrEmpty(FilePath))
-                        WaveStream = new AudioFileReader(FilePath);
-                    break;
+                WaveStream = AudioFiles[FilePath];
+            }
+            else if (File.Exists(FilePath))
+            {
+                AudioFileReader reader = new AudioFileReader(FilePath);
+                AudioFiles.Add(FilePath, reader);
+                WaveStream = reader;
             }
         }
     }
