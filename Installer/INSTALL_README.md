@@ -4,6 +4,8 @@ Before proceeding be aware that it is up to you to find your program's OFX plugi
 
 All users of this plugin should know that:
 
+* This plugin requires at .NET Framework 4.6.1 or above to be installed on your computer.  Download it here: https://www.microsoft.com/en-us/download/details.aspx?id=49981
+
 * There are video tutorials for using Chosen Few FX filters and generators available on my YouTube channel.  Go to http://youtube.com/yodadude2003 and look for the "Chosen Few FX Tutorials" playlist.  
 
 * The plugin's full source code is available on GitHub at https://github.com/yodadude2003/ChosenFewFX
