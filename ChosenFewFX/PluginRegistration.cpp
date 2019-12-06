@@ -34,6 +34,8 @@ namespace OFX
 			DEF_PLUG(ChosenFewFX::NET::Plugins::SoftEnginePlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::MandelbrotGeneratorPlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::JuliaGeneratorPlugin);
+			DEF_PLUG(ChosenFewFX::NET::Plugins::RaptorRealtimePlugin);
+			DEF_PLUG(ChosenFewFX::NET::Plugins::RaptorScriptingPlugin);
 		}
 	}
 }
