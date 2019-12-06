@@ -29,7 +29,7 @@ namespace ChosenFewFX.NET.Plugins
 {
     public class RaptorScriptingPlugin : RaptorBasePlugin
     {
-        private Dictionary<string, Func<Pixel, Pixel>> Scripts { get; set; }
+        private Dictionary<string, Func<Api, Pixel, int, int, Pixel>> Scripts { get; set; }
 
         [StringParam(DefaultValue = "", Hint = "Path to Raptor script file", Label = "Raptor Script File (.CSX)", StringType = StringType.FilePath)]
         public string ScriptPath;
@@ -40,13 +40,18 @@ namespace ChosenFewFX.NET.Plugins
             MajorVersion = 1;
             MinorVersion = 0;
             Name = "Raptor (Scripting)";
-            Scripts = new Dictionary<string, Func<Pixel, Pixel>>();
-            FilterFunc = pixel => pixel;
+            Scripts = new Dictionary<string, Func<Api, Pixel, int, int, Pixel>>();
+            FilterFunc = DefaultFilter;
         }
 
         public override void PreProcess()
         {
             LoadScript();
+        }
+
+        public override void PostProcess()
+        {
+            FilterFunc = DefaultFilter;
         }
 
         public void LoadScript()
@@ -60,10 +65,18 @@ namespace ChosenFewFX.NET.Plugins
                 try
                 {
                     string scriptCode = File.ReadAllText(ScriptPath);
-                    ScriptOptions scriptOptions = ScriptOptions.Default.AddReferences(typeof(Pixel).Assembly).AddImports("ChosenFewFX.NET.Raptor");
-                    Func<Pixel, Pixel> scriptFunc = CSharpScript.EvaluateAsync<Func<Pixel, Pixel>>(scriptCode, scriptOptions).Result;
+
+                    ScriptOptions scriptOptions = ScriptOptions.Default
+                        .AddReferences(typeof(Pixel).Assembly)
+                        .AddImports("System", "ChosenFewFX.NET.Raptor");
+
+                    Func<Api, Pixel, int, int, Pixel> scriptFunc = 
+                        CSharpScript.EvaluateAsync<Func<Api, Pixel, int, int, Pixel>>
+                        (scriptCode, scriptOptions).Result;
+
                     Scripts.Add(ScriptPath, scriptFunc);
                     FilterFunc = scriptFunc;
+
                     EncounteredError = false;
                 }
                 catch (CompilationErrorException e)

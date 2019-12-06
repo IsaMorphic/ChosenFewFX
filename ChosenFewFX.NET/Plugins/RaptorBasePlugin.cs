@@ -28,11 +28,14 @@ namespace ChosenFewFX.NET.Plugins
 {
     public class RaptorBasePlugin : FilterPlugin
     {
+        protected static readonly Func<Api, Pixel, int, int, Pixel> DefaultFilter = (api, src, x, y) => src;
+
         protected bool EncounteredError { get; set; }
-        protected Func<Pixel, Pixel> FilterFunc { get; set; }
+        protected Func<Api, Pixel, int, int, Pixel> FilterFunc { get; set; }
 
         public override void ProcessPixels(RectangleI region)
         {
+            Api api = new Api(new Image(SourceImage));
             Parallel.For(region.TopLeft.Y, region.BottomRight.Y, (y, outer) =>
             {
                 if (EncounteredError)
@@ -51,7 +54,7 @@ namespace ChosenFewFX.NET.Plugins
                     {
                         SKColor src = SourceImage.GetPixel(x, y);
                         Pixel colorIn = new Pixel(src.Blue, src.Green, src.Red, src.Alpha);
-                        Pixel colorOut = FilterFunc(colorIn);
+                        Pixel colorOut = FilterFunc(api, colorIn, x, y);
                         SKColor dst = new SKColor(colorOut.Blue, colorOut.Green, colorOut.Red, colorOut.Alpha);
                         DestImage.SetPixel(x, y, dst);
                     }

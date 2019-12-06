@@ -39,7 +39,7 @@ namespace ChosenFewFX.NET.Plugins
         private string LatestError { get; set; }
         private string PreviousCode { get; set; }
 
-        [StringParam(DefaultValue = "pixel => pixel" + NewLines, Hint = "C# code for filter mapping", Label = "Raptor Code", StringType = StringType.MultiLine)]
+        [StringParam(DefaultValue = "(api, src, x, y) => src" + NewLines, Hint = "C# code for filter mapping", Label = "Raptor Code", StringType = StringType.MultiLine)]
         public string FilterCode;
 
         public RaptorRealtimePlugin()
@@ -56,8 +56,12 @@ namespace ChosenFewFX.NET.Plugins
                 return;
             try
             {
-                ScriptOptions scriptOptions = ScriptOptions.Default.AddReferences(typeof(Pixel).Assembly).AddImports("ChosenFewFX.NET.Raptor");
-                FilterFunc = CSharpScript.EvaluateAsync<Func<Pixel, Pixel>>(FilterCode, scriptOptions).Result;
+                ScriptOptions scriptOptions = ScriptOptions.Default
+                    .AddReferences(typeof(Pixel).Assembly)
+                    .AddImports("System", "ChosenFewFX.NET.Raptor");
+                FilterFunc = 
+                    CSharpScript.EvaluateAsync<Func<Api, Pixel, int, int, Pixel>>
+                    (FilterCode, scriptOptions).Result;
                 EncounteredError = false;
                 LatestError = null;
             }
