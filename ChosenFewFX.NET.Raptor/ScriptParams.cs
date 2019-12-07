@@ -15,30 +15,20 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Chosen Few FX.  If not, see <https://www.gnu.org/licenses/>.
  */
-using System;
-using System.Threading;
-
 namespace ChosenFewFX.NET.Raptor
 {
-    public class Api
+    public class ScriptParams
     {
-        private static int SeedCount;
-        private ThreadLocal<Random> LocalRng = 
-            new ThreadLocal<Random>(() => new Random(GenerateSeed()));
+        public double Primary { get; }
+        public double Secondary { get; }
 
-        public Image Image { get; }
-        public ScriptParams Param { get; }
-        public Random Random => LocalRng.Value;
+        public Pixel Color { get; }
 
-        public Api(Image image, ScriptParams param)
+        public ScriptParams(double primary, double secondary, Pixel color)
         {
-            Image = image;
-            Param = param;
-        }
-
-        private static int GenerateSeed()
-        {
-            return (int)((DateTime.Now.Ticks << 4) + (Interlocked.Increment(ref SeedCount)));
+            Primary = primary;
+            Secondary = secondary;
+            Color = color;
         }
     }
 }

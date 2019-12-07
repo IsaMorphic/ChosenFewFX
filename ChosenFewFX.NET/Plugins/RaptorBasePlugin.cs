@@ -33,9 +33,25 @@ namespace ChosenFewFX.NET.Plugins
         protected bool EncounteredError { get; set; }
         protected Func<Api, Pixel, int, int, Pixel> FilterFunc { get; set; }
 
+        [RangeParam(DefaultValue = 0.0, Hint = "Primary script parameter (behavior depends on script)", Label = "Primary Parameter", MaximumValue = 10.0, MinimumValue = -10.0)]
+        public double PrimaryParam;
+
+        [RangeParam(DefaultValue = 0.0, Hint = "Secondary script parameter (behavior depends on script)", Label = "Secondary Parameter", MaximumValue = 10.0, MinimumValue = -10.0)]
+        public double SecondaryParam;
+
+        [Param(DefaultValue = new byte[] { 255, 0, 0, 255 }, Hint = "Script color parameter (behavior depends on script)", Label = "Color Parameter")]
+        public Color ColorParam;
+
         public override void ProcessPixels(RectangleI region)
         {
-            Api api = new Api(new Image(SourceImage));
+            Api api = new Api(
+                image: new Image(SourceImage),
+                param: new ScriptParams(
+                    PrimaryParam,
+                    SecondaryParam,
+                    (Pixel)ColorParam
+                    )
+                );
             Parallel.For(region.TopLeft.Y, region.BottomRight.Y, (y, outer) =>
             {
                 if (EncounteredError)
