@@ -57,7 +57,7 @@ namespace ChosenFewFX.NET.Plugins
             try
             {
                 ScriptOptions scriptOptions = ScriptOptions.Default
-                    .AddReferences(typeof(Pixel).Assembly)
+                    .AddReferences(typeof(Api).Assembly)
                     .AddImports("System", "ChosenFewFX.NET.Raptor");
                 FilterFunc = 
                     CSharpScript.EvaluateAsync<Func<Api, Pixel, int, int, Pixel>>

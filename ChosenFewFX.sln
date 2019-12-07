@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChosenFewFX.NET", "ChosenFe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ofxsupport", "openfx\Support\Library\ofxsupport.vcxproj", "{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChosenFewFX.NET.Raptor", "ChosenFewFX.NET.Raptor\ChosenFewFX.NET.Raptor.csproj", "{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,18 @@ Global
 		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|Win32.Build.0 = Release|Win32
 		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|x64.ActiveCfg = Release|x64
 		{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}.Release|x64.Build.0 = Release|x64
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Debug|Win32.Build.0 = Debug|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Debug|x64.Build.0 = Debug|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|Win32.ActiveCfg = Release|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|Win32.Build.0 = Release|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|x64.ActiveCfg = Release|Any CPU
+		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

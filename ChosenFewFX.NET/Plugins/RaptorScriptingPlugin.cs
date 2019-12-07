@@ -67,7 +67,7 @@ namespace ChosenFewFX.NET.Plugins
                     string scriptCode = File.ReadAllText(ScriptPath);
 
                     ScriptOptions scriptOptions = ScriptOptions.Default
-                        .AddReferences(typeof(Pixel).Assembly)
+                        .AddReferences(typeof(Api).Assembly)
                         .AddImports("System", "ChosenFewFX.NET.Raptor");
 
                     Func<Api, Pixel, int, int, Pixel> scriptFunc = 

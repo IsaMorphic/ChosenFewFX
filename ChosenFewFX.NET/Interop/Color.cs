@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Chosen Few FX.  If not, see <https://www.gnu.org/licenses/>.
  */
+using ChosenFewFX.NET.Raptor;
 using SkiaSharp;
 
 namespace ChosenFewFX.NET.Interop
@@ -42,9 +43,14 @@ namespace ChosenFewFX.NET.Interop
             Alpha = 255;
         }
 
-        public static implicit operator SKColor(Color c)
+        public static explicit operator SKColor(Color c)
         {
             return new SKColor(c.Red, c.Green, c.Blue, c.Alpha);
+        }
+
+        public static explicit operator Pixel(Color c)
+        {
+            return new Pixel(c.Red, c.Green, c.Blue, c.Alpha);
         }
     }
 }

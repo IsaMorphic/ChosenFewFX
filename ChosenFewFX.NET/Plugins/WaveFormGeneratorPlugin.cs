@@ -83,7 +83,7 @@ namespace ChosenFewFX.NET.Plugins
 
         public override void PostProcess()
         {
-            Canvas.DrawPath(WaveFormPath, new SKPaint { Color = WaveColor, StrokeWidth = (float)LineWidth, IsStroke = true });
+            Canvas.DrawPath(WaveFormPath, new SKPaint { Color = (SKColor)WaveColor, StrokeWidth = (float)LineWidth, IsStroke = true });
             WaveStream = null;
         }
 
