@@ -15,6 +15,23 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Chosen Few FX.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+// Filter Description:
+// Chromatic abberation filter, splits image into component colors and offsets them.  
+
+// Parameter Description:
+// Primary Parameter (Amount): determines the amount of displacement across color channels.
+// Secondary Parameter (Angle): determines the angle of displacement.  
+
+// HOW THIS FILTER WORKS:
+// Calculate the x and y offsets based on Angle and Amount using trigonometry.
+// For each pixel in the source image:
+// Construct a new pixel using:
+// * the red value from a neighboring pixel (x - offsetX, y - offsetY).
+// * the green value of the current pixel.
+// * the blue value from a neighboring pixel in the opposite direction of the "red pixel" (x + offsetX, y + offsetY).
+// And write the new pixel to the destination image (in the same place as the current pixel).
+
 using static System.Math;
 
 (api, src, x, y) =>

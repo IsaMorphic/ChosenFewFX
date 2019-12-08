@@ -15,6 +15,19 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Chosen Few FX.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+// Filter Description:
+// Changes the colors of the image in interesting and dynamic ways.
+
+// Parameter Description:
+// Color Parameter (Color): The color that the value of each pixel is subracted from
+
+// HOW THIS FILTER WORKS:
+// For each pixel in the source image:
+// Subtract each component of the current pixel from each component of the Color parameter.
+// Construct a new pixel from these differences.
+// Write the new pixel to the destination image (in the same place as the current pixel).
+
 (api, src, x, y) =>
 {
     int newRed = api.Param.Color.Red - src.Red;

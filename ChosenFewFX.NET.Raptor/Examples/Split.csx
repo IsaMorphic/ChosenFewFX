@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  Copyright 2019 Chosen Few Software
  *  This file is part of Chosen Few FX.
  *
@@ -15,6 +15,23 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Chosen Few FX.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+// Filter Description:
+// seemingly "fractures" the source image along a pattern of horizontal and vertical lines.  
+
+// Parameter Description:
+// Primary Parameter (horizontalAmount): determines how much to displace certain pixels horizontally
+// Secondary Parameter (verticalAmount): determines how much to displace certain pixels vertically
+
+// HOW THIS SCRIPT WORKS:
+// For each pixel in the source image:
+// Suppose there is a little "mouse" that is sitting on the current pixel.
+// Divide the current pixel's X and Y coordinates by horizontalAmount and verticalAmount, respectively.
+// Then, check if the remainder of each division is less than half of the divisor.
+// Depending on whether this is true for the X coordinate, the mouse steps horizontalAmount pixels to the left or to the right of the current pixel.
+// Depending on whether this is true for the Y coordinate, the mouse steps verticalAmount pixels above or below the current pixel.
+// Finally, write the pixel that the "mouse" has ultimately landed on to the destination image (in the same place as the current pixel).
+
 using static System.Math;
 
 (api, src, x, y) =>
