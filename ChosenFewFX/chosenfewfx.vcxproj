@@ -79,25 +79,25 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
+    <IntDir>.\$(Configuration)-$(Platform)\obj\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
+    <IntDir>.\$(Configuration)-$(Platform)\obj\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
+    <IntDir>.\$(Configuration)-$(Platform)\obj\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>.\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>.\$(Configuration)-$(Platform)\</IntDir>
+    <IntDir>.\$(Configuration)-$(Platform)\obj\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetExt>.ofx</TargetExt>
   </PropertyGroup>
@@ -142,8 +142,8 @@
       <OutputFile>.\Debug/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Debug-Win32\ChosenFewFX.ofx.bundle\Contents\Win32\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win32\ChosenFewFX.ofx"
-copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Debug\net461\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\"</Command>
+      <Command>copy "..\ChosenFewFX.NET\bin\$(Configuration)\net461\*.dll" "..\$(OutDir)ChosenFewFX.ofx.bundle\Contents\"
+xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -186,8 +186,8 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\D
       <OutputFile>.\Release/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Release-Win32\ChosenFewFX.ofx.bundle\Contents\Win32\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win32\ChosenFewFX.ofx"
-copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Release\net461\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\"</Command>
+      <Command>copy "..\ChosenFewFX.NET\bin\$(Configuration)\net461\*.dll" "..\$(OutDir)ChosenFewFX.ofx.bundle\Contents\"
+xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -231,8 +231,8 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\R
       <OutputFile>.\Debug/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Debug-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"
-copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Debug\net461\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\"</Command>
+      <Command>copy "..\ChosenFewFX.NET\bin\$(Configuration)\net461\*.dll" "..\$(OutDir)ChosenFewFX.ofx.bundle\Contents\"
+xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -275,8 +275,8 @@ copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\D
       <OutputFile>.\Release/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\Release-x64\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\Win64\ChosenFewFX.ofx"
-copy "D:\Documents\Visual Studio 2017\Projects\ChosenFewFX\ChosenFewFX.NET\bin\Release\net461\*.dll"  "C:\Program Files\VEGAS\VEGAS Pro 14.0\OFX Video Plug-Ins\ChosenFewFX.ofx.bundle\Contents\"</Command>
+      <Command>copy "..\ChosenFewFX.NET\bin\$(Configuration)\net461\*.dll" "..\$(OutDir)ChosenFewFX.ofx.bundle\Contents\"
+xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
