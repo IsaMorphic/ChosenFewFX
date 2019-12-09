@@ -36,6 +36,7 @@ namespace OFX
 			DEF_PLUG(ChosenFewFX::NET::Plugins::JuliaGeneratorPlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::RaptorRealtimePlugin);
 			DEF_PLUG(ChosenFewFX::NET::Plugins::RaptorScriptingPlugin);
+			DEF_PLUG(ChosenFewFX::NET::Plugins::StutterMosherPlugin);
 		}
 	}
 }
