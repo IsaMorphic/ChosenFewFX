@@ -26,8 +26,8 @@ ArchitecturesInstallIn64BitMode=x64 ia64
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\Release-Win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: not IsWin64
-Source: "..\Release-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
+Source: "..\build\Release-Win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: not IsWin64
+Source: "..\build\Release-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
 Source: "..\LICENSE.md"; DestDir: "{app}\ChosenFewFX.ofx.bundle\"; Flags: ignoreversion;
 
 Source: "..\openfx\Support\LICENSE"; DestDir: "{app}\ChosenFewFX.ofx.bundle\"; DestName: "OFX-SUPPORT.md"; Flags: ignoreversion;
