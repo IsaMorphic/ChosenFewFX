@@ -4,3 +4,6 @@
 [submodule "openfx"]
 	path = openfx
 	url = https://github.com/yodadude2003/openfx
+[submodule "StutterMosher"]
+	path = StutterMosher
+	url = https://github.com/yodadude2003/StutterMosher.git

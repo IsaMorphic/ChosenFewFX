@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChosenFewFX.NET", "ChosenFe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ofxsupport", "openfx\Support\Library\ofxsupport.vcxproj", "{257EC9EE-530A-4A6F-8B2E-AAB1C8458707}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChosenFewFX.NET.Raptor", "ChosenFewFX.NET.Raptor\ChosenFewFX.NET.Raptor.csproj", "{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChosenFewFX.NET.Raptor", "ChosenFewFX.NET.Raptor\ChosenFewFX.NET.Raptor.csproj", "{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StutterMosher", "StutterMosher\StutterMosher\StutterMosher.csproj", "{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StutterMosher.WinForms", "StutterMosher\StutterMosher.WinForms\StutterMosher.WinForms.csproj", "{636B2108-FBC1-48BE-A905-0C68FB7B4A51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +111,30 @@ Global
 		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|Win32.Build.0 = Release|Any CPU
 		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|x64.ActiveCfg = Release|Any CPU
 		{FD2EF170-D7DF-4ADA-836F-1D92FA345F88}.Release|x64.Build.0 = Release|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Debug|Win32.Build.0 = Debug|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Debug|x64.Build.0 = Debug|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Release|Win32.Build.0 = Release|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Release|x64.ActiveCfg = Release|Any CPU
+		{A5DFA380-4C07-4155-AB0C-B4706AB7E85A}.Release|x64.Build.0 = Release|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Debug|Win32.Build.0 = Debug|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Debug|x64.Build.0 = Debug|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Release|Win32.ActiveCfg = Release|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Release|Win32.Build.0 = Release|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Release|x64.ActiveCfg = Release|Any CPU
+		{636B2108-FBC1-48BE-A905-0C68FB7B4A51}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

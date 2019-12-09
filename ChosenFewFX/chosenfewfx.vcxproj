@@ -130,7 +130,7 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win32/$(ProjectName).ofx</OutputFile>
+      <OutputFile>../build/$(OutDir)$(ProjectName).ofx.bundle/Contents/Win32/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(IntDir)$(ProjectName).pdb</ProgramDatabaseFile>
@@ -142,8 +142,8 @@
       <OutputFile>.\Debug/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "..\ChosenFewFX.NET\bin\$(Configuration)\net461\*.dll" "..\$(OutDir)ChosenFewFX.ofx.bundle\Contents\"
-xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
+      <Command>robocopy "..\ChosenFewFX.NET\bin\$(Configuration)\net461" "..\build\$(OutDir)ChosenFewFX.ofx.bundle\Contents" *.dll *.exe
+xcopy "..\build\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -175,7 +175,7 @@ xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win32/$(ProjectName).ofx</OutputFile>
+      <OutputFile>../build/$(OutDir)$(ProjectName).ofx.bundle/Contents/Win32/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>$(IntDir)$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(IntDir)$(ProjectName).lib</ImportLibrary>
@@ -186,8 +186,8 @@ xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
       <OutputFile>.\Release/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "..\ChosenFewFX.NET\bin\$(Configuration)\net461\*.dll" "..\$(OutDir)ChosenFewFX.ofx.bundle\Contents\"
-xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
+      <Command>robocopy "..\ChosenFewFX.NET\bin\$(Configuration)\net461" "..\build\$(OutDir)ChosenFewFX.ofx.bundle\Contents" *.dll *.exe
+xcopy "..\build\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -219,7 +219,7 @@ xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
+      <OutputFile>../build/$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
@@ -231,8 +231,8 @@ xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
       <OutputFile>.\Debug/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "..\ChosenFewFX.NET\bin\$(Configuration)\net461\*.dll" "..\$(OutDir)ChosenFewFX.ofx.bundle\Contents\"
-xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
+      <Command>robocopy "..\ChosenFewFX.NET\bin\$(Configuration)\net461" "..\build\$(OutDir)ChosenFewFX.ofx.bundle\Contents" *.dll *.exe
+xcopy "..\build\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -264,7 +264,7 @@ xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <OutputFile>../$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
+      <OutputFile>../build/$(OutDir)$(ProjectName).ofx.bundle/Contents/Win64/$(ProjectName).ofx</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
@@ -275,8 +275,8 @@ xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
       <OutputFile>.\Release/$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "..\ChosenFewFX.NET\bin\$(Configuration)\net461\*.dll" "..\$(OutDir)ChosenFewFX.ofx.bundle\Contents\"
-xcopy "..\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
+      <Command>robocopy "..\ChosenFewFX.NET\bin\$(Configuration)\net461" "..\build\$(OutDir)ChosenFewFX.ofx.bundle\Contents" *.dll *.exe
+xcopy "..\build\$(OutDir)*" "$(OFX_HOST)" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

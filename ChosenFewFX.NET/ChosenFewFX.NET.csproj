@@ -15,6 +15,7 @@
     <ProjectReference Include="..\MandelbrotSharp\MandelbrotSharp.Algorithms\MandelbrotSharp.Algorithms.csproj" />
     <ProjectReference Include="..\MandelbrotSharp\MandelbrotSharp\MandelbrotSharp.csproj" />
     <ProjectReference Include="..\SoftEngine\SoftEngine.csproj" />
+    <ProjectReference Include="..\StutterMosher\StutterMosher.WinForms\StutterMosher.WinForms.csproj" />
   </ItemGroup>
 
 </Project>
