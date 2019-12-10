@@ -16,10 +16,8 @@
  *  along with Chosen Few FX.  If not, see <https://www.gnu.org/licenses/>.
  */
 using ChosenFewFX.NET.Interop;
-using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 
 namespace ChosenFewFX.NET.Plugins
 {
@@ -40,7 +38,7 @@ namespace ChosenFewFX.NET.Plugins
             if (Process == null || Process.HasExited)
             {
                 string tempPath = Path.GetTempPath();
-                string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string path = Path.GetDirectoryName(typeof(BasePlugin).Assembly.Location);
                 string exePath = Path.Combine(path, "StutterMosher.WinForms.exe");
                 ProcessStartInfo startInfo = new ProcessStartInfo
                 {

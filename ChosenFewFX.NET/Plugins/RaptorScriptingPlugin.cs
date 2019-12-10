@@ -47,6 +47,7 @@ namespace ChosenFewFX.NET.Plugins
         public override void PreProcess()
         {
             LoadScript();
+            EncounteredError = false;
         }
 
         public override void PostProcess()
@@ -76,8 +77,6 @@ namespace ChosenFewFX.NET.Plugins
 
                     Scripts.Add(ScriptPath, scriptFunc);
                     FilterFunc = scriptFunc;
-
-                    EncounteredError = false;
                 }
                 catch (CompilationErrorException e)
                 {
