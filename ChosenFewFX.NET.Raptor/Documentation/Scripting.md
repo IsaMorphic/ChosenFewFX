@@ -18,11 +18,11 @@ All Raptor scripts are expected to return an expression of the type `Func<Api, P
 
 #### Execution
 
-Under the hood, Raptor first builds the API object.  During this phase of execution, the plugin wraps the source image in a safe wrapper object, as well as the values of the three parameters (see Parameters.md).  After constructing the API object, Raptor begins to loop through all of the pixels in the source image.  For each pixel in the source image, Raptor executes the function that the user has provided, passing to it the required inputs.  Once the user's function has finished processing, Raptor writes the output pixel to the destination image (at the same coordinates as the source pixel).  After Raptor has repeated this process for all pixels in the source image, the resulting destination image is sent off to the host software.  
+Under the hood, Raptor first builds the API object.  During this phase of execution, the plugin wraps the source image in a safe wrapper object (see [Images](Images.md)) as well as the values of the three parameters (see [Parameters](Parameters.md)).  After constructing the API object, Raptor begins to loop through all of the pixels in the source image.  For each pixel in the source image, Raptor executes the function that the user has provided, passing to it the required inputs.  Once the user's function has finished processing, Raptor writes the output pixel to the destination image (at the same coordinates as the source pixel).  After Raptor has repeated this process for all pixels in the source image, the resulting destination image is sent off to the host software.  
 
 #### Examples
 
-For example scripts see [Examples](../Examples)
+For example scripts see [Examples](../Examples).  
 
 #### Suggestions?
 
