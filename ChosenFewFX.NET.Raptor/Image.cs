@@ -17,6 +17,8 @@
  */
 
 using SkiaSharp;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ChosenFewFX.NET.Raptor
 {
@@ -27,9 +29,41 @@ namespace ChosenFewFX.NET.Raptor
         public int Width => Bitmap.Width;
         public int Height => Bitmap.Height;
 
+        public Pixel AverageColor { get; }
+
         public Image(SKBitmap bitmap)
         {
             Bitmap = bitmap;
+            AverageColor = CalculateAverageColor();
+        }
+
+        private Pixel CalculateAverageColor()
+        {
+            int redSum = 0;
+            int greenSum = 0;
+            int blueSum = 0;
+            int alphaSum = 0;
+
+            Parallel.For(0, Height, y => 
+            {
+                Parallel.For(0, Width, x =>
+                {
+                    Pixel pixel = Read(x, y);
+                    Interlocked.Add(ref redSum, pixel.Red);
+                    Interlocked.Add(ref greenSum, pixel.Green);
+                    Interlocked.Add(ref blueSum, pixel.Blue);
+                    Interlocked.Add(ref alphaSum, pixel.Alpha);
+                });
+            });
+
+            int totalNumPixels = Width * Height;
+
+            int averageRed = redSum / totalNumPixels;
+            int averageGreen = greenSum / totalNumPixels;
+            int averageBlue = blueSum / totalNumPixels;
+            int averageAlpha = alphaSum / totalNumPixels;
+
+            return new Pixel((byte)averageRed, (byte)averageGreen, (byte)averageBlue, (byte)averageAlpha);
         }
 
         public Pixel Read(int x, int y)
