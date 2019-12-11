@@ -21,6 +21,7 @@ OutputBaseFilename=ChosenFewFX
 Compression=lzma
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64 ia64
+UninstallFilesDir={app}\ChosenFewFX.ofx.bundle\
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -30,7 +31,7 @@ Source: "..\build\Release-Win32\*"; DestDir: "{app}"; Flags: ignoreversion recur
 Source: "..\build\Release-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
 Source: "..\LICENSE.md"; DestDir: "{app}\ChosenFewFX.ofx.bundle\"; Flags: ignoreversion;
 
-Source: "..\openfx\Support\LICENSE"; DestDir: "{app}\ChosenFewFX.ofx.bundle\"; DestName: "OFX-SUPPORT.md"; Flags: ignoreversion;
+Source: ".\Third Party Licenses\*"; DestDir: "{app}\ChosenFewFX.ofx.bundle\Third Party Licenses"; Flags: ignoreversion recursesubdirs createallsubdirs; 
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
