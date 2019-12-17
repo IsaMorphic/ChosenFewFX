@@ -15,13 +15,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Chosen Few FX.  If not, see <https://www.gnu.org/licenses/>.
  */
-using System;
-using System.Collections.Generic;
-using ChosenFewFX.NET.Fractals;
 using ChosenFewFX.NET.Interop;
 using MandelbrotSharp.Algorithms;
+using MandelbrotSharp.Algorithms.Fractals;
 using MandelbrotSharp.Numerics;
-using MandelbrotSharp.Rendering;
+using MandelbrotSharp.Processing;
+using System;
 
 namespace ChosenFewFX.NET.Plugins
 {
@@ -41,14 +40,14 @@ namespace ChosenFewFX.NET.Plugins
         [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", Hint = "The imaginary part of a constant complex value used to render the fractal", MaximumValue = 2.0, MinimumValue = -2.0)]
         public double ImaginaryCoord;
 
-        protected override IFractalRenderer InitializeRenderer(int width, int height)
+        protected override IProcessor<PointData> InitializeRenderer(int width, int height)
         {
-            return new DefaultRenderer<double, JuliaAlgorithmProvider<double>>(width, height);
+            return new FractalProcessor<double, SquareMandelbrotJuliaAlgorithm<double>>(width, height);
         }
 
-        protected override IAlgorithmParams GetParams()
+        protected override IFractalParams GetParams()
         {
-            return new JuliaParams<double>
+            return new SquareMandelbrotJuliaParams<double>
             {
                 MaxIterations = MaxIterations,
                 Magnification = Math.Pow(2, Magnification),

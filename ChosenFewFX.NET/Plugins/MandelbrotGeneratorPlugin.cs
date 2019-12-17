@@ -16,24 +16,31 @@
  *  along with Chosen Few FX.  If not, see <https://www.gnu.org/licenses/>.
  */
 using MandelbrotSharp.Algorithms;
+using MandelbrotSharp.Algorithms.Fractals;
 using MandelbrotSharp.Numerics;
-using MandelbrotSharp.Rendering;
+using MandelbrotSharp.Processing;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ChosenFewFX.NET.Plugins
 {
     public class MandelbrotGeneratorPlugin : FractalGeneratorPlugin
     {
-        protected override IFractalRenderer InitializeRenderer(int width, int height)
+        public MandelbrotGeneratorPlugin()
         {
-            return new DefaultRenderer<double, SquareMandelbrotAlgorithm<double>>(width, height);
+            Id = "com.chosenfewsoftware.openfx.mandelbrot";
+            MajorVersion = 1;
+            MinorVersion = 0;
+            Name = "Mandelbrot Generator";
         }
 
-        protected override IAlgorithmParams GetParams()
+        protected override IProcessor<PointData> InitializeRenderer(int width, int height)
         {
-            return new SquareMandelbrotParams<double>
+            return new FractalProcessor<double, SquareMandelbrotAlgorithm<double>>(width, height);
+        }
+
+        protected override IFractalParams GetParams()
+        {
+            return new EscapeTimeParams<double>
             {
                 MaxIterations = MaxIterations,
                 Magnification = Math.Pow(2, Magnification),
