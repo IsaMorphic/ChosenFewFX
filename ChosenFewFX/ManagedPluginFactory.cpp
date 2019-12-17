@@ -32,6 +32,7 @@ void ChosenFewFX::ManagedPluginFactory<T>::describe(OFX::ImageEffectDescriptor &
 	std::string label = marshal_as<std::string>(pluginHandle->Name);
 	desc.setLabels(label, label, label);
 	desc.setPluginGrouping("Chosen Few FX");
+	desc.setPluginDescription("Copyright 2019 Chosen Few Software");
 
 	if (pluginHandle->GetType()->IsSubclassOf(NET::Interop::FilterPlugin::typeid))
 		desc.addSupportedContext(eContextFilter);
