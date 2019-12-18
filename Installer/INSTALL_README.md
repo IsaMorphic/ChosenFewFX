@@ -14,7 +14,7 @@ Libraries and licenses:
 
 In order to honor the licenses for some of Chosen Few FX's dependencies, this binary distribution includes a `Third Party Licenses` folder within the `ChosenFewFX.ofx.bundle` directory that contains the required materials.  
 
-Chosen Few FX proudly uses my .NET fractal rendering library, MandelbrotSharp.  It is free and open source, and is licensed under the GPL.  Source code is available at https://github.com/yodadude2003/MandelbrotSharp
+Chosen Few FX proudly uses my .NET fractal rendering library, MandelbrotSharp.  It is free and open source, and is licensed under the LGPL.  Source code is available at https://github.com/yodadude2003/MandelbrotSharp
 
 Chosen Few FX uses the OpenFX Support Library in order to function and interact with plugin hosts.  The license for this library is included in the `Third Party Licenses` folder
 
