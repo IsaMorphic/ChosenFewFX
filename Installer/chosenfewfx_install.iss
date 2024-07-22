@@ -1,6 +1,6 @@
 
 #define MyAppName "Chosen Few FX"
-#define MyAppVersion "1.0.4"
+#define MyAppVersion "1.0.5"
 #define MyAppPublisher "Chosen Few Software"
 #define MyAppURL "https://www.chosenfewsoftware.com"
 
@@ -20,7 +20,7 @@ OutputDir=.\bin\
 OutputBaseFilename=ChosenFewFX
 Compression=lzma
 SolidCompression=yes
-ArchitecturesInstallIn64BitMode=x64 ia64
+ArchitecturesInstallIn64BitMode=x64compatible
 UninstallFilesDir={app}\ChosenFewFX.ofx.bundle\
 
 [Languages]
