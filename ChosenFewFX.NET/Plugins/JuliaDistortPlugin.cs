@@ -1,5 +1,5 @@
 ﻿/*
- *  Copyright 2019 Chosen Few Software
+ *  Copyright 2024 Chosen Few Software
  *  This file is part of Chosen Few FX.
  *
  *  Chosen Few FX is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ namespace ChosenFewFX.NET.Plugins
         [RangeParam(DefaultValue = .5, Label = "Imaginary Coordinate", Hint = "Changes how the distortion behaves", MinimumValue = -2.0, MaximumValue = 2.0)]
         public double Imag;
 
-        [RangeParam(DefaultValue = 4, Label = "Iteration Count", Hint = "Number of calculations to do on each pixel", MinimumValue = 0, MaximumValue = 10)]
+        [RangeParam(DefaultValue = 4, Label = "Iteration Count", Hint = "Number of calculations to do on each pixel", MinimumValue = 1, MaximumValue = 10)]
         public int IterCount;
 
         [RangeParam(DefaultValue = .5, Label = "Distortion Alpha", Hint = "The amount of distortion to be applied", MinimumValue = 0.0, MaximumValue = 1.0)]
